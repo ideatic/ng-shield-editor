@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-md-6">
+    <p class="text-center">Columna 1 - Vista previa</p>
+  </div>
+  <div class="col-md-6">
+    <p class="text-center">Columna 2 - Selector</p>
+    <nav mat-tab-nav-bar>
+      <a
+        mat-tab-link
+        #rla="routerLinkActive"
+        *ngFor="let tab of tabs; let i = index"
+        [routerLink]="tab.path"
+        routerLinkActive="active"
+        [active]="rla.isActive"
+        >{{ tab.name }}
+      </a>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
+</div>
