@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shield-settings';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  public index: number = 0;
-  public tabs = [
-    { path: '/form', name: 'Forma' },
-    { path: '/pattern', name: 'Motivo' },
-    { path: '/symbol', name: 'Símbolo' },
-    { path: '/color', name: 'Color' },
-  ];
+export class AppComponent {
 
-  constructor(private router: Router) {}
+  public settings: NgShieldSettings = {
+    shape: 1,
+    motif: 1,
+    symbol: 1,
+    color1: '#c90800',
+    color2: '#e5cb14',
+    color3: '#231f20'
+  };
 
-  ngOnInit(): void {}
 }

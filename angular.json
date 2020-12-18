@@ -24,8 +24,7 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.css"
+              "src/styles/styles.css"
             ],
             "scripts": []
           },
@@ -117,6 +116,46 @@
             "production": {
               "devServerTarget": "shield-editor:serve:production"
             }
+          }
+        }
+      }
+    },
+    "ng-shield-editor": {
+      "projectType": "library",
+      "root": "projects/ng-shield-editor",
+      "sourceRoot": "projects/ng-shield-editor/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ng-shield-editor/tsconfig.lib.json",
+            "project": "projects/ng-shield-editor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-shield-editor/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-shield-editor/src/test.ts",
+            "tsConfig": "projects/ng-shield-editor/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-shield-editor/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-shield-editor/tsconfig.lib.json",
+              "projects/ng-shield-editor/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
