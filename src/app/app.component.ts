@@ -9,8 +9,8 @@ import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shiel
 export class AppComponent {
 
   public settings: NgShieldSettings = {
-    shape: 1,
-    motif: 1,
+    shape: 0,
+    motif: 0,
     symbol: 1,
     color1: '#c90800',
     color2: '#e5cb14',

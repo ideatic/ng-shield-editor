@@ -12,6 +12,7 @@ import {FnPipe} from './components/ui/fn.pipe';
 import {CommonModule} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgShieldShapeService} from './services/ng-shield-shape.service';
+import {NgShieldMotifService} from './services/ng-shield-motif.service';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {NgShieldShapeService} from './services/ng-shield-shape.service';
   ],
   providers: [
     NgShieldEditorService,
-    NgShieldShapeService
+    NgShieldShapeService,
+    NgShieldMotifService
   ],
   declarations: [
     NgShieldEditorComponent,

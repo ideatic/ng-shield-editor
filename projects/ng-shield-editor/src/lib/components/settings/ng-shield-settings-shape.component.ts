@@ -75,11 +75,14 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   }
 
   public getShapeThumbnail(shape: number): SafeHtml {
-    return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: shape}));
+    if(this.settings) {
+      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: shape}));
+    }
   }
 
   public onBorderChanged() {
-    this._onChangeCallback({...this.settings});
+    this.settings = {...this.settings};
+    this._onChangeCallback(this.settings);
   }
 
   /* ControlValueAccessor */
