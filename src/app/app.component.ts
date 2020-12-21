@@ -14,7 +14,8 @@ export class AppComponent {
     symbol: 1,
     color1: '#c90800',
     color2: '#e5cb14',
-    color3: '#231f20'
+    color3: '#231f20',
+    stroke: true
   };
 
 }

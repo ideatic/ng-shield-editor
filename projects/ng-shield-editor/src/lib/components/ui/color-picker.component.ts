@@ -46,8 +46,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
   public selectedColor: string;
   private _onChangeCallback: (v: string) => void = noop;
 
-  public palette = ['red', 'blue', 'cyan', 'green'];
-
+  public palette = ['red', 'blue', 'cyan', 'green', 'gold'];
 
 
   public onColorSelected(color) {

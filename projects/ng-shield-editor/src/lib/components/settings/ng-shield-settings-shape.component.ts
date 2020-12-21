@@ -11,7 +11,12 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
   template: `
     <div *ngFor="let shape of shapeSvc.available; index as index"
          class="shape-thumb" [class.active]="index == settings?.shape"
-         (click)="onShapeSelected(index)" [innerHTML]="index | fn:getShapeThumbnail:this"></div>
+         (click)="onShapeSelected(index)" [innerHTML]="index | fn:getShapeThumbnail:this:settings"></div>
+
+    <label *ngIf="settings" style="display: block">
+      <input type="checkbox" [(ngModel)]="settings.stroke" (ngModelChange)="onBorderChanged()"/>
+      <ng-container i18n>Pintar borde</ng-container>
+    </label>
   `,
   styles: [
     `
@@ -23,7 +28,6 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
         padding: 10px 0 0 10px;
         border-top: 1px solid rgb(238, 238, 238);
       }
-
 
       .shape-thumb {
         width: 64px;
@@ -55,26 +59,32 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
 })
 export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
-  public onChangeCallback: (v: any) => void = noop;
+  private _onChangeCallback: (v: any) => void = noop;
 
   constructor(public shapeSvc: NgShieldShapeService,
-              private _ngShieldSvc:NgShieldEditorService,
+              private _ngShieldSvc: NgShieldEditorService,
               private _sanitizer: DomSanitizer) {
   }
 
 
   public onShapeSelected(shape: number) {
-    this.settings = {...this.settings, shape: shape};
-    this.onChangeCallback(this.settings);
+    if (shape != this.settings.shape) {
+      this.settings = {...this.settings, shape: shape};
+      this._onChangeCallback(this.settings);
+    }
   }
 
   public getShapeThumbnail(shape: number): SafeHtml {
     return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: shape}));
   }
 
+  public onBorderChanged() {
+    this._onChangeCallback({...this.settings});
+  }
+
   /* ControlValueAccessor */
   public registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
+    this._onChangeCallback = fn;
   }
 
   public registerOnTouched(fn: any): void {
