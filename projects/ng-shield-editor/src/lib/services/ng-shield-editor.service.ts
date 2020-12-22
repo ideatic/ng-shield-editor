@@ -1,17 +1,18 @@
-import {Injectable} from '@angular/core';
-import {NgShieldSettings} from '../ng-shield-settings';
-import {NgShieldShapeService} from './ng-shield-shape.service';
-import {NgShieldMotifService} from './ng-shield-motif.service';
+import { Injectable } from '@angular/core';
+import { NgShieldSettings } from '../ng-shield-settings';
+import { NgShieldShapeService } from './ng-shield-shape.service';
+import { NgShieldMotifService } from './ng-shield-motif.service';
 
 @Injectable()
 export class NgShieldEditorService {
-  constructor(private _shapeSvc: NgShieldShapeService,
-              private _motifSvc: NgShieldMotifService) {
-
-  }
+  constructor(
+    private _shapeSvc: NgShieldShapeService,
+    private _motifSvc: NgShieldMotifService
+  ) {}
 
   public generateSVG(settings: NgShieldSettings): string {
     let shapeAttrs = `fill="${settings.color1}"`;
+    let motifAttrs = `fill="${settings.color2}" clip-path="url(#bg${settings.shape})"`;
 
     if (settings.stroke) {
       shapeAttrs += ` stroke="${settings.color2}" stroke-width="8"`;
@@ -30,7 +31,7 @@ export class NgShieldEditorService {
         ${this._shapeSvc.available[settings.shape].replace('%attrs%', shapeAttrs)}
 
         <!-- Motivo -->
-        ${this._motifSvc.available[settings.motif].replace('%attrs%', `fill="${settings.color2}" clip-path="url(#bg${settings.shape})"`)}
+        ${this._motifSvc.available[settings.motif].replace('%attrs%', motifAttrs)}
 
         <!-- Gloss -->
         <path  clip-path="url(#bg${settings.shape})" d="M125.96,218.88c.8,1.62,1.67,3.21,2.61,4.75,2.18-1.48,4.57-.31,6.83.24,3.49,1.15,7.25-1.03,10.56,1.01-.91-1.9-3.95-4.03-2.08-6.13,2.28,1.97,4.07,5.46,7.56,5.11,2.17.27,3.82-1.26,5.43-2.46l-.21,3.54c2.04.75,4.23-.87,6.22.22a43.546,43.546,0,0,1,3.58,2.93c1.33-2.61-3.61-4.73-1.81-6.85,3.91,1.56,8.08,4.7,12.38,2.53,3.27.76,6.16,2.59,9.27,3.81,1.97.86,4.93.96,5.8-1.44q1.32,1.785,2.69,3.56c.81-.41,1.63-.82,2.45-1.22a14.71,14.71,0,0,0,2.73.29c2.93-.47,5.15,2,7.46,3.39.55-.24,1.09-.46,1.65-.69,1.98,1.67,4.53,3.97,7.31,2.73a7.66,7.66,0,0,1,6.12-.19c-.49-.98-.96-1.97-1.43-2.95,2.51,1.33,5.39.68,7.94,1.83,6.06,1.93,12.96,2.32,17.94,6.66,2.71-2.62,5.23.52,6.74,2.73,15.94,21,32.03,41.92,47.5,63.27-4.6,2.7-8.09-4.9-12.49-1.65,3,1.07,6.23,2.44,6.55,6.08l-1.84,1.16c-2.15-2.49-5.01-4.16-7.66-6.03-.11.95-.2,1.9-.3,2.86-3.33.9-4.54-3.13-7.04-4.51-1.81-1.44-4.41-.36-6.27-1.48a22.14,22.14,0,0,0-9.5-6.84c-.45,1.62-.9,3.24-1.33,4.86-4.18-4.44-10.94-3.95-15.52-7.75-1.23.82-2.15,2.52-3.65,2.64-1.48-.98-2.77-2.27-4.45-2.89-.15.92-.3,1.85-.44,2.78-3.62-.14-7.75.05-9.95-3.44-.23,1.19-.49,2.39-.8,3.58-.49-1.71-.91-3.43-1.28-5.16a20.49,20.49,0,0,1-3.1,4.35c-1.58-1.38-3.2-2.72-4.84-4.03.13,1.75,1.23,3.81-.32,5.24-2.37-1.02-4.88-2.79-7.25-.71a5.021,5.021,0,0,0-4.02-.03c-1.11-1.38-1.94-3.2-3.78-3.69-.26,1.07-.5,2.16-.75,3.24a37.661,37.661,0,0,0-5.33-6.15c-1.73.35-3.54,1.92-5.26.8.21-.45.63-1.36.84-1.81-2.21-.42-4.58-1.25-6.76-.31-2.57.89-4.95,3.77-7.78,1.97-1.52,1.48-4,2.17-4.62,4.38a29.9,29.9,0,0,0-.91-4.98c-.78.6-1.57,1.21-2.35,1.82-.57-.77-1.15-1.55-1.72-2.32-2.07.17-4.13.47-6.21.54-3.04-1.1-5.31-3.59-8.28-4.86-.45.9-.89,1.81-1.32,2.72a23.115,23.115,0,0,0-1.76-4.9c-.91,1.22-1.77,2.47-2.61,3.74a28.176,28.176,0,0,0-5.89-3.58c-1.15,2.05-3.22,2.39-5.37,2.13-.22.88-.43,1.76-.64,2.64a66.078,66.078,0,0,0-9.35-5.69,29,29,0,0,1,3.16,5.72c-3.62-1.75-7.37-4.33-8.83-8.23-.52-4.25-.22-8.53-.23-12.79.18-13.94-.03-27.89.23-41.83C123.33,224.78,125.82,221.89,125.96,218.88Z" style="opacity:0.07999999821186066;isolation:isolate"/>
