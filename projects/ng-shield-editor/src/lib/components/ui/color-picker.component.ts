@@ -75,6 +75,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
     '#969696',
     '#000000',
     '#F0F0F0',
+    '#FFFFFF',
   ];
 
   public onColorSelected(color) {

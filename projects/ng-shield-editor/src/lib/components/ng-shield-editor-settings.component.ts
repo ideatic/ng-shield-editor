@@ -1,7 +1,7 @@
-import { Component, forwardRef } from '@angular/core';
-import { NgShieldSettings } from '../ng-shield-settings';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { noop } from 'rxjs';
+import {Component, forwardRef} from '@angular/core';
+import {NgShieldSettings} from '../ng-shield-settings';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {noop} from 'rxjs';
 
 @Component({
   selector: 'ng-shield-editor-settings',
@@ -15,17 +15,14 @@ import { noop } from 'rxjs';
           ></ng-shield-editor-settings-shape>
         </mat-tab>
         <mat-tab label="Motivo" i18n-label>
-          <ng-shield-editor-settings-motif
-            [(ngModel)]="settings"
-            (ngModelChange)="onChangeCallback($event)"
-          ></ng-shield-editor-settings-motif>
+          <ng-shield-editor-settings-motif [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-motif>
         </mat-tab>
         <mat-tab label="Símbolo" i18n-label></mat-tab>
         <mat-tab label="Color" i18n-label>
-          <ng-shield-editor-settings-color
-            [(ngModel)]="settings"
-            (ngModelChange)="onChangeCallback($event)"
-          ></ng-shield-editor-settings-color>
+          <ng-shield-editor-settings-color [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-color>
+        </mat-tab>
+        <mat-tab label="Texto" i18n-label>
+          <ng-shield-editor-settings-text [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-text>
         </mat-tab>
       </mat-tab-group>
     </nav>
@@ -34,9 +31,9 @@ import { noop } from 'rxjs';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NgShieldEditorSettingsComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class NgShieldEditorSettingsComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
@@ -47,7 +44,8 @@ export class NgShieldEditorSettingsComponent implements ControlValueAccessor {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {}
+  public registerOnTouched(fn: any): void {
+  }
 
   public writeValue(obj: any): void {
     this.settings = obj;

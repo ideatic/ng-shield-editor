@@ -10,11 +10,11 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
   selector: 'ng-shield-editor-settings-motif',
   template: `
     <div
-      *ngFor="let motif of motifSvc.available; index as index"
+      *ngFor="let motif of motifSvc.available | keyvalue"
       class="motif-thumb"
-      [class.active]="index == settings?.motif"
-      (click)="onMotifSelected(index)"
-      [innerHTML]="index | fn: getMotifThumbnail:this:settings"
+      [class.active]="motif.key == settings?.motif"
+      (click)="onMotifSelected(motif.key)"
+      [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
     ></div>
   `,
   styles: [
@@ -68,14 +68,14 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
   ) {
   }
 
-  public onMotifSelected(motif: number) {
+  public onMotifSelected(motif: string) {
     if (motif != this.settings.motif) {
       this.settings = {...this.settings, motif: motif};
       this._onChangeCallback(this.settings);
     }
   }
 
-  public getMotifThumbnail(motif: number): SafeHtml {
+  public getMotifThumbnail(motif: string): SafeHtml {
     if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: motif}));
     }

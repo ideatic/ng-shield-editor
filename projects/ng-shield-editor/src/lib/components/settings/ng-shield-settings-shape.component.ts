@@ -9,9 +9,9 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
 @Component({
   selector: 'ng-shield-editor-settings-shape',
   template: `
-    <div *ngFor="let shape of shapeSvc.available; index as index"
-         class="shape-thumb" [class.active]="index == settings?.shape"
-         (click)="onShapeSelected(index)" [innerHTML]="index | fn:getShapeThumbnail:this:settings"></div>
+    <div *ngFor="let shape of shapeSvc.available | keyvalue"
+         class="shape-thumb" [class.active]="shape.key == settings?.shape"
+         (click)="onShapeSelected(shape.key)" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
 
     <label *ngIf="settings" style="display: block">
       <input type="checkbox" [(ngModel)]="settings.stroke" (ngModelChange)="onBorderChanged()"/>
@@ -66,14 +66,14 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   }
 
 
-  public onShapeSelected(shape: number) {
+  public onShapeSelected(shape: string) {
     if (shape != this.settings.shape) {
       this.settings = {...this.settings, shape: shape};
       this._onChangeCallback(this.settings);
     }
   }
 
-  public getShapeThumbnail(shape: number): SafeHtml {
+  public getShapeThumbnail(shape: string): SafeHtml {
     if(this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: shape}));
     }

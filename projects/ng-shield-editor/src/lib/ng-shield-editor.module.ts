@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgShieldShapeService } from './services/ng-shield-shape.service';
 import { NgShieldMotifService } from './services/ng-shield-motif.service';
+import {NgShieldSettingsTextComponent} from './components/settings/ng-shield-settings-text.component';
+import {NgShieldTextService} from './services/ng-shield-text.service';
 
 @NgModule({
   imports: [BrowserModule, MatTabsModule, FormsModule, CommonModule],
@@ -21,6 +23,7 @@ import { NgShieldMotifService } from './services/ng-shield-motif.service';
     NgShieldEditorService,
     NgShieldShapeService,
     NgShieldMotifService,
+    NgShieldTextService
   ],
   declarations: [
     NgShieldEditorComponent,
@@ -29,6 +32,7 @@ import { NgShieldMotifService } from './services/ng-shield-motif.service';
     NgShieldSettingsShapeComponent,
     NgShieldSettingsColorComponent,
     NgShieldSettingsMotifComponent,
+    NgShieldSettingsTextComponent,
 
     // UI helpers
     ColorPickerComponent,
