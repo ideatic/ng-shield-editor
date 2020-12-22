@@ -1,10 +1,10 @@
-import { Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgShieldSettings } from '../../ng-shield-settings';
-import { noop } from 'rxjs';
-import { NgShieldEditorService } from '../../services/ng-shield-editor.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { NgShieldMotifService } from '../../services/ng-shield-motif.service';
+import {Component, forwardRef} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {NgShieldSettings} from '../../ng-shield-settings';
+import {noop} from 'rxjs';
+import {NgShieldEditorService} from '../../services/ng-shield-editor.service';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
 
 @Component({
   selector: 'ng-shield-editor-settings-motif',
@@ -48,15 +48,15 @@ import { NgShieldMotifService } from '../../services/ng-shield-motif.service';
       .motif-thumb.active {
         border: 2px solid #3666c8;
       }
-    `,
+    `
   ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NgShieldSettingsMotifComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
@@ -66,26 +66,20 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
     public motifSvc: NgShieldMotifService,
     private _ngShieldSvc: NgShieldEditorService,
     private _sanitizer: DomSanitizer
-  ) {}
+  ) {
+  }
 
   public onMotifSelected(motif: number) {
     if (motif != this.settings.motif) {
-      this.settings = { ...this.settings, motif: motif };
+      this.settings = {...this.settings, motif: motif};
       this._onChangeCallback(this.settings);
     }
   }
 
   public getMotifThumbnail(motif: number): SafeHtml {
     if (this.settings) {
-      return this._sanitizer.bypassSecurityTrustHtml(
-        this._ngShieldSvc.generateSVG({ ...this.settings, motif: motif })
-      );
+      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: motif}));
     }
-  }
-
-  public onBorderChanged() {
-    this.settings = { ...this.settings };
-    this._onChangeCallback(this.settings);
   }
 
   /* ControlValueAccessor */
@@ -93,7 +87,8 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
     this._onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {}
+  public registerOnTouched(fn: any): void {
+  }
 
   public writeValue(obj: any): void {
     this.settings = obj;

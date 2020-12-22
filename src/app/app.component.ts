@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shield-settings';
+import {NgShieldEditorService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-editor.service';
+import {downloadData} from './download';
 
 @Component({
   selector: 'app-root',
@@ -18,4 +20,10 @@ export class AppComponent {
     stroke: true
   };
 
+  constructor(private _ngShieldSvc: NgShieldEditorService) {
+  }
+
+  public download() {
+    downloadData('shield.png', this._ngShieldSvc.generateBase64PNG(this.settings));
+  }
 }
