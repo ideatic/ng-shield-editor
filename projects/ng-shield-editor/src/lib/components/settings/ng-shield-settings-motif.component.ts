@@ -23,7 +23,6 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        margin: 0 -10px;
         padding: 10px 0 0 10px;
         border-top: 1px solid rgb(238, 238, 238);
       }
