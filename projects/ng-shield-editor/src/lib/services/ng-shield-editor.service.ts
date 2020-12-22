@@ -41,8 +41,35 @@ export class NgShieldEditorService {
     `;
   }
 
-  public generateBase64PNG(settings: NgShieldSettings): string {
-    // Usar canvas para generar PNG
-    return null;
+  public generateBase64PNG(settings: NgShieldSettings): any {
+    // Usar canvas para generar PNG ( REVISAR, NO DEVUELVE IMAGEN AL DESCARGAR)
+    const svg = this.generateSVG(settings);
+    const img = document.createElement('img');
+    const downloadLink = document.createElement('a');
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    var png = '';
+
+    img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(svg));
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      png = canvas.toDataURL('image/png');
+
+      downloadLink.download = 'shield.png';
+      document.body.appendChild(downloadLink);
+      downloadLink.href = png;
+
+      setTimeout(function () {
+        downloadLink.click();
+        downloadLink.remove();
+      });
+
+      return downloadLink.href;
+    };
   }
 }
