@@ -23,7 +23,14 @@ export class AppComponent {
   constructor(private _ngShieldSvc: NgShieldEditorService) {
   }
 
-  public download() {
-    downloadData('shield.png', this._ngShieldSvc.generateBase64PNG(this.settings));
+  public downloadSVG() {
+    downloadData('shield.svg', this._ngShieldSvc.generateSVG(this.settings));
+  }
+
+  public downloadPNG() {
+    const downloadLink = document.createElement('a');
+    downloadLink.download = 'shield.png';
+    downloadLink.href = this._ngShieldSvc.generateBase64PNG(this.settings);
+    downloadLink.click();
   }
 }
