@@ -52,6 +52,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
   private _onChangeCallback: (v: string) => void = noop;
 
   public palette = [
+    '#B80000',
     '#F44336',
     '#E91E63',
     '#9C27B0',
@@ -61,6 +62,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
     '#03A9F4',
     '#00BCD4',
     '#009688',
+    '#008B02',
     '#4CAF50',
     '#8BC34A',
     '#CDDC39',
