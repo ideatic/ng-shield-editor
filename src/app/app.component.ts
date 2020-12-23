@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NgShieldEditorService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-editor.service';
 import {downloadData} from './download';
+import {NgShieldSymbolService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-symbol.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,16 @@ import {downloadData} from './download';
 export class AppComponent {
   public settings = this._ngShieldSvc.defaultSettings;
 
-  constructor(private _ngShieldSvc: NgShieldEditorService) {
+  constructor(private _ngShieldSvc: NgShieldEditorService,
+              symbolSvc: NgShieldSymbolService) {
+    symbolSvc.available.push('/assets/symbols/iron-man.png');
+    symbolSvc.available.push('/assets/symbols/batman.png');
+    symbolSvc.available.push('/assets/symbols/avengers.png');
+    symbolSvc.available.push('/assets/symbols/captain-america.png');
+    symbolSvc.available.push('/assets/symbols/bear.png');
+    symbolSvc.available.push('/assets/symbols/dog.png');
+    symbolSvc.available.push('/assets/symbols/fox.png');
+    symbolSvc.available.push('/assets/symbols/puma.png');
   }
 
   public downloadSVG() {
@@ -30,7 +40,7 @@ export class AppComponent {
           downloadLink.remove();
         });
       }).catch((err) => {
-        console.log(err);
-      });
+      console.log(err);
+    });
   }
 }

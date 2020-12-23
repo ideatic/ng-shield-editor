@@ -9,14 +9,21 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
 @Component({
   selector: 'ng-shield-editor-settings-shape',
   template: `
-    <div *ngFor="let shape of shapeSvc.available | keyvalue"
-         class="shape-thumb" [class.active]="shape.key == settings?.shape"
-         (click)="onShapeSelected(shape.key)" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
+    <div class="shapes">
+      <div *ngFor="let shape of shapeSvc.available | keyvalue"
+           class="shape-thumb" [class.active]="shape.key == settings?.shape"
+           (click)="onShapeSelected($any(shape.key))" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
+    </div>
 
     <ng-container *ngIf="settings">
       <label style="display: block">
         <input type="checkbox" [(ngModel)]="settings.stroke" (ngModelChange)="onChange()"/>
         <ng-container i18n>Pintar borde</ng-container>
+      </label>
+
+      <label style="display: block">
+        <input type="checkbox" [(ngModel)]="settings.gloss" (ngModelChange)="onChange()"/>
+        <ng-container i18n>Gloss</ng-container>
       </label>
 
       <label>
@@ -28,11 +35,14 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
   styles: [
     `
       :host {
+        display: block;
         width: 100%;
+      }
+
+      .shapes {
         display: flex;
         flex-wrap: wrap;
-        padding: 10px 0 0 10px;
-        border-top: 1px solid rgb(238, 238, 238);
+        padding: 10px 10px 0;
       }
 
       .shape-thumb {
