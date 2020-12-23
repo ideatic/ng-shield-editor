@@ -37,7 +37,6 @@ export class NgShieldEditorService {
   public generateSVG(settings: NgShieldSettings): string {
     let motifAttrs = `fill="${settings.color2}" clip-path="url(#bg${settings.shape})"`;
 
-    // prettier-ignore
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!-- Mascara de recorte del motivo -->
         <defs>
