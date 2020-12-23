@@ -4,13 +4,13 @@ import {Injectable} from '@angular/core';
 export class NgShieldTextService {
 
   public readonly fontFamilies = [
-    {name: 'Open Sans', url: 'https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'},
-    {name: 'Jura', url: 'https://fonts.googleapis.com/css2?family=Jura&display=swap'},
+    {name: 'Open Sans', url: 'https://fonts.googleapis.com/css2?family=Open+Sans'},
+    {name: 'Jura', url: 'https://fonts.googleapis.com/css2?family=Jura'},
     {name: 'Nova Flat', url: 'https://fonts.googleapis.com/css2?family=Nova+Flat'},
-    {name: 'Lobster', url: 'https://fonts.googleapis.com/css2?family=Lobster&display=swap'},
-    {name: 'Overpass', url: 'https://fonts.googleapis.com/css2?family=Overpass&display=swap'},
-    {name: 'Luckiest Guy', url: 'https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap'},
-    {name: 'Bungee Outline', url: 'https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap'}
+    {name: 'Lobster', url: 'https://fonts.googleapis.com/css2?family=Lobster'},
+    {name: 'Overpass', url: 'https://fonts.googleapis.com/css2?family=Overpass'},
+    {name: 'Luckiest Guy', url: 'https://fonts.googleapis.com/css?family=Luckiest+Guy'},
+    {name: 'Bungee Outline', url: 'https://fonts.googleapis.com/css2?family=Bungee+Outline'}
   ];
 
   public readonly paths = {
