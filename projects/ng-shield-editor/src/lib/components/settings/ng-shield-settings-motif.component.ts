@@ -9,13 +9,15 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
 @Component({
   selector: 'ng-shield-editor-settings-motif',
   template: `
-    <div
-      *ngFor="let motif of motifSvc.available | keyvalue"
-      class="motif-thumb"
-      [class.active]="motif.key == settings?.motif"
-      (click)="onMotifSelected(motif.key)"
-      [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
-    ></div>
+    <div class="motifs">
+      <div
+        *ngFor="let motif of motifSvc.available | keyvalue"
+        class="motif-thumb"
+        [class.active]="motif.key == settings?.motif"
+        (click)="onMotifSelected(motif.key)"
+        [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
+      ></div>
+    </div>
 
     <label *ngIf="settings">
       <ng-container i18n>Color</ng-container>
@@ -25,11 +27,14 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
   styles: [
     `
       :host {
+        display: block;
         width: 100%;
+      }
+
+      .motifs {
         display: flex;
         flex-wrap: wrap;
-        padding: 10px 0 0 10px;
-        border-top: 1px solid rgb(238, 238, 238);
+        padding: 10px 10px 0;
       }
 
       .motif-thumb {

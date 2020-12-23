@@ -1,7 +1,13 @@
 export interface NgShieldSettings {
   shape: string;
   motif: string;
-  symbol: string;
+  symbol: {
+    content: string,
+    size: number,
+    x: number,
+    y: number,
+    trim: boolean
+  };
   color1: string;
   color2: string;
   color3: string;
@@ -13,8 +19,9 @@ export interface NgShieldSettings {
     borderColor: string;
     borderSize: number;
     size: number,
-    offsetX: number,
-    offsetY: number,
+    x: number,
+    y: number,
     path: string
-  }
+  },
+  gloss:boolean
 }

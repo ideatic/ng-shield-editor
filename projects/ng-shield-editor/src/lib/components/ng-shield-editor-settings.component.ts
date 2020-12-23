@@ -9,15 +9,14 @@ import {noop} from 'rxjs';
     <nav mat-tab-nav-bar>
       <mat-tab-group>
         <mat-tab label="Forma" i18n-label>
-          <ng-shield-editor-settings-shape
-            [(ngModel)]="settings"
-            (ngModelChange)="onChangeCallback($event)"
-          ></ng-shield-editor-settings-shape>
+          <ng-shield-editor-settings-shape [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-shape>
         </mat-tab>
         <mat-tab label="Motivo" i18n-label>
           <ng-shield-editor-settings-motif [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-motif>
         </mat-tab>
-        <mat-tab label="Símbolo" i18n-label></mat-tab>
+        <mat-tab label="Símbolo" i18n-label>
+          <ng-shield-editor-settings-symbol [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-symbol>
+        </mat-tab>
         <mat-tab label="Texto" i18n-label>
           <ng-shield-editor-settings-text [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-text>
         </mat-tab>

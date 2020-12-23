@@ -1,8 +1,8 @@
-import { Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgShieldSettings } from '../../ng-shield-settings';
-import { noop } from 'rxjs';
-import { NgShieldTextService } from '../../services/ng-shield-text.service';
+import {Component, forwardRef} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {NgShieldSettings} from '../../ng-shield-settings';
+import {noop} from 'rxjs';
+import {NgShieldTextService} from '../../services/ng-shield-text.service';
 
 @Component({
   selector: 'ng-shield-editor-settings-text',
@@ -18,9 +18,7 @@ import { NgShieldTextService } from '../../services/ng-shield-text.service';
       <div>
         <label>
           <ng-container i18n>Tamaño</ng-container>
-          <select [(ngModel)]="settings.text.size" (ngModelChange)="onChange()">
-            <option *ngFor="let size of [25,35,40,45,50,65,70,75,80,85,90,100,110]" [ngValue]="size">{{ size | number }}</option>
-          </select>
+          <mat-slider [(ngModel)]="settings.text.size" (ngModelChange)="onChange()" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
@@ -46,20 +44,20 @@ import { NgShieldTextService } from '../../services/ng-shield-text.service';
           <color-picker [(ngModel)]="settings.text.borderColor" (ngModelChange)="onChange()" [allowNullSelection]="true"></color-picker>
         </label>
 
-        <label>
+        <label *ngIf="settings.text.borderColor">
           <ng-container i18n>Tamaño</ng-container>
-          <input type="number" [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()"/>
+          <mat-slider [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()" [min]="1" [max]="8" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
       <div>
         <label>
           <ng-container i18n>Posición X</ng-container>
-          <input type="number" [(ngModel)]="settings.text.offsetX" (ngModelChange)="onChange()"/>
+          <mat-slider [(ngModel)]="settings.text.x" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición Y</ng-container>
-          <input type="number" [(ngModel)]="settings.text.offsetY" (ngModelChange)="onChange()"/>
+          <mat-slider [(ngModel)]="settings.text.y" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
@@ -98,7 +96,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   }
 
   public onChange() {
-    this.settings = { ...this.settings }; // Realizar copia superficial del objeto para que el detector de cambios pueda detectar el cambio
+    this.settings = {...this.settings}; // Realizar copia superficial del objeto para que el detector de cambios pueda detectar el cambio
     this._onChangeCallback(this.settings);
   }
 

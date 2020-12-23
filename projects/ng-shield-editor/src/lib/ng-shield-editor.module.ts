@@ -15,14 +15,26 @@ import {NgShieldShapeService} from './services/ng-shield-shape.service';
 import {NgShieldMotifService} from './services/ng-shield-motif.service';
 import {NgShieldSettingsTextComponent} from './components/settings/ng-shield-settings-text.component';
 import {NgShieldTextService} from './services/ng-shield-text.service';
+import {NgShieldSettingsSymbolComponent} from './components/settings/ng-shield-settings-symbol.component';
+import {NgShieldSymbolService} from './services/ng-shield-symbol.service';
+import {SvgRendererService} from './services/svg-renderer.service';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
-  imports: [BrowserModule, MatTabsModule, FormsModule, CommonModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    CommonModule,
+    MatTabsModule,
+    MatSliderModule
+  ],
   providers: [
     NgShieldEditorService,
     NgShieldShapeService,
     NgShieldMotifService,
-    NgShieldTextService
+    NgShieldSymbolService,
+    NgShieldTextService,
+    SvgRendererService
   ],
   declarations: [
     NgShieldEditorComponent,
@@ -31,6 +43,7 @@ import {NgShieldTextService} from './services/ng-shield-text.service';
     NgShieldSettingsShapeComponent,
     NgShieldSettingsMotifComponent,
     NgShieldSettingsTextComponent,
+    NgShieldSettingsSymbolComponent,
 
     // UI helpers
     ColorPickerComponent,
