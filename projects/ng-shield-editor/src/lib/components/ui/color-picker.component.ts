@@ -1,10 +1,20 @@
-import { Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { noop } from 'rxjs';
+import {Component, forwardRef, Input} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {noop} from 'rxjs';
 
 @Component({
   selector: 'color-picker',
   template: `
+    <div *ngIf="allowNullSelection"
+         class="swatch"
+         [class.active]="selectedColor === null"
+         (click)="onColorSelected(null)"
+    >
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+        <path d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"></path>
+      </svg>
+    </div>
+
     <div
       *ngFor="let color of palette"
       class="swatch"
@@ -19,7 +29,6 @@ import { noop } from 'rxjs';
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        margin: 0 -10px;
         padding: 10px 0 0 10px;
         border-top: 1px solid rgb(238, 238, 238);
       }
@@ -37,22 +46,24 @@ import { noop } from 'rxjs';
       .swatch.active {
         border: 2px solid #3666c8;
       }
-    `,
+    `
   ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ColorPickerComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class ColorPickerComponent implements ControlValueAccessor {
+  @Input() public allowNullSelection = false;
+
   public selectedColor: string;
   private _onChangeCallback: (v: string) => void = noop;
 
   public palette = [
-    '#B80000',
+    '#C90800',
     '#F44336',
     '#E91E63',
     '#9C27B0',
@@ -67,15 +78,17 @@ export class ColorPickerComponent implements ControlValueAccessor {
     '#8BC34A',
     '#CDDC39',
     '#FFEB3B',
+    '#E5CB14',
     '#FFC107',
     '#FF9800',
     '#FF5722',
     '#795548',
     '#607D8B',
     '#969696',
+    '#231F20',
     '#000000',
     '#F0F0F0',
-    '#FFFFFF',
+    '#FFFFFF'
   ];
 
   public onColorSelected(color) {
@@ -88,7 +101,8 @@ export class ColorPickerComponent implements ControlValueAccessor {
     this._onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {}
+  public registerOnTouched(fn: any): void {
+  }
 
   public writeValue(obj: any): void {
     this.selectedColor = obj;

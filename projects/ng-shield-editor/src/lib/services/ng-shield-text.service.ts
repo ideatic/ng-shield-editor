@@ -14,8 +14,8 @@ export class NgShieldTextService {
   ];
 
   public readonly paths = {
-    bent: '<path %attrs% d="M 100 250 C 150 200 350 200 400 250" />',
-    bent2: '<path %attrs% d="M 50 175 C 100 240 400 240 450 175" />',
-    bent3: '<path %attrs% d="M 70 250 C 50 250 450 200 450 200" />' 
+    bent: '<path %attrs% d="M 0 260 C 150 210 350 210 512 260" />',
+    bent2: '<path %attrs% d="M 0 260 C 150 310 350 310 512 260 " />',
+    bent3: '<path %attrs% d="M 70 250 C 50 250 450 200 450 200" />'
   };
 }

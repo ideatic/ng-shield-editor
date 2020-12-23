@@ -11,16 +11,18 @@ export class NgShieldEditorService {
     shape: Object.keys(this._shapeSvc.available)[0],
     motif: Object.keys(this._motifSvc.available)[0],
     symbol: null,
-    color1: '#c90800',
-    color2: '#e5cb14',
-    color3: '#231f20',
+    color1: '#C90800',
+    color2: '#E5CB14',
+    color3: '#231F20',
     stroke: true,
     text: {
       body: 'ShieldEditor',
       size: 50,
       fontFamily: this._textSvc.fontFamilies[0],
       path: null,
-      color: 'white',
+      color: '#FFFFFF',
+      borderColor: null,
+      borderSize: 2,
       offsetX: 0,
       offsetY: 0
     }
@@ -106,31 +108,22 @@ export class NgShieldEditorService {
     }
 
     // Forma
-    const useTextPath =
-      settings.text.path && this._textSvc.paths[settings.text.path];
+    const useTextPath = settings.text.path && this._textSvc.paths[settings.text.path];
     const textPathID = 'text-path-' + settings.text.path;
     if (useTextPath) {
-      svg += `<defs>
-  ${this._textSvc.paths[settings.text.path].replace(
-        /%attrs%/g,
-        `id="${textPathID}"`
-      )}
-  </defs>`;
+      svg += `<defs>${this._textSvc.paths[settings.text.path].replace(/%attrs%/g, `id="${textPathID}"`)}</defs>`;
     }
 
     return (
       svg +
       `<text
-${
-        useTextPath
-          ? ''
-          : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'
-      }
+${useTextPath ? '' : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'}
 fill="${this._escape(settings.text.color)}"
 font-weight="bold"
 font-family="${this._escape(settings.text.fontFamily?.name || '')}"
 font-size="${settings.text.size}"
 transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0})"
+${settings.text.borderColor && settings.text.borderSize ? `stroke="${settings.text.borderColor}" stroke-width="${settings.text.borderSize}"` : ''}
 >${
         useTextPath
           ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>`
@@ -177,3 +170,5 @@ transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0
   }
 
 }
+
+

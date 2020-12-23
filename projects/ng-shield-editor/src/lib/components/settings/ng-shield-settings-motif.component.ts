@@ -16,6 +16,11 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
       (click)="onMotifSelected(motif.key)"
       [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
     ></div>
+
+    <label *ngIf="settings">
+      <ng-container i18n>Color</ng-container>
+      <color-picker [(ngModel)]="settings.color1" (ngModelChange)="onChange()"></color-picker>
+    </label>
   `,
   styles: [
     `
@@ -79,6 +84,11 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
     if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: motif}));
     }
+  }
+
+  public onChange() {
+    this.settings = {...this.settings};
+    this._onChangeCallback(this.settings);
   }
 
   /* ControlValueAccessor */

@@ -42,6 +42,18 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
 
       <div>
         <label>
+          <ng-container i18n>Borde</ng-container>
+          <color-picker [(ngModel)]="settings.text.borderColor" (ngModelChange)="onChange()" [allowNullSelection]="true"></color-picker>
+        </label>
+
+        <label>
+          <ng-container i18n>Tamaño</ng-container>
+          <input type="number" [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()"/>
+        </label>
+      </div>
+
+      <div>
+        <label>
           <ng-container i18n>Posición X</ng-container>
           <input type="number" [(ngModel)]="settings.text.offsetX" (ngModelChange)="onChange()"/>
         </label>

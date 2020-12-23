@@ -10,6 +10,8 @@ export interface NgShieldSettings {
     body: string;
     color: string;
     fontFamily: { name: string, url: string },
+    borderColor: string;
+    borderSize: number;
     size: number,
     offsetX: number,
     offsetY: number,

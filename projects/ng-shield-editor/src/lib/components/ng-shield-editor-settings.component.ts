@@ -18,9 +18,6 @@ import {noop} from 'rxjs';
           <ng-shield-editor-settings-motif [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-motif>
         </mat-tab>
         <mat-tab label="Símbolo" i18n-label></mat-tab>
-        <mat-tab label="Color" i18n-label>
-          <ng-shield-editor-settings-color [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-color>
-        </mat-tab>
         <mat-tab label="Texto" i18n-label>
           <ng-shield-editor-settings-text [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-text>
         </mat-tab>

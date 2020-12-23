@@ -13,10 +13,17 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
          class="shape-thumb" [class.active]="shape.key == settings?.shape"
          (click)="onShapeSelected(shape.key)" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
 
-    <label *ngIf="settings" style="display: block">
-      <input type="checkbox" [(ngModel)]="settings.stroke" (ngModelChange)="onBorderChanged()"/>
-      <ng-container i18n>Pintar borde</ng-container>
-    </label>
+    <ng-container *ngIf="settings">
+      <label style="display: block">
+        <input type="checkbox" [(ngModel)]="settings.stroke" (ngModelChange)="onChange()"/>
+        <ng-container i18n>Pintar borde</ng-container>
+      </label>
+
+      <label>
+        <ng-container i18n>Color</ng-container>
+        <color-picker [(ngModel)]="settings.color1" (ngModelChange)="onChange()"></color-picker>
+      </label>
+    </ng-container>
   `,
   styles: [
     `
@@ -74,12 +81,12 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   }
 
   public getShapeThumbnail(shape: string): SafeHtml {
-    if(this.settings) {
+    if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: shape}));
     }
   }
 
-  public onBorderChanged() {
+  public onChange() {
     this.settings = {...this.settings};
     this._onChangeCallback(this.settings);
   }
