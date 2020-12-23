@@ -25,7 +25,7 @@ export class AppComponent {
         document.body.appendChild(downloadLink);
         downloadLink.href = base64img;
 
-        setTimeout(function () {
+        setTimeout(() => {
           downloadLink.click();
           downloadLink.remove();
         });

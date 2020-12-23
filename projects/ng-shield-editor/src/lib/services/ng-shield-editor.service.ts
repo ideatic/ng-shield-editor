@@ -38,9 +38,8 @@ export class NgShieldEditorService {
     let motifAttrs = `fill="${settings.color2}" clip-path="url(#bg${settings.shape})"`;
 
     // prettier-ignore
-    return `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <!-- Máscara de recorte del motivo -->
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <!-- Mascara de recorte del motivo -->
         <defs>
           <clipPath id="bg${settings.shape}">
              ${this._getShape(settings, false)}
@@ -132,14 +131,10 @@ fill="${this._escape(settings.text.color)}"
 font-weight="bold"
 font-family="${this._escape(settings.text.fontFamily?.name || '')}"
 font-size="${settings.text.size}"
-transform="translate(${settings.text.offsetX || 0}, ${
-        settings.text.offsetY || 0
-      })"
+transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0})"
 >${
         useTextPath
-          ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(
-          settings.text.body
-          )}</textPath>`
+          ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>`
           : this._escape(settings.text.body)
       }</text>`
     );
@@ -154,7 +149,7 @@ transform="translate(${settings.text.offsetX || 0}, ${
       .replace(/'/g, '&#039;');
   }
 
-  public renderBase64Image(settings: NgShieldSettings, size?: number, type = 'image/png'): Promise<string> {
+  public renderBase64Image(shield: NgShieldSettings, size?: number, type = 'image/png'): Promise<string> {
     return new Promise((resolve, reject) => {
       const img = this._document.createElement('img');
       img.onload = () => {
@@ -175,7 +170,11 @@ transform="translate(${settings.text.offsetX || 0}, ${
       };
       img.onerror = () => reject('Unable to load SVG');
 
-      img.src = `data:image/svg+xml;base64,${btoa(this.generateSVG(settings))}`;
+      img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent((this.generateSVG(shield)))))}`; // https://stackoverflow.com/a/26603875/528065
+
+      /* var svgBlob = new Blob([this.generateSVG(shield)], {type: 'image/svg+xml;charset=utf-8'});
+       img.src =  URL.createObjectURL(svgBlob);*/
     });
   }
+
 }
