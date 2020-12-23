@@ -11,13 +11,13 @@ import {SvgRendererService} from './svg-renderer.service';
 export class NgShieldEditorService {
   public readonly defaultSettings: NgShieldSettings = {
     shape: {
-      id: Object.keys(this._shapeSvc.available)[0],
+      id: 'bwgShield',
       color: '#C90800',
       stroke: true
     },
     motif: {
-      id: Object.keys(this._motifSvc.available)[0],
-      color: '#E5CB14',
+      id: 'cross',
+      color: 'white',
       x: 50,
       y: 50
     },
@@ -26,7 +26,7 @@ export class NgShieldEditorService {
       size: 3,
       fontFamily: this._textSvc.fontFamilies[0],
       path: Object.keys(this._textSvc.paths)[0],
-      color: '#FFFFFF',
+      color: '#231f20',
       borderColor: null,
       borderSize: 2,
       x: 50,
