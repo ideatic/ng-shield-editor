@@ -17,20 +17,6 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
 
       <div>
         <label>
-          <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.text.size" (ngModelChange)="onChange()" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <ng-container i18n>Color</ng-container>
-          <color-picker [(ngModel)]="settings.text.color" (ngModelChange)="onChange()"></color-picker>
-        </label>
-      </div>
-
-      <div>
-        <label>
           <ng-container i18n>Fuente</ng-container>
           <select [(ngModel)]="settings.text.fontFamily" (ngModelChange)="onChange()">
             <option *ngFor="let family of textSvc.fontFamilies" [ngValue]="family">{{ family.name }}</option>
@@ -40,13 +26,15 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
 
       <div>
         <label>
-          <ng-container i18n>Borde</ng-container>
-          <color-picker [(ngModel)]="settings.text.borderColor" (ngModelChange)="onChange()" [allowNullSelection]="true"></color-picker>
-        </label>
-
-        <label *ngIf="settings.text.borderColor">
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()" [min]="1" [max]="8" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.text.size" (ngModelChange)="onChange()" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
+        </label>
+      </div>
+
+      <div>
+        <label>
+          <ng-container i18n>Color</ng-container>
+          <color-picker [(ngModel)]="settings.text.color" (ngModelChange)="onChange()"></color-picker>
         </label>
       </div>
 
@@ -68,6 +56,20 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
             <option [ngValue]="null" i18n>Ninguna</option>
             <option *ngFor="let path of textSvc.paths | keyvalue" [ngValue]="path.key">{{ path.key }}</option>
           </select>
+        </label>
+      </div>
+
+      <hr/>
+
+      <div>
+        <label>
+          <ng-container i18n>Borde</ng-container>
+          <color-picker [(ngModel)]="settings.text.borderColor" (ngModelChange)="onChange()" [allowNullSelection]="true"></color-picker>
+        </label>
+
+        <label *ngIf="settings.text.borderColor">
+          <ng-container i18n>Tamaño</ng-container>
+          <mat-slider [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()" [min]="1" [max]="8" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
     </ng-container>

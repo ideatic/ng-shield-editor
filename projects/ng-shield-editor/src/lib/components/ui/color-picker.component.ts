@@ -30,8 +30,7 @@ import {noop} from 'rxjs';
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        padding: 10px 0 0 10px;
-        border-top: 1px solid rgb(238, 238, 238);
+        padding: 10px 10px 0;
       }
 
       .swatch {
