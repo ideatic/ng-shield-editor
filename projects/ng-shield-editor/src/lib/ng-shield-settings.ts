@@ -1,6 +1,15 @@
 export interface NgShieldSettings {
-  shape: string;
-  motif: string;
+  shape: {
+    id: any;
+    color: string;
+    stroke: boolean;
+  };
+  motif: {
+    id: any;
+    color: string;
+    x: number;
+    y: number;
+  };
   symbol: {
     content: string,
     size: number,
@@ -8,10 +17,6 @@ export interface NgShieldSettings {
     y: number,
     trim: boolean
   };
-  color1: string;
-  color2: string;
-  color3: string;
-  stroke: boolean;
   text: {
     body: string;
     color: string;
@@ -23,5 +28,5 @@ export interface NgShieldSettings {
     y: number,
     path: string
   },
-  gloss:boolean
+  gloss: boolean
 }

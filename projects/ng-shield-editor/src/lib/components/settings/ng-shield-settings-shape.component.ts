@@ -11,13 +11,13 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
   template: `
     <div class="shapes">
       <div *ngFor="let shape of shapeSvc.available | keyvalue"
-           class="shape-thumb" [class.active]="shape.key == settings?.shape"
+           class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
            (click)="onShapeSelected($any(shape.key))" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
     </div>
 
     <ng-container *ngIf="settings">
       <label style="display: block">
-        <input type="checkbox" [(ngModel)]="settings.stroke" (ngModelChange)="onChange()"/>
+        <input type="checkbox" [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()"/>
         <ng-container i18n>Pintar borde</ng-container>
       </label>
 
@@ -28,7 +28,7 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
 
       <label>
         <ng-container i18n>Color</ng-container>
-        <color-picker [(ngModel)]="settings.color1" (ngModelChange)="onChange()"></color-picker>
+        <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"></color-picker>
       </label>
     </ng-container>
   `,
@@ -83,16 +83,17 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   }
 
 
-  public onShapeSelected(shape: string) {
-    if (shape != this.settings.shape) {
-      this.settings = {...this.settings, shape: shape};
+  public onShapeSelected(shapeID: string) {
+    if (shapeID != this.settings.shape.id) {
+      this.settings.shape.id = shapeID;
+      this.settings = {...this.settings};
       this._onChangeCallback(this.settings);
     }
   }
 
-  public getShapeThumbnail(shape: string): SafeHtml {
+  public getShapeThumbnail(shapeID: string): SafeHtml {
     if (this.settings) {
-      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: shape}));
+      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: {...this.settings.shape, id: shapeID}}));
     }
   }
 

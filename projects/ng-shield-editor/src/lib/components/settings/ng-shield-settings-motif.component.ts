@@ -13,16 +13,29 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
       <div
         *ngFor="let motif of motifSvc.available | keyvalue"
         class="motif-thumb"
-        [class.active]="motif.key == settings?.motif"
+        [class.active]="motif.key == settings?.motif.id"
         (click)="onMotifSelected(motif.key)"
         [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
       ></div>
     </div>
 
-    <label *ngIf="settings">
-      <ng-container i18n>Color</ng-container>
-      <color-picker [(ngModel)]="settings.color1" (ngModelChange)="onChange()"></color-picker>
-    </label>
+    <ng-container *ngIf="settings">
+      <label>
+        <ng-container i18n>Color</ng-container>
+        <color-picker [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()"></color-picker>
+      </label>
+
+      <div class="flex">
+        <label>
+          <ng-container i18n>Posición X</ng-container>
+          <mat-slider [(ngModel)]="settings.motif.x" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        </label>
+        <label>
+          <ng-container i18n>Posición Y</ng-container>
+          <mat-slider [(ngModel)]="settings.motif.y" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        </label>
+      </div>
+    </ng-container>
   `,
   styles: [
     `
@@ -57,6 +70,16 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
       .motif-thumb.active {
         border: 2px solid #3666c8;
       }
+
+      .flex {
+        display: flex;
+      }
+
+      .flex * {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+      }
     `
   ],
   providers: [
@@ -78,16 +101,16 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
   ) {
   }
 
-  public onMotifSelected(motif: string) {
-    if (motif != this.settings.motif) {
-      this.settings = {...this.settings, motif: motif};
+  public onMotifSelected(motifID: string) {
+    if (motifID != this.settings.motif.id) {
+      this.settings = {...this.settings, motif: {...this.settings.motif, id: motifID}};
       this._onChangeCallback(this.settings);
     }
   }
 
-  public getMotifThumbnail(motif: string): SafeHtml {
+  public getMotifThumbnail(motifID: string): SafeHtml {
     if (this.settings) {
-      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: motif}));
+      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: {...this.settings.motif, id: motifID}}));
     }
   }
 
