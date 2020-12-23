@@ -1,8 +1,8 @@
-import {Component, forwardRef} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {NgShieldSettings} from '../../ng-shield-settings';
-import {noop} from 'rxjs';
-import {NgShieldTextService} from '../../services/ng-shield-text.service';
+import { Component, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgShieldSettings } from '../../ng-shield-settings';
+import { noop } from 'rxjs';
+import { NgShieldTextService } from '../../services/ng-shield-text.service';
 
 @Component({
   selector: 'ng-shield-editor-settings-text',
@@ -98,7 +98,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   }
 
   public onChange() {
-    this.settings = {...this.settings}; // Realizar copia superficial del objeto para que el detector de cambios pueda detectar el cambio
+    this.settings = { ...this.settings }; // Realizar copia superficial del objeto para que el detector de cambios pueda detectar el cambio
     this._onChangeCallback(this.settings);
   }
 
