@@ -29,6 +29,8 @@ export class AppComponent {
           downloadLink.click();
           downloadLink.remove();
         });
+      }).catch((err) => {
+        console.log(err);
       });
   }
 }
