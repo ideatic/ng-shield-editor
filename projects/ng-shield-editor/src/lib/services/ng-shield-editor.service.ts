@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {NgShieldSettings} from '../ng-shield-settings';
-import {NgShieldShapeService} from './ng-shield-shape.service';
-import {NgShieldMotifService} from './ng-shield-motif.service';
-import {NgShieldTextService} from './ng-shield-text.service';
+import { Injectable } from '@angular/core';
+import { NgShieldSettings } from '../ng-shield-settings';
+import { NgShieldShapeService } from './ng-shield-shape.service';
+import { NgShieldMotifService } from './ng-shield-motif.service';
+import { NgShieldTextService } from './ng-shield-text.service';
 
 @Injectable()
 export class NgShieldEditorService {
@@ -21,21 +21,22 @@ export class NgShieldEditorService {
       path: null,
       color: 'white',
       offsetX: 0,
-      offsetY: 0
-    }
+      offsetY: 0,
+    },
   };
 
-  constructor(private _shapeSvc: NgShieldShapeService,
-              private _motifSvc: NgShieldMotifService,
-              private _textSvc: NgShieldTextService) {
-  }
+  constructor(
+    private _shapeSvc: NgShieldShapeService,
+    private _motifSvc: NgShieldMotifService,
+    private _textSvc: NgShieldTextService
+  ) {}
 
   public generateSVG(settings: NgShieldSettings): string {
     let motifAttrs = `fill="${settings.color2}" clip-path="url(#bg${settings.shape})"`;
 
     // prettier-ignore
     return `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!-- Máscara de recorte del motivo -->
         <defs>
           <clipPath id="bg${settings.shape}">
@@ -92,7 +93,10 @@ export class NgShieldEditorService {
     let svg = '';
 
     // Fuente
-    if (settings.text.fontFamily?.url && !(settings.text.fontFamily as any).loaded) {
+    if (
+      settings.text.fontFamily?.url &&
+      !(settings.text.fontFamily as any).loaded
+    ) {
       svg += ` <style type="text/css">
  @import url('${settings.text.fontFamily.url}');
   </style>`;
@@ -101,22 +105,41 @@ export class NgShieldEditorService {
     }
 
     // Forma
-    const useTextPath = settings.text.path && this._textSvc.paths[settings.text.path];
+    const useTextPath =
+      settings.text.path && this._textSvc.paths[settings.text.path];
     const textPathID = 'text-path-' + settings.text.path;
     if (useTextPath) {
       svg += `<defs>
-  ${this._textSvc.paths[settings.text.path].replace(/%attrs%/g, `id="${textPathID}"`)}
+  ${this._textSvc.paths[settings.text.path].replace(
+    /%attrs%/g,
+    `id="${textPathID}"`
+  )}
   </defs>`;
     }
 
-    return svg + `<text
-${useTextPath ? '' : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'}
+    return (
+      svg +
+      `<text
+${
+  useTextPath
+    ? ''
+    : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'
+}
 fill="${this._escape(settings.text.color)}"
 font-weight="bold"
 font-family="${this._escape(settings.text.fontFamily?.name || '')}"
 font-size="${settings.text.size}"
-transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0})"
->${useTextPath ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>` : this._escape(settings.text.body)}</text>`;
+transform="translate(${settings.text.offsetX || 0}, ${
+        settings.text.offsetY || 0
+      })"
+>${
+        useTextPath
+          ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(
+              settings.text.body
+            )}</textPath>`
+          : this._escape(settings.text.body)
+      }</text>`
+    );
   }
 
   private _escape(text: string): string {
@@ -129,7 +152,7 @@ transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0
   }
 
   public generateBase64PNG(settings: NgShieldSettings): any {
-    // Usar canvas para generar PNG ( REVISAR, NO DEVUELVE IMAGEN AL DESCARGAR)
+    // Usar canvas para generar PNG
     const svg = this.generateSVG(settings);
     const img = document.createElement('img');
     const downloadLink = document.createElement('a');
@@ -140,7 +163,10 @@ transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0
     var png = '';
 
     img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(svg));
+    //img.src = encodeURIComponent(img.src);
+    console.log(img.src);
     img.onload = () => {
+      console.log(img);
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
