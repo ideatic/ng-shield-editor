@@ -17,7 +17,18 @@ export class AppComponent {
     downloadData('shield.svg', this._ngShieldSvc.generateSVG(this.settings));
   }
 
-  public downloadPNG() {
-    this._ngShieldSvc.generateBase64PNG(this.settings);
+  public downloadPNG(size?: number) {
+    this._ngShieldSvc.renderBase64Image(this.settings, size)
+      .then((base64img) => {
+        const downloadLink = document.createElement('a');
+        downloadLink.download = 'shield.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.href = base64img;
+
+        setTimeout(function () {
+          downloadLink.click();
+          downloadLink.remove();
+        });
+      });
   }
 }

@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { NgShieldSettings } from '../ng-shield-settings';
-import { NgShieldShapeService } from './ng-shield-shape.service';
-import { NgShieldMotifService } from './ng-shield-motif.service';
-import { NgShieldTextService } from './ng-shield-text.service';
+import {Inject, Injectable} from '@angular/core';
+import {NgShieldSettings} from '../ng-shield-settings';
+import {NgShieldShapeService} from './ng-shield-shape.service';
+import {NgShieldMotifService} from './ng-shield-motif.service';
+import {NgShieldTextService} from './ng-shield-text.service';
+import {DOCUMENT} from '@angular/common';
 
 @Injectable()
 export class NgShieldEditorService {
@@ -21,15 +22,17 @@ export class NgShieldEditorService {
       path: null,
       color: 'white',
       offsetX: 0,
-      offsetY: 0,
-    },
+      offsetY: 0
+    }
   };
 
   constructor(
     private _shapeSvc: NgShieldShapeService,
     private _motifSvc: NgShieldMotifService,
-    private _textSvc: NgShieldTextService
-  ) {}
+    private _textSvc: NgShieldTextService,
+    @Inject(DOCUMENT) private _document: Document
+  ) {
+  }
 
   public generateSVG(settings: NgShieldSettings): string {
     let motifAttrs = `fill="${settings.color2}" clip-path="url(#bg${settings.shape})"`;
@@ -111,9 +114,9 @@ export class NgShieldEditorService {
     if (useTextPath) {
       svg += `<defs>
   ${this._textSvc.paths[settings.text.path].replace(
-    /%attrs%/g,
-    `id="${textPathID}"`
-  )}
+        /%attrs%/g,
+        `id="${textPathID}"`
+      )}
   </defs>`;
     }
 
@@ -121,10 +124,10 @@ export class NgShieldEditorService {
       svg +
       `<text
 ${
-  useTextPath
-    ? ''
-    : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'
-}
+        useTextPath
+          ? ''
+          : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'
+      }
 fill="${this._escape(settings.text.color)}"
 font-weight="bold"
 font-family="${this._escape(settings.text.fontFamily?.name || '')}"
@@ -135,8 +138,8 @@ transform="translate(${settings.text.offsetX || 0}, ${
 >${
         useTextPath
           ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(
-              settings.text.body
-            )}</textPath>`
+          settings.text.body
+          )}</textPath>`
           : this._escape(settings.text.body)
       }</text>`
     );
@@ -151,38 +154,28 @@ transform="translate(${settings.text.offsetX || 0}, ${
       .replace(/'/g, '&#039;');
   }
 
-  public generateBase64PNG(settings: NgShieldSettings): any {
-    // Usar canvas para generar PNG
-    const svg = this.generateSVG(settings);
-    const img = document.createElement('img');
-    const downloadLink = document.createElement('a');
+  public renderBase64Image(settings: NgShieldSettings, size?: number, type = 'image/png'): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = this._document.createElement('img');
+      img.onload = () => {
+        const canvas = this._document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+        if (size) {
+          canvas.width = size;
+          canvas.height = size;
+          ctx.drawImage(img, 0, 0, size, size);
+        } else {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        }
 
-    var png = '';
+        resolve(canvas.toDataURL(type));
+      };
+      img.onerror = () => reject('Unable to load SVG');
 
-    img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(svg));
-    //img.src = encodeURIComponent(img.src);
-    console.log(img.src);
-    img.onload = () => {
-      console.log(img);
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      png = canvas.toDataURL('image/png');
-
-      downloadLink.download = 'shield.png';
-      document.body.appendChild(downloadLink);
-      downloadLink.href = png;
-
-      setTimeout(function () {
-        downloadLink.click();
-        downloadLink.remove();
-      });
-
-      return downloadLink.href;
-    };
+      img.src = `data:image/svg+xml;base64,${btoa(this.generateSVG(settings))}`;
+    });
   }
 }
