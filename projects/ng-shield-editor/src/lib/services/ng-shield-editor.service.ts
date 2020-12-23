@@ -1,9 +1,9 @@
-import {Inject, Injectable} from '@angular/core';
-import {NgShieldSettings} from '../ng-shield-settings';
-import {NgShieldShapeService} from './ng-shield-shape.service';
-import {NgShieldMotifService} from './ng-shield-motif.service';
-import {NgShieldTextService} from './ng-shield-text.service';
-import {DOCUMENT} from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
+import { NgShieldSettings } from '../ng-shield-settings';
+import { NgShieldShapeService } from './ng-shield-shape.service';
+import { NgShieldMotifService } from './ng-shield-motif.service';
+import { NgShieldTextService } from './ng-shield-text.service';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class NgShieldEditorService {
@@ -87,6 +87,8 @@ export class NgShieldEditorService {
   }
 
   private _getText(settings: NgShieldSettings): string {
+    (settings.text.fontFamily as any).loaded = false;
+
     if (!settings.text) {
       return '';
     }
@@ -94,47 +96,55 @@ export class NgShieldEditorService {
     let svg = '';
 
     // Fuente
-    if (
-      settings.text.fontFamily?.url &&
-      !(settings.text.fontFamily as any).loaded
-    ) {
-      svg += ` <style type="text/css">
- @import url('${settings.text.fontFamily.url}');
-  </style>`;
+    if (settings.text.fontFamily?.url && !(settings.text.fontFamily as any).loaded) {
+      svg += `<style type="text/css">
+                @import url('${settings.text.fontFamily.url}');
+              </style>`;
 
       (settings.text.fontFamily as any).loaded = true;
     }
 
     // Forma
-    const useTextPath =
-      settings.text.path && this._textSvc.paths[settings.text.path];
+    const useTextPath = settings.text.path && this._textSvc.paths[settings.text.path];
     const textPathID = 'text-path-' + settings.text.path;
+
     if (useTextPath) {
       svg += `<defs>
-  ${this._textSvc.paths[settings.text.path].replace(
-        /%attrs%/g,
-        `id="${textPathID}"`
-      )}
-  </defs>`;
+                ${this._textSvc.paths[settings.text.path].replace(/%attrs%/g, `id="${textPathID}"`)}
+              </defs>`;
     }
+
+    console.log(svg +
+      `<text
+        ${useTextPath
+        ? ''
+        : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'
+      }
+        fill="${this._escape(settings.text.color)}"
+        font-weight="bold"
+        font-family="${this._escape(settings.text.fontFamily?.name || '')}"
+        font-size="${settings.text.size}"
+        transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0})"
+      >${useTextPath
+        ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>`
+        : this._escape(settings.text.body)
+      }</text>`);
 
     return (
       svg +
       `<text
-${
-        useTextPath
-          ? ''
-          : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'
+        ${useTextPath
+        ? ''
+        : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'
       }
-fill="${this._escape(settings.text.color)}"
-font-weight="bold"
-font-family="${this._escape(settings.text.fontFamily?.name || '')}"
-font-size="${settings.text.size}"
-transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0})"
->${
-        useTextPath
-          ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>`
-          : this._escape(settings.text.body)
+        fill="${this._escape(settings.text.color)}"
+        font-weight="bold"
+        font-family="${this._escape(settings.text.fontFamily?.name || '')}"
+        font-size="${settings.text.size}"
+        transform="translate(${settings.text.offsetX || 0}, ${settings.text.offsetY || 0})"
+      >${useTextPath
+        ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>`
+        : this._escape(settings.text.body)
       }</text>`
     );
   }

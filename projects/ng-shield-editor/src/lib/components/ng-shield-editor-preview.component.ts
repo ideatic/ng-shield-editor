@@ -29,11 +29,9 @@ export class NgShieldEditorPreviewComponent implements OnChanges {
   constructor(
     private _host: ElementRef<HTMLElement>,
     private _generatorSvc: NgShieldEditorService
-  ) {}
+  ) { }
 
   public ngOnChanges() {
-    this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(
-      this.settings
-    );
+    this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(this.settings);
   }
 }
