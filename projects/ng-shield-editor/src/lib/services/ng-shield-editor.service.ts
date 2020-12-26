@@ -76,7 +76,7 @@ export class NgShieldEditorService {
         ${this._getText(settings)}
 
         <!-- Gloss -->
-         ${settings.gloss ? gloss.replace('%attrs%',`clip-path="url(#bg${settings.shape.id})"`) : ''}
+        ${settings.gloss ? gloss.replace('%attrs%',`clip-path="url(#bg${settings.shape.id})"`) : ''}
       </svg>
     `;
   }
