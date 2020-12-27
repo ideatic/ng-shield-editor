@@ -76,7 +76,7 @@ export class NgShieldEditorService {
         ${this._getText(settings)}
 
         <!-- Gloss -->
-        ${settings.gloss ? gloss.replace('%attrs%',`clip-path="url(#bg${settings.shape.id})"`) : ''}
+        ${settings.gloss ? gloss.replace('%attrs%', `clip-path="url(#bg${settings.shape.id})"`) : ''}
       </svg>
     `;
   }
@@ -135,19 +135,21 @@ export class NgShieldEditorService {
     let svg = '';
 
     // Fuente
-    if (settings.text.fontFamily?.url && !(settings.text.fontFamily as any).loaded) {
+    if (settings.text.fontFamily?.url) {
       svg += `<style type="text/css">
                 @import url('${settings.text.fontFamily.url}');
               </style>`;
 
-      // Cargar en el navegador para que esté disponible al generar la imagen en PNG
-      const css = this._document.createElement('link');
-      css.type = 'text/css';
-      css.rel = 'stylesheet';
-      css.href = settings.text.fontFamily.url;
-      this._document.head.appendChild(css);
+      if (!(settings.text.fontFamily as any).loaded) {
+        // Cargar en el navegador para que esté disponible al generar la imagen en PNG
+        const css = this._document.createElement('link');
+        css.type = 'text/css';
+        css.rel = 'stylesheet';
+        css.href = settings.text.fontFamily.url;
+        this._document.head.appendChild(css);
 
-      (settings.text.fontFamily as any).loaded = true;
+        (settings.text.fontFamily as any).loaded = true;
+      }
     }
 
     // Forma
