@@ -165,14 +165,14 @@ export class NgShieldEditorService {
 
     return svg +
       `<text
-${useTextPath ? '' : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'}
-fill="${this._escape(settings.text.color)}"
-font-weight="bold"
-font-family="${this._escape(settings.text.fontFamily?.name || '')}"
-font-size="${settings.text.size * 15}"
-transform="translate(${512 / 100 * (settings.text.x - 50)}, ${512 / 100 * (settings.text.y - 50)})"
-${settings.text.borderColor && settings.text.borderSize ? `stroke="${settings.text.borderColor}" stroke-width="${settings.text.borderSize}"` : ''}
->${useTextPath
+          ${useTextPath ? '' : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'}
+          fill="${this._escape(settings.text.color)}"
+          font-weight="bold"
+          font-family="${this._escape(settings.text.fontFamily?.name || '')}"
+          font-size="${settings.text.size * 15}"
+          transform="translate(${512 / 100 * (settings.text.x - 50)}, ${512 / 100 * (settings.text.y - 50)})"
+          ${settings.text.borderColor && settings.text.borderSize ? `stroke="${settings.text.borderColor}" stroke-width="${settings.text.borderSize}"` : ''}
+        >${useTextPath
         ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>`
         : this._escape(settings.text.body)
       }</text>`;
