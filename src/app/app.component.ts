@@ -41,7 +41,7 @@ export class AppComponent {
           downloadLink.remove();
         });
       }).catch((err) => {
-      console.log(err);
+        console.log(err);
     });
   }
 }

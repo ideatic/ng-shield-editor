@@ -12,7 +12,7 @@ export class SvgRendererService {
       img.onload = () => {
         const canvas = this._document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-
+        
         this._document.body.appendChild(canvas);
 
         if (height || width) {
