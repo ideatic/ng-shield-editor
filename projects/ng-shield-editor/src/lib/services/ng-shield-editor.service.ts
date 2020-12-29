@@ -173,8 +173,10 @@ export class NgShieldEditorService {
   private _getSymbol(settings: NgShieldSettings): string {
     // Definir imagen
     let image = this._symbolSvc.available[settings.symbol.content];
-    if (!image) {
+    if (!image && settings.symbol.content !== null) {
       image = `<image %attrs% href="${settings.symbol.content}"/>`;
+    } else if(settings.symbol.content == null){
+      image = `<image %attrs% href=""/>`;
     }
 
     // Calcular atributos
