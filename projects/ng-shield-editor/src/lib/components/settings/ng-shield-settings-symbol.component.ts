@@ -137,7 +137,9 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
         const reader = new FileReader();
         reader.onload = () => {
           resolve(reader.result);
-          (event.currentTarget as HTMLInputElement).value = '';
+          if((event.currentTarget as HTMLInputElement) !== null){
+            (event.currentTarget as HTMLInputElement).value = '';
+          }
         };
         reader.onerror = err => reject(`Unable to load file: ${err}`);
         reader.readAsDataURL(file);

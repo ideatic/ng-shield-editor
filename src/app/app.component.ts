@@ -25,6 +25,7 @@ export class AppComponent {
   }
 
   public downloadSVG() {
+    console.log(this._ngShieldSvc.generateSVG(this.settings));
     downloadData('shield.svg', this._ngShieldSvc.generateSVG(this.settings));
   }
 
@@ -35,7 +36,7 @@ export class AppComponent {
         downloadLink.download = 'shield.png';
         document.body.appendChild(downloadLink);
         downloadLink.href = base64img;
-
+        
         setTimeout(() => {
           downloadLink.click();
           downloadLink.remove();
