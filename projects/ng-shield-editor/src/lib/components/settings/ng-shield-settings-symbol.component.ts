@@ -10,9 +10,9 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
   template: `
     <div class="default-symbols">
       <div class="symbol-thumb" [class.active]="settings?.symbol.content | fn:isDataURL">
-        <label style="display: block">
+        <label style="display: block; cursor: pointer;">
           <svg viewBox="0 0 512 512"><path d="m165 210l0 55c0 8-3 14-8 20-6 5-12 8-20 8l-55 0c-7 0-14-3-19-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 19-8l55 0c8 0 14 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-20 8l-54 0c-8 0-15-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 20-8l54 0c8 0 15 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-19 8l-55 0c-8 0-14-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 6-5 12-8 20-8l55 0c7 0 14 3 19 8 5 5 8 12 8 19z" ></path></svg>
-          <input type="file" accept="image/*" (change)="fileChanged($event)" style="display:none"/>
+          <input type="file" accept="image/*" (change)="fileChanged($event)" style="display:none;"/>
         </label>
       </div>
 

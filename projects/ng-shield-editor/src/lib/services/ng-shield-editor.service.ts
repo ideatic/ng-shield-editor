@@ -184,8 +184,10 @@ export class NgShieldEditorService {
     if (!image) {
       if(settings.symbol.content !== null && settings.symbol.content.includes('data:')){
         image = `<image %attrs% href="${settings.symbol.content}"/>`;
+      } else if(settings.symbol.content == null) {
+        image = `<image %attrs% href="${window.location.href}"/>`;
       } else {
-        image = `<image %attrs% href="http://localhost:4200${settings.symbol.content}"/>`;
+        image = `<image %attrs% href="${window.location.href}${settings.symbol.content}"/>`;
       }
     } 
 
