@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {NgShieldEditorService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-editor.service';
 import {downloadData} from './download';
 import {NgShieldSymbolService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-symbol.service';
+import {HttpClient} from '@angular/common/http';
+
 
 @Component({
   selector: 'app-root',
@@ -12,16 +14,31 @@ export class AppComponent {
   public settings = this._ngShieldSvc.defaultSettings;
 
   constructor(private _ngShieldSvc: NgShieldEditorService,
-              symbolSvc: NgShieldSymbolService) {
+              symbolSvc: NgShieldSymbolService,
+              httpClient: HttpClient) {
     // Los símbolos los define el consumidor de la librería
-    symbolSvc.available.push('/assets/symbols/iron-man.png');
-    symbolSvc.available.push('/assets/symbols/batman.png');
-    symbolSvc.available.push('/assets/symbols/avengers.png');
-    symbolSvc.available.push('/assets/symbols/captain-america.png');
-    symbolSvc.available.push('/assets/symbols/bear.png');
-    symbolSvc.available.push('/assets/symbols/dog.png');
-    symbolSvc.available.push('/assets/symbols/fox.png');
-    symbolSvc.available.push('/assets/symbols/puma.png');
+    const symbols = [
+      'assets/symbols/iron-man.png',
+      'assets/symbols/batman.png',
+      'assets/symbols/avengers.png',
+      'assets/symbols/captain-america.png',
+      'assets/symbols/bear.png',
+      'assets/symbols/dog.png',
+      'assets/symbols/fox.png',
+      'assets/symbols/puma.png'
+    ];
+
+    symbols.forEach(symbol => {
+      httpClient.get(location.href + symbol, {responseType: 'blob'})
+        .subscribe(image => {
+          let reader = new FileReader();
+          reader.addEventListener('load', () => {
+            symbolSvc.available.push(reader.result);
+          }, false);
+
+          reader.readAsDataURL(image);
+        });
+    });
   }
 
   public downloadSVG() {
@@ -35,13 +52,14 @@ export class AppComponent {
         downloadLink.download = 'shield.png';
         document.body.appendChild(downloadLink);
         downloadLink.href = base64img;
-        
+
         setTimeout(() => {
           downloadLink.click();
           downloadLink.remove();
         });
       }).catch((err) => {
-        console.log(err);
+      console.log(err);
     });
   }
 }
+

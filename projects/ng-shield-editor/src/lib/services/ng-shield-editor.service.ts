@@ -137,19 +137,11 @@ export class NgShieldEditorService {
     // Fuente
     if (settings.text.fontFamily?.url) {
       svg += `<style type="text/css">
-                @import url('${settings.text.fontFamily.url}');
+@font-face {
+ font-family: ${settings.text.fontFamily.name};
+  src: url(${settings.text.fontFamily.url}) format('truetype');
+                }
               </style>`;
-
-      if (!(settings.text.fontFamily as any).loaded) {
-        // Cargar en el navegador para que esté disponible al generar la imagen en PNG
-        const css = this._document.createElement('link');
-        css.type = 'text/css';
-        css.rel = 'stylesheet';
-        css.href = settings.text.fontFamily.url;
-        this._document.head.appendChild(css);
-
-        (settings.text.fontFamily as any).loaded = true;
-      }
     }
 
     // Forma
@@ -182,12 +174,8 @@ export class NgShieldEditorService {
     // Definir imagen
     let image = this._symbolSvc.available[settings.symbol.content];
     if (!image) {
-      if(settings.symbol.content !== null && settings.symbol.content.includes('data:')){
-        image = `<image %attrs% href="${settings.symbol.content}"/>`;
-      } else {
-        image = `<image %attrs% href="http://localhost:4200${settings.symbol.content}"/>`;
-      }
-    } 
+      image = `<image %attrs% href="${settings.symbol.content}"/>`;
+    }
 
     // Calcular atributos
     const imageSize = 512 * (settings.symbol.size * 0.01);

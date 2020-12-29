@@ -9,9 +9,12 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
   selector: 'ng-shield-editor-settings-symbol',
   template: `
     <div class="default-symbols">
-      <div class="symbol-thumb" [class.active]="settings?.symbol.content | fn:isDataURL">
+      <div class="symbol-thumb">
         <label style="display: block">
-          <svg viewBox="0 0 512 512"><path d="m165 210l0 55c0 8-3 14-8 20-6 5-12 8-20 8l-55 0c-7 0-14-3-19-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 19-8l55 0c8 0 14 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-20 8l-54 0c-8 0-15-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 20-8l54 0c8 0 15 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-19 8l-55 0c-8 0-14-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 6-5 12-8 20-8l55 0c7 0 14 3 19 8 5 5 8 12 8 19z" ></path></svg>
+          <svg viewBox="0 0 512 512">
+            <path
+              d="m165 210l0 55c0 8-3 14-8 20-6 5-12 8-20 8l-55 0c-7 0-14-3-19-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 19-8l55 0c8 0 14 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-20 8l-54 0c-8 0-15-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 20-8l54 0c8 0 15 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-19 8l-55 0c-8 0-14-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 6-5 12-8 20-8l55 0c7 0 14 3 19 8 5 5 8 12 8 19z"></path>
+          </svg>
           <input type="file" accept="image/*" (change)="fileChanged($event)" style="display:none"/>
         </label>
       </div>
@@ -20,7 +23,7 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
            class="symbol-thumb"
            [class.active]="symbol == settings?.symbol.content"
            (click)="onSymbolSelected(symbol)">
-        <img [src]="symbol"/>
+        <img [src]="symbol | fn:sanitizer.bypassSecurityTrustUrl"/>
       </div>
     </div>
 
@@ -111,16 +114,12 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   private _onChangeCallback: (v: any) => void = noop;
 
   constructor(public symbolSvc: NgShieldSymbolService,
-              private _sanitizer: DomSanitizer) {
+              public sanitizer: DomSanitizer) {
   }
 
   public onSymbolSelected(symbol: string) {
     this.settings.symbol.content = symbol;
     this.onChange();
-  }
-
-  public isDataURL(symbol: string): boolean {
-    return symbol && symbol.indexOf('data:') === 0;
   }
 
   public onChange() {
@@ -131,19 +130,20 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
 
   public fileChanged(event: Event) {
     new Promise((resolve, reject) => {
-      const file = (event.currentTarget as HTMLInputElement).files[0];
+      const fileField = event.currentTarget as HTMLInputElement;
+      const file = fileField.files[0];
 
       if (file) {
         const reader = new FileReader();
         reader.onload = () => {
           resolve(reader.result);
-          if((event.currentTarget as HTMLInputElement) !== null){
-            (event.currentTarget as HTMLInputElement).value = '';
+          if (fileField !== null) { // Reiniciar el campo
+            fileField.value = '';
           }
         };
-        
+
         reader.onerror = err => reject(`Unable to load file: ${err}`);
-        reader.readAsDataURL(file); 
+        reader.readAsDataURL(file);
       } else {
         resolve(null);
       }
