@@ -182,8 +182,12 @@ export class NgShieldEditorService {
     // Definir imagen
     let image = this._symbolSvc.available[settings.symbol.content];
     if (!image) {
-      image = `<image %attrs% href="http://localhost:4200${settings.symbol.content}"/>`;
-    }
+      if(settings.symbol.content !== null && settings.symbol.content.includes('data:')){
+        image = `<image %attrs% href="${settings.symbol.content}"/>`;
+      } else {
+        image = `<image %attrs% href="http://localhost:4200${settings.symbol.content}"/>`;
+      }
+    } 
 
     // Calcular atributos
     const imageSize = 512 * (settings.symbol.size * 0.01);

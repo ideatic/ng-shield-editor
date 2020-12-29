@@ -25,7 +25,6 @@ export class AppComponent {
   }
 
   public downloadSVG() {
-    console.log(this._ngShieldSvc.generateSVG(this.settings));
     downloadData('shield.svg', this._ngShieldSvc.generateSVG(this.settings));
   }
 
