@@ -12,8 +12,7 @@ export class SvgRendererService {
 
       img.onload = () => {
         const canvas = this._document.createElement('canvas');
-        const ctx = canvas.getContext('2d'); // Esto lleva fuente, OJO! Creo que aqui esta el error (ctx.font)
-
+        const ctx = canvas.getContext('2d'); 
 
         if (height || width) {
           canvas.height = height;
@@ -25,15 +24,12 @@ export class SvgRendererService {
           ctx.drawImage(img, 0, 0);
         }
 
-        const dataCanvas = canvas.toDataURL(type); // Error al convertir SVG a PNG
+        const dataCanvas = canvas.toDataURL(type); 
         resolve(dataCanvas);
       };
       img.onerror = () => reject('Unable to load SVG');
 
       img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065
-
-
-      this._document.body.appendChild(img);
 
       /* var svgBlob = new Blob([this.generateSVG(shield)], {type: 'image/svg+xml;charset=utf-8'});
        img.src =  URL.createObjectURL(svgBlob);*/
