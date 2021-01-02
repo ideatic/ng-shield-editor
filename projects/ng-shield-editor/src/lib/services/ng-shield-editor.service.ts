@@ -18,7 +18,7 @@ export class NgShieldEditorService {
     },
     motif: {
       id: 'cross',
-      color: 'white',
+      color: '#FFFFFF',
       x: 50,
       y: 50
     },
@@ -172,12 +172,10 @@ export class NgShieldEditorService {
 
   private _getSymbol(settings: NgShieldSettings): string {
     // Definir imagen
-    let image = this._symbolSvc.available[settings.symbol.content];
-    if (!image && settings.symbol.content !== null) {
-      image = `<image %attrs% href="${settings.symbol.content}"/>`;
-    } else if(settings.symbol.content == null){
-      image = `<image %attrs% href=""/>`;
+    if (!settings.symbol?.content) {
+      return '';
     }
+    let image = `<image %attrs% href="${settings.symbol.content}"/>`;
 
     // Calcular atributos
     const imageSize = 512 * (settings.symbol.size * 0.01);
