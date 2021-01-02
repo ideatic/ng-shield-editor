@@ -91,9 +91,11 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
     }
   }
 
-  public getShapeThumbnail(shapeID: string): SafeHtml {
+  public getShapeThumbnail(shapeID: string): SafeHtml | null {
     if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: {...this.settings.shape, id: shapeID}}));
+    } else {
+      return null;
     }
   }
 

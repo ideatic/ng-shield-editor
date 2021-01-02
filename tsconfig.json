@@ -21,5 +21,12 @@
         "dist/ng-shield-editor"
       ]
     }
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": false,
+    "fullTemplateTypeCheck": true,
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true
   }
 }

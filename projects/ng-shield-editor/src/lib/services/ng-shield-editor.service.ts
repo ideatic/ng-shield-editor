@@ -23,7 +23,7 @@ export class NgShieldEditorService {
       y: 50
     },
     text: {
-      body: 'ShieldEditor',
+      body: '',
       size: 4,
       fontFamily: this._textSvc.fontFamilies[0],
       path: Object.keys(this._textSvc.paths)[0],

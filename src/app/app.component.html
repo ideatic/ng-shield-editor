@@ -1,15 +1,6 @@
-<h1 style="text-align: center">ng-shield-editor</h1>
+<h1>ng-shield-editor</h1>
 
-<div class="row">
-  <div class="col-md-6">
-    <p class="text-center" i18n>Vista previa</p>
-    <ng-shield-editor-preview [settings]="settings" style="max-width: 400px; border-radius: 50%; background: #eceff1"></ng-shield-editor-preview>
-  </div>
-  <div class="col-md-6">
-    <p class="text-center" i18n>Ajustes</p>
-    <ng-shield-editor-settings [(ngModel)]="settings"></ng-shield-editor-settings>
-  </div>
-</div>
+<ng-shield-editor (change)="settings = $event"></ng-shield-editor>
 
 <p style="text-align: center">
   <button (click)="downloadSVG()">Download as SVG</button>

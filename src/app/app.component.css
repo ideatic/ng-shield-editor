@@ -1,3 +1,14 @@
-p{
+p {
   margin: 1em 0;
+}
+
+h1{
+  font-family: "Roboto";
+  text-align: center;
+}
+
+ng-shield-editor ::ng-deep ng-shield-editor-preview {
+  max-width: 400px;
+  border-radius: 50%;
+  background: #eceff1;
 }

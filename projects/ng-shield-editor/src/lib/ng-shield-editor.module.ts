@@ -22,9 +22,8 @@ import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule ,
     FormsModule,
-    CommonModule,
     MatTabsModule,
     MatSliderModule
   ],
@@ -56,4 +55,9 @@ import {MatSliderModule} from '@angular/material/slider';
   ]
 })
 export class NgShieldEditorModule {
+  public readonly NgShieldEditorService = NgShieldEditorService;
+
+  public readonly NgShieldEditorComponent = NgShieldEditorComponent;
+  public readonly NgShieldEditorPreviewComponent = NgShieldEditorPreviewComponent;
+  public readonly NgShieldEditorSettingsComponent = NgShieldEditorSettingsComponent;
 }

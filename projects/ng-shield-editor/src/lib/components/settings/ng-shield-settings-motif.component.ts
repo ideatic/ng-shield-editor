@@ -111,6 +111,8 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
   public getMotifThumbnail(motifID: string): SafeHtml {
     if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: {...this.settings.motif, id: motifID}}));
+    } else {
+      return null;
     }
   }
 

@@ -3,6 +3,7 @@ import {NgShieldEditorService} from '../../projects/ng-shield-editor/src/lib/ser
 import {downloadData} from './download';
 import {NgShieldSymbolService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-symbol.service';
 import {HttpClient} from '@angular/common/http';
+import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shield-settings';
 
 
 @Component({
@@ -11,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public settings = this._ngShieldSvc.defaultSettings;
+  public settings:NgShieldSettings;
 
   constructor(private _ngShieldSvc: NgShieldEditorService,
               symbolSvc: NgShieldSymbolService,

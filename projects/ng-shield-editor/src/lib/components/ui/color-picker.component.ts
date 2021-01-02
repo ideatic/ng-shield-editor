@@ -16,7 +16,7 @@ import {noop} from 'rxjs';
     </div>
 
     <div
-      *ngFor="let color of palette"
+      *ngFor="let color of colorPalette"
       class="swatch"
       [class.active]="color == selectedColor"
       [class.light]="(color | fn:brightnessByColor) > 200"
@@ -66,34 +66,8 @@ export class ColorPickerComponent implements ControlValueAccessor {
   public selectedColor: string;
   private _onChangeCallback: (v: string) => void = noop;
 
-  public palette = [
-    '#C90800',
-    '#F44336',
-    '#E91E63',
-    '#9C27B0',
-    '#673AB7',
-    '#3F51B5',
-    '#2196F3',
-    '#03A9F4',
-    '#00BCD4',
-    '#009688',
-    '#008B02',
-    '#4CAF50',
-    '#8BC34A',
-    '#CDDC39',
-    '#FFEB3B',
-    '#E5CB14',
-    '#FFC107',
-    '#FF9800',
-    '#FF5722',
-    '#795548',
-    '#607D8B',
-    '#969696',
-    '#231F20',
-    '#000000',
-    '#F0F0F0',
-    '#FFFFFF'
-  ];
+  public readonly colorPalette = ColorPickerComponent.palette;
+
 
   public onColorSelected(color) {
     this.selectedColor = color;
@@ -140,4 +114,33 @@ export class ColorPickerComponent implements ControlValueAccessor {
   public writeValue(obj: any): void {
     this.selectedColor = obj;
   }
+
+  public static palette = [
+    '#C90800',
+    '#F44336',
+    '#E91E63',
+    '#9C27B0',
+    '#673AB7',
+    '#3F51B5',
+    '#2196F3',
+    '#03A9F4',
+    '#00BCD4',
+    '#009688',
+    '#008B02',
+    '#4CAF50',
+    '#8BC34A',
+    '#CDDC39',
+    '#FFEB3B',
+    '#E5CB14',
+    '#FFC107',
+    '#FF9800',
+    '#FF5722',
+    '#795548',
+    '#607D8B',
+    '#969696',
+    '#231F20',
+    '#000000',
+    '#F0F0F0',
+    '#FFFFFF'
+  ];
 }
