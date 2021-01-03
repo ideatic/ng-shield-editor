@@ -18,7 +18,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
       <div>
         <label>
           <ng-container i18n>Fuente</ng-container>
-          <select [(ngModel)]="settings.text.fontFamily" (ngModelChange)="onChange()">
+          <select [(ngModel)]="settings.text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
             <option *ngFor="let family of textSvc.fontFamilies" [ngValue]="family">{{ family.name }}</option>
           </select>
         </label>
@@ -27,32 +27,35 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
       <div>
         <label>
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.text.size" (ngModelChange)="onChange()" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.text.size" (ngModelChange)="onChange()"
+                      [disabled]="!settings.text.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
       <div>
         <label>
           <ng-container i18n>Color</ng-container>
-          <color-picker [(ngModel)]="settings.text.color" (ngModelChange)="onChange()"></color-picker>
+          <color-picker [(ngModel)]="settings.text.color" (ngModelChange)="onChange()" [disabled]="!settings.text.body"></color-picker>
         </label>
       </div>
 
       <div>
         <label>
           <ng-container i18n>Posición X</ng-container>
-          <mat-slider [(ngModel)]="settings.text.x" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.text.x" (ngModelChange)="onChange()"
+                      [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición Y</ng-container>
-          <mat-slider [(ngModel)]="settings.text.y" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.text.y" (ngModelChange)="onChange()"
+                      [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
       <div>
         <label>
           <ng-container i18n>Forma</ng-container>
-          <select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()">
+          <select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
             <option [ngValue]="null" i18n>Ninguna</option>
             <option *ngFor="let path of textSvc.paths | keyvalue" [ngValue]="path.key">{{ path.key }}</option>
           </select>
@@ -64,12 +67,14 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
       <div>
         <label>
           <ng-container i18n>Borde</ng-container>
-          <color-picker [(ngModel)]="settings.text.borderColor" (ngModelChange)="onChange()" [allowNullSelection]="true"></color-picker>
+          <color-picker [(ngModel)]="settings.text.borderColor" (ngModelChange)="onChange()"
+                        [allowNullSelection]="true" [disabled]="!settings.text.body"></color-picker>
         </label>
 
         <label *ngIf="settings.text.borderColor">
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()" [min]="1" [max]="8" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()" [min]="1" [max]="8"
+                      [thumbLabel]="true" [disabled]="!settings.text.body"></mat-slider>
         </label>
       </div>
     </ng-container>
@@ -100,6 +105,10 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   public onChange() {
     this.settings = {...this.settings}; // Realizar copia superficial del objeto para que el detector de cambios pueda detectar el cambio
     this._onChangeCallback(this.settings);
+  }
+
+  public isSameFont(fontA, fontB): boolean {
+    return fontA && fontB && fontA.name == fontB.name;
   }
 
   /* ControlValueAccessor */

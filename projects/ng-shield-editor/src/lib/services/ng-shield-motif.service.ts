@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class NgShieldMotifService {
   public readonly available = {
+    none: '',
     // Bandas
     lineV: '<path %attrs% d="M 225.00 0.00 L 285.00 0.00 C 285.00 170.67 285.00 341.33 285.00 512.00 L 225.00 512.00 C 225.00 341.33 225.00 170.67 225.00 0.00 Z" />',
     line135: '<path %attrs% d="M-31.025,12.4,11.4-30.025,541.025,499.6,498.6,542.025Z" />',
@@ -11,7 +12,7 @@ export class NgShieldMotifService {
     // Líneas (cataluña)
     linesV: `<path %attrs% d="M225,512h60V0H225Z M336,512h60V0H336Z M114,512h60V0H114Z M0,.3V512H54V.3Z M456,512h56V0H456Z"/>`,
     linesH: `<path %attrs% d="M0,225v60H512V225Z M0,336v60H512V336Z M0,114v60H512V114Z M0,0V54H511.7V0Z M512,456H0v56H512Z"/>`,
-    linesH2:`<g %attrs%>
+    linesH2: `<g %attrs%>
     <path d="M333.335,0H296.411q-9.212,256.5-1.939,512h34.239C319.5,341.253,321.471,169.853,333.335,0Z"/>
     <path d="M223.132,0H186.154a4193.787,4193.787,0,0,1,4.739,512h34.548C229.147,341.391,228.972,169.855,223.132,0Z"/>
     <path d="M166.018,0H123.911c28.728,168.5,33.19,342.632,11.1,512h37.387A2988.782,2988.782,0,0,0,166.018,0Z"/>

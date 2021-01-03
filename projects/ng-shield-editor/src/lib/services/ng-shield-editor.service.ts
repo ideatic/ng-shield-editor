@@ -27,7 +27,7 @@ export class NgShieldEditorService {
       size: 4,
       fontFamily: this._textSvc.fontFamilies[0],
       path: Object.keys(this._textSvc.paths)[0],
-      color: '#231f20',
+      color: '#231F20',
       borderColor: null,
       borderSize: 2,
       x: 50,

@@ -55,8 +55,13 @@ import {MatSliderModule} from '@angular/material/slider';
   ]
 })
 export class NgShieldEditorModule {
+  // Services
   public readonly NgShieldEditorService = NgShieldEditorService;
+  public readonly NgShieldShapeService = NgShieldShapeService;
+  public readonly NgShieldMotifService = NgShieldMotifService;
+  public readonly NgShieldSymbolService = NgShieldSymbolService;
 
+  // Components
   public readonly NgShieldEditorComponent = NgShieldEditorComponent;
   public readonly NgShieldEditorPreviewComponent = NgShieldEditorPreviewComponent;
   public readonly NgShieldEditorSettingsComponent = NgShieldEditorSettingsComponent;

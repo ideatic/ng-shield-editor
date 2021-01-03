@@ -9,13 +9,14 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
   selector: 'ng-shield-editor-settings-symbol',
   template: `
     <div class="default-symbols">
-      <div 
+      <div
         class="symbol-thumb"
         [class.active]="settings?.symbol.content === null"
         (click)="onSymbolSelected(null)">
-          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-            <path d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"></path>
-          </svg>
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"></path>
+        </svg>
       </div>
 
       <div class="symbol-thumb">
@@ -40,24 +41,27 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
       <div class="flex">
         <label>
           <ng-container i18n>Posición X</ng-container>
-          <mat-slider [(ngModel)]="settings.symbol.x" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.symbol.x" (ngModelChange)="onChange()"
+                      [disabled]="settings.symbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición Y</ng-container>
-          <mat-slider [(ngModel)]="settings.symbol.y" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.symbol.y" (ngModelChange)="onChange()"
+                      [disabled]="settings.symbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
       <div>
         <label>
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.symbol.size" (ngModelChange)="onChange()" [min]="1" [max]="200" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="settings.symbol.size" (ngModelChange)="onChange()"
+                      [disabled]="settings.symbol.content === null" [min]="1" [max]="200" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
       <div>
         <label>
-          <input type="checkbox" [(ngModel)]="settings.symbol.trim" (ngModelChange)="onChange()"/>
+          <input type="checkbox" [(ngModel)]="settings.symbol.trim" (ngModelChange)="onChange()" [disabled]="settings.symbol.content === null"/>
           <ng-container i18n>Recortar</ng-container>
         </label>
       </div>

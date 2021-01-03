@@ -8,20 +8,7 @@ import {NgShieldSettings} from '../ng-shield-settings';
     <ng-shield-editor-preview [settings]="settings"></ng-shield-editor-preview>
     <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="change.emit($event)"></ng-shield-editor-settings>
   `,
-  styles: [
-    `
-      :host {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        gap: 50px;
-      }
-
-      ng-shield-editor-preview, ng-shield-editor-settings {
-        flex: 50%;
-      }
-    `
-  ]
+  styleUrls: ['ng-shield-editor.component.scss']
 })
 export class NgShieldEditorComponent {
   @Input() public settings: NgShieldSettings = JSON.parse(JSON.stringify(this._ngShieldSvc.defaultSettings)); // Crear copia para no editar la instancia original

@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input} from '@angular/core';
+import {Component, forwardRef, HostBinding, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
 
@@ -18,7 +18,7 @@ import {noop} from 'rxjs';
     <div
       *ngFor="let color of colorPalette"
       class="swatch"
-      [class.active]="color == selectedColor"
+      [class.active]="color | fn:isSameColor:this:selectedColor"
       [class.light]="(color | fn:brightnessByColor) > 200"
       [style.background]="color"
       (click)="onColorSelected(color)"
@@ -43,6 +43,11 @@ import {noop} from 'rxjs';
         border: 2px solid transparent;
       }
 
+      :host.disabled .swatch{
+        cursor: not-allowed;
+        opacity: .5;
+      }
+
       .swatch.light {
         box-shadow: rgb(221, 221, 221) 0 0 0 1px inset;
       }
@@ -64,14 +69,20 @@ export class ColorPickerComponent implements ControlValueAccessor {
   @Input() public allowNullSelection = false;
 
   public selectedColor: string;
+
+  @HostBinding('class.disabled')
+  public isDisabled = false;
+
   private _onChangeCallback: (v: string) => void = noop;
 
   public readonly colorPalette = ColorPickerComponent.palette;
 
 
   public onColorSelected(color) {
-    this.selectedColor = color;
-    this._onChangeCallback(color);
+    if (!this.isDisabled) {
+      this.selectedColor = color;
+      this._onChangeCallback(color);
+    }
   }
 
   /**
@@ -103,6 +114,10 @@ export class ColorPickerComponent implements ControlValueAccessor {
     }
   }
 
+  public isSameColor(color1: string, color2: string): boolean {
+    return color1 && color2 && color1.toUpperCase() == color2.toUpperCase();
+  }
+
   /* ControlValueAccessor */
   public registerOnChange(fn: any): void {
     this._onChangeCallback = fn;
@@ -113,6 +128,10 @@ export class ColorPickerComponent implements ControlValueAccessor {
 
   public writeValue(obj: any): void {
     this.selectedColor = obj;
+  }
+
+  public setDisabledState(isDisabled: boolean) {
+    this.isDisabled = isDisabled;
   }
 
   public static palette = [

@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+ng-shield-editor-preview, ng-shield-editor-settings {
+  flex: 50%;
+}
+
+:host ::ng-deep {
+  @import '~@angular/material/theming';
+
+  // Define the palettes for your theme using the Material Design palettes available in palette.scss
+  // (imported above). For each palette, you can optionally specify a default, lighter, and darker
+  // hue. Available color palettes: https://material.io/design/color/
+  $candy-app-primary: mat-palette($mat-indigo);
+  $candy-app-accent: mat-palette($mat-teal);
+
+  // The warn palette is optional (defaults to red).
+  $candy-app-warn: mat-palette($mat-red);
+
+  // Create the theme object (a Sass map containing all of the palettes).
+  $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+  @include mat-tabs-theme($candy-app-theme);
+  @include mat-slider-theme($candy-app-theme);
+}
