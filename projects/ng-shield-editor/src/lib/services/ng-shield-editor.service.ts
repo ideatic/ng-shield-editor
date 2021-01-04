@@ -17,7 +17,7 @@ export class NgShieldEditorService {
       stroke: true
     },
     motif: {
-      id: 'cross',
+      id: 'lineH',
       color: '#FFFFFF',
       x: 50,
       y: 50
