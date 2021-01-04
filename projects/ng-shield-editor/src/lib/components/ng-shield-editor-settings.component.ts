@@ -21,6 +21,14 @@ import {noop} from 'rxjs';
       </mat-tab>
     </mat-tab-group>
   `,
+  styles: [
+    `
+      /* Fix for Material tabs overflow bug */
+      :host ::ng-deep .mat-tab-body-content {
+        overflow: hidden;
+      }
+    `
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

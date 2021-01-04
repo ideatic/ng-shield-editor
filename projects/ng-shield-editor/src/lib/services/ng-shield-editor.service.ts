@@ -195,7 +195,7 @@ export class NgShieldEditorService {
       cssAttrs.push(`transform: rotate(${settings.symbol.rotation}deg)`);
     }
 
-    image = image.replace('%attrs%', attrs + `style="${cssAttrs.join('; ')}"`);
+    image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
 
     return image;
   }

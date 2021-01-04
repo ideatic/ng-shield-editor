@@ -25,13 +25,19 @@ export class ImageToolService {
         }
 
         resolve(canvas.toDataURL());
+
+        if (URL?.revokeObjectURL) {
+          URL.revokeObjectURL(img.src);
+        }
       };
       img.onerror = () => reject('Unable to load SVG');
 
-      img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065
-
-      /* var svgBlob = new Blob([this.generateSVG(shield)], {type: 'image/svg+xml;charset=utf-8'});
-       img.src =  URL.createObjectURL(svgBlob);*/
+      if (URL?.createObjectURL) {
+        const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+        img.src = URL.createObjectURL(svgBlob);
+      } else {
+        img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065
+      }
     });
   }
 

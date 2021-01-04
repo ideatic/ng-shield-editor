@@ -61,7 +61,7 @@ import {ImageToolService} from '../../services/image-tool.service';
         <label>
           <ng-container i18n>Rotación</ng-container>
           <mat-slider [(ngModel)]="settings.symbol.rotation" (ngModelChange)="onChange()"
-                      [disabled]="settings.symbol.content === null" [min]="-180" [max]="180" [thumbLabel]="true"></mat-slider>
+                      [disabled]="settings.symbol.content === null" [min]="-180" [max]="180" [step]="5" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
