@@ -57,7 +57,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
           <ng-container i18n>Forma</ng-container>
           <select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
             <option [ngValue]="null" i18n>Ninguna</option>
-            <option *ngFor="let path of textSvc.paths | keyvalue" [ngValue]="path.key">{{ path.key }}</option>
+            <option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [ngValue]="path.key">{{ path.key }}</option>
           </select>
         </label>
       </div>
@@ -109,6 +109,10 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
 
   public isSameFont(fontA, fontB): boolean {
     return fontA && fontB && fontA.name == fontB.name;
+  }
+
+  public originalOrder() {
+    return 0;
   }
 
   /* ControlValueAccessor */

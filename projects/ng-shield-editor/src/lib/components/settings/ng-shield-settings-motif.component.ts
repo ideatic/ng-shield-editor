@@ -11,7 +11,7 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
   template: `
     <div class="motifs">
       <div
-        *ngFor="let motif of motifSvc.available | keyvalue"
+        *ngFor="let motif of motifSvc.available | keyvalue: originalOrder"
         class="motif-thumb"
         [class.active]="motif.key == settings?.motif.id"
         (click)="onMotifSelected(motif.key)"
@@ -119,6 +119,10 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
   public onChange() {
     this.settings = {...this.settings};
     this._onChangeCallback(this.settings);
+  }
+
+  public originalOrder() {
+    return 0;
   }
 
   /* ControlValueAccessor */

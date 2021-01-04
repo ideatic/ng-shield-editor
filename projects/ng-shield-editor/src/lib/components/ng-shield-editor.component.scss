@@ -7,6 +7,7 @@
 
 ng-shield-editor-preview, ng-shield-editor-settings {
   flex: 50%;
+  max-width: 100%;
 }
 
 :host ::ng-deep {

@@ -91,6 +91,7 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
         outline: none;
         cursor: pointer;
         border: 2px solid transparent;
+        text-align: center;
       }
 
 

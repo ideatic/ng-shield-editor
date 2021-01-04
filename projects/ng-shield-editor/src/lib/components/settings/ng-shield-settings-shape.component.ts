@@ -10,7 +10,7 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
   selector: 'ng-shield-editor-settings-shape',
   template: `
     <div class="shapes">
-      <div *ngFor="let shape of shapeSvc.available | keyvalue: objectOrdered"
+      <div *ngFor="let shape of shapeSvc.available | keyvalue: originalOrder"
            class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
            (click)="onShapeSelected($any(shape.key))" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
     </div>
@@ -104,6 +104,10 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
     this._onChangeCallback(this.settings);
   }
 
+  public originalOrder() {
+    return 0;
+  }
+
   /* ControlValueAccessor */
   public registerOnChange(fn: any): void {
     this._onChangeCallback = fn;
@@ -114,9 +118,5 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
 
   public writeValue(obj: any): void {
     this.settings = obj;
-  }
-
-  public objectOrdered () {
-    return 0;
   }
 }
