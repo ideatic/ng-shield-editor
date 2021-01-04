@@ -1,4 +1,4 @@
-export const gloss=`<g %attrs%>
+export const gloss = `<g %attrs%>
     <defs>
         <linearGradient id="glossBg1" x1="256" y1="107.487" x2="256" y2="530.741" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#666" stop-opacity="0.05"/>

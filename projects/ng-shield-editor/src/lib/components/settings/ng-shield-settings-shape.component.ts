@@ -61,7 +61,7 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
         border: 2px solid #3666c8;
       }
 
-      mat-slide-toggle{
+      mat-slide-toggle {
         display: block;
         margin: 5px 0;
       }

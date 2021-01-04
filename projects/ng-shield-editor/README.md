@@ -4,8 +4,9 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Code scaffolding
 
-Run `ng generate component component-name --project ng-shield-editor` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ng-shield-editor`.
-> Note: Don't forget to add `--project ng-shield-editor` or else it will be added to the default project in your `angular.json` file. 
+Run `ng generate component component-name --project ng-shield-editor` to generate a new component. You can also
+use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ng-shield-editor`.
+> Note: Don't forget to add `--project ng-shield-editor` or else it will be added to the default project in your `angular.json` file.
 
 ## Build
 

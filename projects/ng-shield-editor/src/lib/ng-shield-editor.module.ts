@@ -10,20 +10,19 @@ import {NgShieldSettingsShapeComponent} from './components/settings/ng-shield-se
 import {NgShieldSettingsMotifComponent} from './components/settings/ng-shield-settings-motif.component';
 import {FnPipe} from './components/ui/fn.pipe';
 import {CommonModule} from '@angular/common';
-import {BrowserModule} from '@angular/platform-browser';
 import {NgShieldShapeService} from './services/ng-shield-shape.service';
 import {NgShieldMotifService} from './services/ng-shield-motif.service';
 import {NgShieldSettingsTextComponent} from './components/settings/ng-shield-settings-text.component';
 import {NgShieldTextService} from './services/ng-shield-text.service';
 import {NgShieldSettingsSymbolComponent} from './components/settings/ng-shield-settings-symbol.component';
 import {NgShieldSymbolService} from './services/ng-shield-symbol.service';
-import {SvgRendererService} from './services/svg-renderer.service';
+import {ImageToolService} from './services/image-tool.service';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
-    CommonModule ,
+    CommonModule,
     FormsModule,
     MatTabsModule,
     MatSliderModule,
@@ -35,7 +34,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     NgShieldMotifService,
     NgShieldSymbolService,
     NgShieldTextService,
-    SvgRendererService
+    ImageToolService
   ],
   declarations: [
     NgShieldEditorComponent,

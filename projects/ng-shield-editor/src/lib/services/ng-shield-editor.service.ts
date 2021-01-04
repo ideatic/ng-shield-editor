@@ -5,7 +5,7 @@ import {NgShieldMotifService} from './ng-shield-motif.service';
 import {NgShieldTextService} from './ng-shield-text.service';
 import {DOCUMENT} from '@angular/common';
 import {NgShieldSymbolService} from './ng-shield-symbol.service';
-import {SvgRendererService} from './svg-renderer.service';
+import {ImageToolService} from './image-tool.service';
 import {gloss} from './gloss';
 
 @Injectable()
@@ -49,7 +49,7 @@ export class NgShieldEditorService {
     private _motifSvc: NgShieldMotifService,
     private _symbolSvc: NgShieldSymbolService,
     private _textSvc: NgShieldTextService,
-    private _renderer: SvgRendererService,
+    private _renderer: ImageToolService,
     @Inject(DOCUMENT) private _document: Document
   ) {
   }
@@ -210,7 +210,7 @@ export class NgShieldEditorService {
   }
 
   public renderBase64Image(shield: NgShieldSettings, size?: number, type = 'image/png'): Promise<string> {
-    return this._renderer.renderBase64Image(this.generateSVG(shield), size, size, type);
+    return this._renderer.svgToBase64Image(this.generateSVG(shield), size, size, type);
   }
 }
 
