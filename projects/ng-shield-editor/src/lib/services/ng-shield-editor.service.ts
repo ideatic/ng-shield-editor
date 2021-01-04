@@ -7,6 +7,7 @@ import {DOCUMENT} from '@angular/common';
 import {NgShieldSymbolService} from './ng-shield-symbol.service';
 import {ImageToolService} from './image-tool.service';
 import {gloss} from './gloss';
+import {randomString} from './random-str';
 
 @Injectable()
 export class NgShieldEditorService {
@@ -55,11 +56,12 @@ export class NgShieldEditorService {
   }
 
   public generateSVG(settings: NgShieldSettings): string {
+    const idSuffix = randomString(16);
 
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!-- Mascara de recorte del motivo -->
         <defs>
-          <clipPath id="bg${settings.shape.id}">
+          <clipPath id="bg-${idSuffix}">
              ${this._getShape(settings, false)}
           </clipPath>
         </defs>
@@ -68,16 +70,16 @@ export class NgShieldEditorService {
         ${this._getShape(settings, true)}
 
         <!-- Motivo -->
-        ${this._getMotif(settings)}
+        ${this._getMotif(settings, idSuffix)}
 
         <!-- Símbolo -->
-        ${this._getSymbol(settings)}
+        ${this._getSymbol(settings, idSuffix)}
 
         <!-- Texto -->
-        ${this._getText(settings)}
+        ${this._getText(settings, idSuffix)}
 
         <!-- Gloss -->
-        ${settings.gloss ? gloss.replace('%attrs%', `clip-path="url(#bg${settings.shape.id})"`) : ''}
+        ${settings.gloss ? gloss.replace('%attrs%', `clip-path="url(#bg-${idSuffix})"`).replace(/%id%/g, idSuffix) : ''}
       </svg>
     `;
   }
@@ -108,27 +110,27 @@ export class NgShieldEditorService {
     return shapeSvg;
   }
 
-  private _getMotif(settings: NgShieldSettings): string {
+  private _getMotif(settings: NgShieldSettings, idSuffix: string): string {
     let motifAttrs = `fill="${settings.motif.color}"`;
 
     let svg = '';
     if (settings.motif.x != 50 || settings.motif.y != 50) { // Usar máscara de recorte desplazada
-      motifAttrs += ` clip-path="url(#motifBg${settings.shape.id})"`
+      motifAttrs += ` clip-path="url(#motifBg-${idSuffix})"`
         + ` transform="translate(${512 / 100 * (settings.motif.x - 50)}, ${512 / 100 * (settings.motif.y - 50)})"`;
 
       svg += `<defs>
-          <clipPath id="motifBg${settings.shape.id}" transform="translate(${-512 / 100 * (settings.motif.x - 50)}, ${-512 / 100 * (settings.motif.y - 50)})">
+          <clipPath id="motifBg-${idSuffix}" transform="translate(${-512 / 100 * (settings.motif.x - 50)}, ${-512 / 100 * (settings.motif.y - 50)})">
              ${this._getShape(settings, false)}
           </clipPath>
         </defs>`;
     } else { // Usar máscara de recorte normal
-      motifAttrs += ` clip-path="url(#bg${settings.shape.id})"`;
+      motifAttrs += ` clip-path="url(#bg-${idSuffix})"`;
     }
 
     return svg + this._motifSvc.available[settings.motif.id].replace(/%attrs%/g, motifAttrs);
   }
 
-  private _getText(settings: NgShieldSettings): string {
+  private _getText(settings: NgShieldSettings, isSuffix: string): string {
     if (!settings.text) {
       return '';
     }
@@ -147,7 +149,7 @@ export class NgShieldEditorService {
 
     // Forma
     const useTextPath = settings.text.path && this._textSvc.paths[settings.text.path];
-    const textPathID = 'text-path-' + settings.text.path;
+    const textPathID = `text-path-${settings.text.path}-${isSuffix}`;
 
     if (useTextPath) {
       svg += `<defs>${this._textSvc.paths[settings.text.path].replace(/%attrs%/g, `id="${textPathID}"`)}</defs>`;
@@ -171,7 +173,7 @@ export class NgShieldEditorService {
       }</text>`;
   }
 
-  private _getSymbol(settings: NgShieldSettings): string {
+  private _getSymbol(settings: NgShieldSettings, idSuffix: string): string {
     // Definir imagen
     if (!settings.symbol?.content) {
       return '';
@@ -186,7 +188,7 @@ export class NgShieldEditorService {
     const shapeData = this._shapeSvc.available[settings.shape.id];
     const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
     if (settings.symbol.trim && !isNoBgShape) {
-      attrs += ` clip-path="url(#bg${settings.shape.id})"`;
+      attrs += ` clip-path="url(#bg-${idSuffix})"`;
     }
 
     if (settings.symbol.rotation != 0) {
@@ -213,5 +215,3 @@ export class NgShieldEditorService {
     return this._renderer.svgToBase64Image(this.generateSVG(shield), size, size, type);
   }
 }
-
-

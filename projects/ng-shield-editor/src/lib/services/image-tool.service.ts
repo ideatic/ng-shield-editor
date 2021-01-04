@@ -11,33 +11,35 @@ export class ImageToolService {
       const img = this._document.createElement('img');
 
       img.onload = () => {
-        const canvas = this._document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        setTimeout(() => { // Allow some time to load external resources
+          const canvas = this._document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
 
-        if (height || width) {
-          canvas.height = height;
-          canvas.width = width;
-          ctx.drawImage(img, 0, 0, width, height);
-        } else {
-          canvas.height = img.height;
-          canvas.width = img.width;
-          ctx.drawImage(img, 0, 0);
-        }
+          if (height || width) {
+            canvas.height = height;
+            canvas.width = width;
+            ctx.drawImage(img, 0, 0, width, height);
+          } else {
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img, 0, 0);
+          }
 
-        resolve(canvas.toDataURL());
+          resolve(canvas.toDataURL(type));
+        }, 50);
 
-        if (URL?.revokeObjectURL) {
-          URL.revokeObjectURL(img.src);
-        }
+        /* if (URL?.revokeObjectURL) {
+           URL.revokeObjectURL(img.src);
+         }*/
       };
       img.onerror = () => reject('Unable to load SVG');
 
-      if (URL?.createObjectURL) {
-        const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
-        img.src = URL.createObjectURL(svgBlob);
-      } else {
-        img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065
-      }
+      /*  if (URL?.createObjectURL) {
+          const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+          img.src = URL.createObjectURL(svgBlob);
+        } else {*/
+      img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065
+      //  }
     });
   }
 
@@ -72,5 +74,3 @@ export class ImageToolService {
     });
   }
 }
-
-
