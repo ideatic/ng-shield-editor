@@ -8,7 +8,7 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
   template: `
-    <div class="default-symbols">
+    <div class="symbol-list">
       <div
         class="symbol-thumb"
         [class.active]="settings?.symbol.content === null"
@@ -51,11 +51,16 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
         </label>
       </div>
 
-      <div>
+      <div class="flex">
         <label>
           <ng-container i18n>Tamaño</ng-container>
           <mat-slider [(ngModel)]="settings.symbol.size" (ngModelChange)="onChange()"
                       [disabled]="settings.symbol.content === null" [min]="1" [max]="200" [thumbLabel]="true"></mat-slider>
+        </label>
+        <label>
+          <ng-container i18n>Rotación</ng-container>
+          <mat-slider [(ngModel)]="settings.symbol.rotation" (ngModelChange)="onChange()"
+                      [disabled]="settings.symbol.content === null" [min]="-180" [max]="180" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
@@ -73,16 +78,17 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
         width: 100%;
       }
 
-      .default-symbols {
+      .symbol-list {
         display: flex;
         flex-wrap: wrap;
         padding: 10px 0;
+        gap: 10px;
       }
 
       .symbol-thumb {
         width: 64px;
         height: 64px;
-        margin: 0 10px 10px 0;
+        margin: 0 1px 1px 0; /* for non-gap capability browsers */
         padding: 5px;
         border-radius: 6px;
         background: #ebf0f6;
@@ -91,7 +97,6 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
         border: 2px solid transparent;
         text-align: center;
       }
-
 
       .symbol-thumb > img {
         max-width: 100%;

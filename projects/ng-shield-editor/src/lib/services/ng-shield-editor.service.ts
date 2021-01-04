@@ -38,6 +38,7 @@ export class NgShieldEditorService {
       x: 50,
       y: 50,
       size: 50,
+      rotation: 0,
       trim: true
     },
     gloss: true
@@ -179,16 +180,22 @@ export class NgShieldEditorService {
 
     // Calcular atributos
     const imageSize = 512 * (settings.symbol.size * 0.01);
-    let attrs = `x="${512 / 100 * settings.symbol.x - imageSize / 2}" y="${512 / 100 * settings.symbol.y - imageSize / 2}" `
-      + `style="width: ${settings.symbol.size}%"`;
+    let cssAttrs = [`width: ${settings.symbol.size}%`];
+    let attrs = `x="${512 / 100 * settings.symbol.x - imageSize / 2}" y="${512 / 100 * settings.symbol.y - imageSize / 2}"`;
 
     const shapeData = this._shapeSvc.available[settings.shape.id];
     const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
     if (settings.symbol.trim && !isNoBgShape) {
-      attrs += `  clip-path="url(#bg${settings.shape.id})"`;
+      attrs += ` clip-path="url(#bg${settings.shape.id})"`;
     }
 
-    image = image.replace('%attrs%', attrs);
+    if (settings.symbol.rotation != 0) {
+      cssAttrs.push('transform-box: fill-box');
+      cssAttrs.push('transform-origin: center');
+      cssAttrs.push(`transform: rotate(${settings.symbol.rotation}deg)`);
+    }
+
+    image = image.replace('%attrs%', attrs + `style="${cssAttrs.join('; ')}"`);
 
     return image;
   }

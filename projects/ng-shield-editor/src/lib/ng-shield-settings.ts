@@ -15,6 +15,7 @@ export interface NgShieldSettings {
     size: number,
     x: number,
     y: number,
+    rotation: number;
     trim: boolean
   };
   text: {

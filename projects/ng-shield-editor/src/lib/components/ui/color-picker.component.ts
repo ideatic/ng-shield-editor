@@ -31,12 +31,13 @@ import {noop} from 'rxjs';
         display: flex;
         flex-wrap: wrap;
         padding: 10px 0;
+        gap: 10px;
       }
 
       .swatch {
         width: 32px;
         height: 32px;
-        margin: 0 10px 10px 0;
+        margin: 0 1px 1px 0; /* for non-gap capability browsers */
         border-radius: 6px;
         outline: none;
         cursor: pointer;
