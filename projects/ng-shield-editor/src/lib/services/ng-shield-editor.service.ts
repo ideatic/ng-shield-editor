@@ -8,6 +8,7 @@ import {NgShieldSymbolService} from './ng-shield-symbol.service';
 import {ImageToolService} from './image-tool.service';
 import {gloss} from './gloss';
 import {randomString} from './random-str';
+import {escapeXML} from './xml';
 
 @Injectable()
 export class NgShieldEditorService {
@@ -21,7 +22,8 @@ export class NgShieldEditorService {
       id: 'lineH',
       color: '#FFFFFF',
       x: 50,
-      y: 50
+      y: 50,
+      zoom: 100
     },
     text: {
       body: '',
@@ -59,26 +61,26 @@ export class NgShieldEditorService {
     const idSuffix = randomString(16);
 
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <!-- Mascara de recorte del motivo -->
+        <!-- Shape clipping mask -->
         <defs>
           <clipPath id="bg-${idSuffix}">
              ${this._getShape(settings, false)}
           </clipPath>
         </defs>
 
-        <!-- Fondo -->
+        <!-- Background shape -->
         ${this._getShape(settings, true)}
 
-        <!-- Motivo -->
+        <!-- Motif -->
         ${this._getMotif(settings, idSuffix)}
 
-        <!-- Símbolo -->
+        <!-- Symbol -->
         ${this._getSymbol(settings, idSuffix)}
 
-        <!-- Texto -->
+        <!-- Text -->
         ${this._getText(settings, idSuffix)}
 
-        <!-- Gloss -->
+        <!-- Gloss effect -->
         ${settings.gloss ? gloss.replace('%attrs%', `clip-path="url(#bg-${idSuffix})"`).replace(/%id%/g, idSuffix) : ''}
       </svg>
     `;
@@ -87,7 +89,7 @@ export class NgShieldEditorService {
   private _getShape(settings: NgShieldSettings, includeExtra: boolean): string {
     // Definir atributos
     let shapeAttrs = `fill="${settings.shape.color}"`;
-    let extraAttrs = shapeAttrs;
+    const extraAttrs = shapeAttrs;
 
     if (settings.shape.stroke) {
       shapeAttrs += ` stroke="${settings.motif.color}" stroke-width="8"`;
@@ -113,21 +115,22 @@ export class NgShieldEditorService {
   private _getMotif(settings: NgShieldSettings, idSuffix: string): string {
     let motifAttrs = `fill="${settings.motif.color}"`;
 
-    let svg = '';
-    if (settings.motif.x != 50 || settings.motif.y != 50) { // Usar máscara de recorte desplazada
-      motifAttrs += ` clip-path="url(#motifBg-${idSuffix})"`
-        + ` transform="translate(${512 / 100 * (settings.motif.x - 50)}, ${512 / 100 * (settings.motif.y - 50)})"`;
-
-      svg += `<defs>
-          <clipPath id="motifBg-${idSuffix}" transform="translate(${-512 / 100 * (settings.motif.x - 50)}, ${-512 / 100 * (settings.motif.y - 50)})">
-             ${this._getShape(settings, false)}
-          </clipPath>
-        </defs>`;
-    } else { // Usar máscara de recorte normal
-      motifAttrs += ` clip-path="url(#bg-${idSuffix})"`;
+    const transforms = [];
+    if (settings.motif.x != 50 || settings.motif.y != 50) {
+      transforms.push(`translate(${512 / 100 * (settings.motif.x - 50)}, ${512 / 100 * (settings.motif.y - 50)})`);
     }
 
-    return svg + this._motifSvc.available[settings.motif.id].replace(/%attrs%/g, motifAttrs);
+    if (settings.motif.zoom != 100) {
+      transforms.push(`scale(${settings.motif.zoom / 100})`);
+    }
+
+    if (transforms.length) {
+      motifAttrs += ` transform="${transforms.join(' ')}" style="transform-origin: center" transform-origin="center"`;
+    }
+
+    return `<g clip-path="url(#bg-${idSuffix})">
+${this._motifSvc.available[settings.motif.id].replace(/%attrs%/g, motifAttrs)}
+</g>`;
   }
 
   private _getText(settings: NgShieldSettings, isSuffix: string): string {
@@ -141,10 +144,10 @@ export class NgShieldEditorService {
     if (settings.text.fontFamily?.url) {
       svg += `<style type="text/css">
 @font-face {
- font-family: ${settings.text.fontFamily.name};
-  src: url(${settings.text.fontFamily.url}) format('truetype');
-                }
-              </style>`;
+    font-family: ${settings.text.fontFamily.name};
+    src: url(${settings.text.fontFamily.url}) format('truetype');
+}
+</style>`;
     }
 
     // Forma
@@ -155,21 +158,18 @@ export class NgShieldEditorService {
       svg += `<defs>${this._textSvc.paths[settings.text.path].replace(/%attrs%/g, `id="${textPathID}"`)}</defs>`;
     }
 
-
-    // x="${512 / 100 * settings.symbol.x}" y="${512 / 100 * settings.symbol.y - imageSize / 2}"
-
     return svg +
       `<text
           ${useTextPath ? '' : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'}
-          fill="${this._escape(settings.text.color)}"
+          fill="${escapeXML(settings.text.color)}"
           font-weight="bold"
-          font-family="${this._escape(settings.text.fontFamily?.name || '')}"
+          font-family="${escapeXML(settings.text.fontFamily?.name || '')}"
           font-size="${settings.text.size * 15}"
           transform="translate(${512 / 100 * (settings.text.x - 50)}, ${512 / 100 * (settings.text.y - 50)})"
           ${settings.text.borderColor && settings.text.borderSize ? `stroke="${settings.text.borderColor}" stroke-width="${settings.text.borderSize}"` : ''}
         >${useTextPath
-        ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${this._escape(settings.text.body)}</textPath>`
-        : this._escape(settings.text.body)
+        ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${escapeXML(settings.text.body)}</textPath>`
+        : escapeXML(settings.text.body)
       }</text>`;
   }
 
@@ -200,15 +200,6 @@ export class NgShieldEditorService {
     image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
 
     return image;
-  }
-
-  private _escape(text: string): string {
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
   }
 
   public renderBase64Image(shield: NgShieldSettings, size?: number, type = 'image/png'): Promise<string> {

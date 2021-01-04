@@ -9,6 +9,7 @@ export interface NgShieldSettings {
     color: string;
     x: number;
     y: number;
+    zoom:number;
   };
   symbol: {
     content: string,

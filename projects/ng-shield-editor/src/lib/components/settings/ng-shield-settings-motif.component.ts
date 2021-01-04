@@ -10,12 +10,11 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
   selector: 'ng-shield-editor-settings-motif',
   template: `
     <div class="motifs">
-      <div
-        *ngFor="let motif of motifSvc.available | keyvalue: originalOrder"
-        class="motif-thumb"
-        [class.active]="motif.key == settings?.motif.id"
-        (click)="onMotifSelected(motif.key)"
-        [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
+      <div *ngFor="let motif of motifSvc.available | keyvalue: originalOrder"
+           class="motif-thumb"
+           [class.active]="motif.key == settings?.motif.id"
+           (click)="onMotifSelected(motif.key)"
+           [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
       ></div>
     </div>
 
@@ -33,6 +32,13 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
         <label>
           <ng-container i18n>Posición vertical</ng-container>
           <mat-slider [(ngModel)]="settings.motif.y" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        </label>
+      </div>
+
+      <div>
+        <label>
+          <ng-container i18n>Zoom</ng-container>
+          <mat-slider [(ngModel)]="settings.motif.zoom" (ngModelChange)="onChange()" [min]="0" [max]="300" [step]="10" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
     </ng-container>
@@ -95,21 +101,19 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  constructor(
-    public motifSvc: NgShieldMotifService,
-    private _ngShieldSvc: NgShieldEditorService,
-    private _sanitizer: DomSanitizer
-  ) {
+  constructor(public motifSvc: NgShieldMotifService,
+              private _ngShieldSvc: NgShieldEditorService,
+              private _sanitizer: DomSanitizer) {
   }
 
-  public onMotifSelected(motifID: string) {
+  public onMotifSelected(motifID: string): void {
     if (motifID != this.settings.motif.id) {
       this.settings = {...this.settings, motif: {...this.settings.motif, id: motifID}};
       this._onChangeCallback(this.settings);
     }
   }
 
-  public getMotifThumbnail(motifID: string): SafeHtml {
+  public getMotifThumbnail(motifID: string): SafeHtml | null {
     if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: {...this.settings.motif, id: motifID}}));
     } else {
@@ -117,12 +121,12 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
     }
   }
 
-  public onChange() {
+  public onChange(): void {
     this.settings = {...this.settings};
     this._onChangeCallback(this.settings);
   }
 
-  public originalOrder() {
+  public originalOrder(): number {
     return 0;
   }
 
