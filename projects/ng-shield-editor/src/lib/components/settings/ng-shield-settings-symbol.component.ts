@@ -84,13 +84,16 @@ import {ImageToolService} from '../../services/image-tool.service';
         display: flex;
         flex-wrap: wrap;
         padding: 10px 0;
-        gap: 10px;
+        margin: -10px;
+
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
       }
 
       .symbol-thumb {
-        width: 64px;
-        height: 64px;
-        margin: 0 1px 1px 0; /* for non-gap capability browsers */
+        width: 75px;
+        height: 75px;
+        margin: 10px;
         padding: 5px;
         border-radius: 6px;
         background: #ebf0f6;

@@ -8,14 +8,12 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
   selector: 'ng-shield-editor-settings-text',
   template: `
     <ng-container *ngIf="settings?.text">
-      <div>
+      <div class="flex">
         <label>
           <ng-container i18n>Texto</ng-container>
           <input type="text" [(ngModel)]="settings.text.body" (ngModelChange)="onChange()"/>
         </label>
-      </div>
 
-      <div>
         <label>
           <ng-container i18n>Fuente</ng-container>
           <select [(ngModel)]="settings.text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
@@ -24,11 +22,19 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
         </label>
       </div>
 
-      <div>
+      <div class="flex">
         <label>
           <ng-container i18n>Tamaño</ng-container>
           <mat-slider [(ngModel)]="settings.text.size" (ngModelChange)="onChange()"
                       [disabled]="!settings.text.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
+        </label>
+
+        <label>
+          <ng-container i18n>Forma</ng-container>
+          <select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
+            <option [ngValue]="null" i18n>Ninguna</option>
+            <option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [ngValue]="path.key">{{ path.key }}</option>
+          </select>
         </label>
       </div>
 
@@ -49,16 +55,6 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
           <ng-container i18n>Posición vertical</ng-container>
           <mat-slider [(ngModel)]="settings.text.y" (ngModelChange)="onChange()"
                       [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <ng-container i18n>Forma</ng-container>
-          <select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
-            <option [ngValue]="null" i18n>Ninguna</option>
-            <option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [ngValue]="path.key">{{ path.key }}</option>
-          </select>
         </label>
       </div>
 
