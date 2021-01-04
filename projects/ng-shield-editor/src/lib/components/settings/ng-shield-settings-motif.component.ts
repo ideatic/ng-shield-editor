@@ -27,11 +27,11 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
 
       <div class="flex">
         <label>
-          <ng-container i18n>Posición X</ng-container>
+          <ng-container i18n>Posición horizontal</ng-container>
           <mat-slider [(ngModel)]="settings.motif.x" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
-          <ng-container i18n>Posición Y</ng-container>
+          <ng-container i18n>Posición vertical</ng-container>
           <mat-slider [(ngModel)]="settings.motif.y" (ngModelChange)="onChange()" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>

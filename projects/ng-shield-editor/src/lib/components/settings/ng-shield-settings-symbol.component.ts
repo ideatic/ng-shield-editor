@@ -41,12 +41,12 @@ import {ImageToolService} from '../../services/image-tool.service';
     <ng-container *ngIf="settings">
       <div class="flex">
         <label>
-          <ng-container i18n>Posición X</ng-container>
+          <ng-container i18n>Posición horizontal</ng-container>
           <mat-slider [(ngModel)]="settings.symbol.x" (ngModelChange)="onChange()"
                       [disabled]="settings.symbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
-          <ng-container i18n>Posición Y</ng-container>
+          <ng-container i18n>Posición vertical</ng-container>
           <mat-slider [(ngModel)]="settings.symbol.y" (ngModelChange)="onChange()"
                       [disabled]="settings.symbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
@@ -129,7 +129,7 @@ import {ImageToolService} from '../../services/image-tool.service';
   ]
 })
 export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
-  @Input() public allowNullSelection = false;
+  @Input() public allowNullSelection = true;
 
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;

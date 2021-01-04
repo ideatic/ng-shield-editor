@@ -39,14 +39,14 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
         </label>
       </div>
 
-      <div>
+      <div class="flex">
         <label>
-          <ng-container i18n>Posición X</ng-container>
+          <ng-container i18n>Posición horizontal</ng-container>
           <mat-slider [(ngModel)]="settings.text.x" (ngModelChange)="onChange()"
                       [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
-          <ng-container i18n>Posición Y</ng-container>
+          <ng-container i18n>Posición vertical</ng-container>
           <mat-slider [(ngModel)]="settings.text.y" (ngModelChange)="onChange()"
                       [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
@@ -86,6 +86,16 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
 
     label {
       margin: 0 5px;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex * {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
     }
     `
   ],
