@@ -19,13 +19,15 @@ import {NgShieldSettingsSymbolComponent} from './components/settings/ng-shield-s
 import {NgShieldSymbolService} from './services/ng-shield-symbol.service';
 import {SvgRendererService} from './services/svg-renderer.service';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
     CommonModule ,
     FormsModule,
     MatTabsModule,
-    MatSliderModule
+    MatSliderModule,
+    MatSlideToggleModule
   ],
   providers: [
     NgShieldEditorService,

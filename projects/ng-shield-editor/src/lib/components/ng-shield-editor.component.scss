@@ -5,9 +5,14 @@
   gap: 50px;
 }
 
-ng-shield-editor-preview, ng-shield-editor-settings {
+ng-shield-editor-preview {
+  max-width: 400px;
   flex: 50%;
+}
+
+ng-shield-editor-settings {
   max-width: 100%;
+  flex: 50%;
 }
 
 :host ::ng-deep {
@@ -27,4 +32,5 @@ ng-shield-editor-preview, ng-shield-editor-settings {
 
   @include mat-tabs-theme($candy-app-theme);
   @include mat-slider-theme($candy-app-theme);
+  @include mat-slide-toggle-theme($candy-app-theme);
 }

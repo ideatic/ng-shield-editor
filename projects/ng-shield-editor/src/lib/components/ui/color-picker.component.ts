@@ -7,7 +7,7 @@ import {noop} from 'rxjs';
   template: `
     <div *ngIf="allowNullSelection"
          class="swatch"
-         [class.active]="selectedColor === null"
+         [class.active]="selectedColor === null && !isDisabled"
          (click)="onColorSelected(null)">
       <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -18,7 +18,7 @@ import {noop} from 'rxjs';
     <div
       *ngFor="let color of colorPalette"
       class="swatch"
-      [class.active]="color | fn:isSameColor:this:selectedColor"
+      [class.active]="(color | fn:isSameColor:this:selectedColor) && !isDisabled"
       [class.light]="(color | fn:brightnessByColor) > 200"
       [style.background]="color"
       (click)="onColorSelected(color)"
@@ -30,7 +30,7 @@ import {noop} from 'rxjs';
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        padding: 10px 10px 0;
+        padding: 10px 0;
       }
 
       .swatch {
@@ -43,7 +43,7 @@ import {noop} from 'rxjs';
         border: 2px solid transparent;
       }
 
-      :host.disabled .swatch{
+      :host.disabled .swatch {
         cursor: not-allowed;
         opacity: .5;
       }

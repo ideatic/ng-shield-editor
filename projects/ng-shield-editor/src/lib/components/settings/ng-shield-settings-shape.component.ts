@@ -16,15 +16,9 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
     </div>
 
     <ng-container *ngIf="settings">
-      <label style="display: block">
-        <input type="checkbox" [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()"/>
-        <ng-container i18n>Pintar borde</ng-container>
-      </label>
+      <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
 
-      <label style="display: block">
-        <input type="checkbox" [(ngModel)]="settings.gloss" (ngModelChange)="onChange()"/>
-        <ng-container i18n>Gloss</ng-container>
-      </label>
+      <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
 
       <label>
         <ng-container i18n>Color</ng-container>
@@ -42,7 +36,7 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
       .shapes {
         display: flex;
         flex-wrap: wrap;
-        padding: 10px 10px 0;
+        padding: 10px 0;
       }
 
       .shape-thumb {
@@ -64,6 +58,11 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
 
       .shape-thumb.active {
         border: 2px solid #3666c8;
+      }
+
+      mat-slide-toggle{
+        display: block;
+        margin: 5px 0;
       }
     `
   ],

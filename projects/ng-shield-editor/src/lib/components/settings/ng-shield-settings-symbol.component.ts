@@ -60,10 +60,8 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
       </div>
 
       <div>
-        <label>
-          <input type="checkbox" [(ngModel)]="settings.symbol.trim" (ngModelChange)="onChange()" [disabled]="settings.symbol.content === null"/>
-          <ng-container i18n>Recortar</ng-container>
-        </label>
+        <mat-slide-toggle [(ngModel)]="settings.symbol.trim" (ngModelChange)="onChange()"
+                          [disabled]="settings.symbol.content === null" i18n>Recortar</mat-slide-toggle>
       </div>
 
     </ng-container>
@@ -78,7 +76,7 @@ import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
       .default-symbols {
         display: flex;
         flex-wrap: wrap;
-        padding: 10px 10px 0;
+        padding: 10px 0;
       }
 
       .symbol-thumb {

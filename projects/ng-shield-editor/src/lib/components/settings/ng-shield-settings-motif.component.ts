@@ -47,7 +47,7 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
       .motifs {
         display: flex;
         flex-wrap: wrap;
-        padding: 10px 10px 0;
+        padding: 10px 0;
       }
 
       .motif-thumb {
