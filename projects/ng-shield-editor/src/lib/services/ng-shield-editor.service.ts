@@ -113,6 +113,12 @@ export class NgShieldEditorService {
   }
 
   private _getMotif(settings: NgShieldSettings, idSuffix: string): string {
+    const motifContent = this._motifSvc.available[settings.motif.id];
+
+    if (!motifContent) {
+      return '';
+    }
+
     let motifAttrs = `fill="${settings.motif.color}"`;
 
     const transforms = [];
@@ -128,9 +134,7 @@ export class NgShieldEditorService {
       motifAttrs += ` transform="${transforms.join(' ')}" style="transform-origin: center" transform-origin="center"`;
     }
 
-    return `<g clip-path="url(#bg-${idSuffix})">
-${this._motifSvc.available[settings.motif.id].replace(/%attrs%/g, motifAttrs)}
-</g>`;
+    return `<g clip-path="url(#bg-${idSuffix})">${motifContent.replace(/%attrs%/g, motifAttrs)}</g>`;
   }
 
   private _getText(settings: NgShieldSettings, isSuffix: string): string {
