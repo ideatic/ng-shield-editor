@@ -15,7 +15,7 @@ export class NgShieldTextService {
     arcLower: '<path %attrs% d="M 0 260 C 150 310 350 310 512 260" />',
     rise: '<path %attrs% d="M 70 250 C 50 250 450 200 450 200" />',
     wave: '<path %attrs% d="M 50 250 C 200 200 300 300 450 250" />',
-    circle: '<path %attrs% d="M 200, 300 m -75, 0 a 75,75 0 1,0 250,0 a 75,75 0 1,0 -250,0" />'
+    circle: '<path %attrs% d="M 350 300 A 50 50 0 1 1 150 250 A 50 50 0 1 1 350 300" />'
   };
 
   public readonly fontFamilies = [
