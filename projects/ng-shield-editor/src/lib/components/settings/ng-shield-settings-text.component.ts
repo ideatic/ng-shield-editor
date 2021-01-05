@@ -9,32 +9,42 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
   template: `
     <ng-container *ngIf="settings?.text">
       <div class="flex">
-        <label>
-          <ng-container i18n>Texto</ng-container>
-          <input type="text" [(ngModel)]="settings.text.body" (ngModelChange)="onChange()"/>
+        <label class="block">
+          <mat-form-field>
+            <mat-label i18n>Texto</mat-label>
+            <input matInput [(ngModel)]="settings.text.body" (ngModelChange)="onChange()">
+          </mat-form-field>
         </label>
 
-        <label>
-          <ng-container i18n>Fuente</ng-container>
-          <select [(ngModel)]="settings.text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
-            <option *ngFor="let family of textSvc.fontFamilies" [ngValue]="family">{{ family.name }}</option>
-          </select>
+        <label class="block">
+          <mat-form-field appearance="fill">
+            <mat-label i18n>Fuente</mat-label>
+            <mat-select [(ngModel)]="settings.text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
+              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family">
+                {{ family.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </label>
       </div>
 
       <div class="flex">
-        <label>
+        <label class="block">
           <ng-container i18n>Tamaño</ng-container>
           <mat-slider [(ngModel)]="settings.text.size" (input)="settings.text.size = $event.value; onChange()"
                       [disabled]="!settings.text.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
         </label>
 
-        <label>
-          <ng-container i18n>Forma</ng-container>
-          <select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
-            <option [ngValue]="null" i18n>Ninguna</option>
-            <option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [ngValue]="path.key">{{ path.key }}</option>
-          </select>
+        <label class="block">
+          <mat-form-field appearance="fill">
+            <mat-label i18n>Forma</mat-label>
+            <mat-select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
+              <mat-option [value]="null">Ninguna</mat-option>
+              <mat-option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [value]="path.key">
+                {{ path.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </label>
       </div>
 
@@ -93,6 +103,12 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
       display: flex;
       align-items: center;
     }
+
+    .block * {
+      flex: 1;
+      display: block;
+      align-items: center;
+    }
     `
   ],
   providers: [{
@@ -106,6 +122,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   private _onChangeCallback: (v: any) => void = noop;
 
   constructor(public textSvc: NgShieldTextService) {
+    
   }
 
   public onChange() {

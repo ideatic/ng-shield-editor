@@ -19,6 +19,8 @@ import {NgShieldSymbolService} from './services/ng-shield-symbol.service';
 import {ImageToolService} from './services/image-tool.service';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -26,7 +28,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     FormsModule,
     MatTabsModule,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   providers: [
     NgShieldEditorService,
