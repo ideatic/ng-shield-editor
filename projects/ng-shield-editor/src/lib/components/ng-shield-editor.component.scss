@@ -15,10 +15,9 @@ ng-shield-editor-settings {
   flex: 50%;
 }
 
-:host ::ng-deep {
+::ng-deep {
   @import '~@angular/material/theming';
-  // Import all the theming functionality.
-  @include mat-core();
+
 
   // Define the palettes for your theme using the Material Design palettes available in palette.scss
   // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -32,13 +31,13 @@ ng-shield-editor-settings {
   // Create the theme object (a Sass map containing all of the palettes).
   $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
 
-  // Incluir solamente los estilos de los componentes utilizados
+  // Incluir solamente los estilos de los componentes utilizado
+  @include mat-core();
   @include mat-core-theme($candy-app-theme);
-  @include mat-button-theme($candy-app-theme);
   @include mat-form-field-theme($candy-app-theme);
   @include mat-input-theme($candy-app-theme);
   @include mat-select-theme($candy-app-theme);
   @include mat-slider-theme($candy-app-theme);
   @include mat-slide-toggle-theme($candy-app-theme);
-  @include mat-tabs-theme($candy-app-theme);  
+  @include mat-tabs-theme($candy-app-theme);
 }
