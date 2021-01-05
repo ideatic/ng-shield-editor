@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
 import {NgShieldEditorModule} from '../../projects/ng-shield-editor/src/lib/ng-shield-editor.module';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -17,7 +17,8 @@ import {HttpClientModule} from '@angular/common/http';
     RouterModule,
     NgShieldEditorModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatButtonModule
   ],
   declarations: [
     AppComponent
