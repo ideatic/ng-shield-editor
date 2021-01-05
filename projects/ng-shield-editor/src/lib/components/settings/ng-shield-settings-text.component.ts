@@ -25,7 +25,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
       <div class="flex">
         <label>
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.text.size" (ngModelChange)="onChange()"
+          <mat-slider [(ngModel)]="settings.text.size" (input)="settings.text.size = $event.value; onChange()"
                       [disabled]="!settings.text.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
         </label>
 
@@ -48,12 +48,12 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
       <div class="flex">
         <label>
           <ng-container i18n>Posición horizontal</ng-container>
-          <mat-slider [(ngModel)]="settings.text.x" (ngModelChange)="onChange()"
+          <mat-slider [(ngModel)]="settings.text.x" (input)="settings.text.x = $event.value; onChange()"
                       [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición vertical</ng-container>
-          <mat-slider [(ngModel)]="settings.text.y" (ngModelChange)="onChange()"
+          <mat-slider [(ngModel)]="settings.text.y" (input)="settings.text.y = $event.value; onChange()"
                       [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
@@ -69,8 +69,8 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
 
         <label *ngIf="settings.text.borderColor">
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.text.borderSize" (ngModelChange)="onChange()" [min]="1" [max]="8"
-                      [thumbLabel]="true" [disabled]="!settings.text.body"></mat-slider>
+          <mat-slider [(ngModel)]="settings.text.borderSize" (input)="settings.text.borderSize = $event.value; onChange()"
+                      [min]="1" [max]="8" [thumbLabel]="true" [disabled]="!settings.text.body"></mat-slider>
         </label>
       </div>
     </ng-container>

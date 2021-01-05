@@ -186,10 +186,6 @@ ${this._motifSvc.available[settings.motif.id].replace(/%attrs%/g, motifAttrs)}
     let attrs = `x="${512 / 100 * settings.symbol.x - imageSize / 2}" y="${512 / 100 * settings.symbol.y - imageSize / 2}"`;
 
     const shapeData = this._shapeSvc.available[settings.shape.id];
-    const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
-    if (settings.symbol.trim && !isNoBgShape) {
-      attrs += ` clip-path="url(#bg-${idSuffix})"`;
-    }
 
     if (settings.symbol.rotation != 0) {
       cssAttrs.push('transform-box: fill-box');
@@ -198,6 +194,12 @@ ${this._motifSvc.available[settings.motif.id].replace(/%attrs%/g, motifAttrs)}
     }
 
     image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
+
+    // Máscara de recorte
+    const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
+    if (settings.symbol.trim && !isNoBgShape) {
+      image = `<g clip-path="url(#bg-${idSuffix})">${image}</g>`;
+    }
 
     return image;
   }

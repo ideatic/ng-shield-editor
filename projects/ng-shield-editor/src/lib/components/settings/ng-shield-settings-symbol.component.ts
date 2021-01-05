@@ -42,12 +42,12 @@ import {ImageToolService} from '../../services/image-tool.service';
       <div class="flex">
         <label>
           <ng-container i18n>Posición horizontal</ng-container>
-          <mat-slider [(ngModel)]="settings.symbol.x" (ngModelChange)="onChange()"
+          <mat-slider [(ngModel)]="settings.symbol.x" (input)="settings.symbol.x = $event.value; onChange()"
                       [disabled]="settings.symbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición vertical</ng-container>
-          <mat-slider [(ngModel)]="settings.symbol.y" (ngModelChange)="onChange()"
+          <mat-slider [(ngModel)]="settings.symbol.y" (input)="settings.symbol.y = $event.value; onChange()"
                       [disabled]="settings.symbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
@@ -55,12 +55,12 @@ import {ImageToolService} from '../../services/image-tool.service';
       <div class="flex">
         <label>
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings.symbol.size" (ngModelChange)="onChange()"
+          <mat-slider [(ngModel)]="settings.symbol.size" (input)="settings.symbol.size = $event.value; onChange()"
                       [disabled]="settings.symbol.content === null" [min]="1" [max]="200" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
           <ng-container i18n>Rotación</ng-container>
-          <mat-slider [(ngModel)]="settings.symbol.rotation" (ngModelChange)="onChange()"
+          <mat-slider [(ngModel)]="settings.symbol.rotation" (input)="settings.symbol.rotation = $event.value; onChange()"
                       [disabled]="settings.symbol.content === null" [min]="-180" [max]="180" [step]="5" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
