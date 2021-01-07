@@ -20,7 +20,7 @@ import {ImageToolService} from '../../services/image-tool.service';
         </svg>
       </div>
 
-      <div class="symbol-thumb">
+      <div *ngIf="symbolSvc.allowSymbolUpload" class="symbol-thumb">
         <label style="display: block; cursor: pointer;">
           <svg viewBox="0 0 512 512">
             <path
