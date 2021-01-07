@@ -28,6 +28,7 @@ export interface NgShieldSettings {
     size: number,
     x: number,
     y: number,
+    spacing: number,
     path: string
   },
   gloss: boolean

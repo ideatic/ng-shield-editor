@@ -20,7 +20,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
           <mat-form-field appearance="fill">
             <mat-label i18n>Fuente</mat-label>
             <mat-select [(ngModel)]="settings.text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
-              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family">
+              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family" [style.font-family]="family.name">
                 {{ family.name }}
               </mat-option>
             </mat-select>
@@ -66,6 +66,11 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
           <mat-slider [(ngModel)]="settings.text.y" (input)="settings.text.y = $event.value; onChange()"
                       [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
+        <label>
+          <ng-container i18n>Espaciado de letras</ng-container>
+          <mat-slider [(ngModel)]="settings.text.spacing" (input)="settings.text.spacing = $event.value; onChange()"
+                      [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        </label>
       </div>
 
       <hr/>
@@ -86,7 +91,9 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
     </ng-container>
   `,
   styles: [
-    `div {
+    `@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Jura&family=Lobster&family=Luckiest+Guy&family=Nova+Flat&family=Open+Sans&family=Overpass&display=swap');
+    
+    div {
       margin: 10px 0;
     }
 
