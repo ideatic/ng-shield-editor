@@ -39,7 +39,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
           <mat-form-field appearance="fill">
             <mat-label i18n>Forma</mat-label>
             <mat-select [(ngModel)]="settings.text.path" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
-              <mat-option [value]="null">Ninguna</mat-option>
+              <mat-option [value]="null" i18n>Ninguna</mat-option>
               <mat-option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [value]="path.key">
                 {{ path.key }}
               </mat-option>
@@ -122,7 +122,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   private _onChangeCallback: (v: any) => void = noop;
 
   constructor(public textSvc: NgShieldTextService) {
-    
+
   }
 
   public onChange() {
