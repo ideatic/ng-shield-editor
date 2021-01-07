@@ -20,7 +20,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
           <mat-form-field appearance="fill">
             <mat-label i18n>Fuente</mat-label>
             <mat-select [(ngModel)]="settings.text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
-              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family" [style.font-family]="family">
+              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family" [style.font-family]="family.name">
                 {{ family.name }}
               </mat-option>
             </mat-select>
@@ -91,7 +91,9 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
     </ng-container>
   `,
   styles: [
-    `div {
+    `@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Jura&family=Lobster&family=Luckiest+Guy&family=Nova+Flat&family=Open+Sans&family=Overpass&display=swap');
+    
+    div {
       margin: 10px 0;
     }
 
