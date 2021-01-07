@@ -69,7 +69,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
         <label>
           <ng-container i18n>Espaciado de letras</ng-container>
           <mat-slider [(ngModel)]="settings.text.spacing" (input)="settings.text.spacing = $event.value; onChange()"
-                      [disabled]="!settings.text.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+                      [disabled]="!settings.text.body" [min]="-25" [max]="50" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 

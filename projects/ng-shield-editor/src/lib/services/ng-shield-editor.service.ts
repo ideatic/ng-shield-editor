@@ -35,7 +35,7 @@ export class NgShieldEditorService {
       borderSize: 2,
       x: 50,
       y: 39,
-      spacing: 2
+      spacing: 0
     },
     symbol: {
       content: null,
@@ -165,7 +165,7 @@ export class NgShieldEditorService {
 
     return svg +
       `<text
-          ${useTextPath ? '' : 'x="50%" y="50%" letter-spacing="2" dominant-baseline="middle" text-anchor="middle"'}
+          ${useTextPath ? '' : 'x="50%" y="50%" letter-spacing="0" dominant-baseline="middle" text-anchor="middle"'}
           fill="${escapeXML(settings.text.color)}"
           font-weight="bold"
           font-family="${escapeXML(settings.text.fontFamily?.name || '')}"
