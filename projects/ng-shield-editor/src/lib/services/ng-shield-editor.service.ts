@@ -147,7 +147,7 @@ export class NgShieldEditorService {
 
     // Fuente
     if (settings.text.fontFamily?.url) {
-      svg += `<style type="text/css">
+      svg += `<style>
 @font-face {
     font-family: ${settings.text.fontFamily.name};
     src: url(${settings.text.fontFamily.url}) format('truetype');

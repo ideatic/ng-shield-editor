@@ -1,8 +1,9 @@
-import {Component, forwardRef} from '@angular/core';
+import {Component, forwardRef, Inject} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
 import {NgShieldTextService} from '../../services/ng-shield-text.service';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'ng-shield-editor-settings-text',
@@ -20,12 +21,14 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
           <mat-form-field appearance="fill">
             <mat-label i18n>Fuente</mat-label>
             <mat-select [(ngModel)]="settings.text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!settings.text.body">
-              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family" [style.font-family]="family.name">
+              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family" [style.font-family]="family | fn:loadFontFamily:this">
                 {{ family.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </label>
+
+
       </div>
 
       <div class="flex">
@@ -94,9 +97,7 @@ import {NgShieldTextService} from '../../services/ng-shield-text.service';
     </ng-container>
   `,
   styles: [
-    `@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Jura&family=Lobster&family=Luckiest+Guy&family=Nova+Flat&family=Open+Sans&family=Overpass&display=swap');
-    
-    div {
+    `div {
       margin: 10px 0;
     }
 
@@ -131,7 +132,8 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  constructor(public textSvc: NgShieldTextService) {
+  constructor(public textSvc: NgShieldTextService,
+              @Inject(DOCUMENT) private _document: Document) {
 
   }
 
@@ -146,6 +148,17 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
 
   public originalOrder() {
     return 0;
+  }
+
+  public loadFontFamily(font: { name: string, url: string }): string {
+    const style = this._document.createElement('style');
+    style.appendChild(document.createTextNode(`@font-face {
+    font-family: ${font.name};
+    src: url(${font.url}) format('truetype');
+}`));
+    this._document.head.appendChild(style);
+
+    return font.name;
   }
 
   /* ControlValueAccessor */
