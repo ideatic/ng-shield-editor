@@ -167,7 +167,7 @@ export class NgShieldEditorService {
 
   private _getSymbol(settings: NgShieldSettings, idSuffix: string): string {
     let svg = '';
-    for (const symbol of settings.symbol || []) {
+    for (const symbol of (settings?.symbol || [])) {
       let image = `<image %attrs% href="${this._symbolSvc.render(symbol)}"/>`;
 
       // Calcular atributos
