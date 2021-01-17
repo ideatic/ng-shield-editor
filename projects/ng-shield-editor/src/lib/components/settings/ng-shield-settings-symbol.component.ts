@@ -10,7 +10,6 @@ import {ImageToolService} from '../../services/image-tool.service';
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
   template: `
-
     <ng-container *ngFor="let symbol of (settings?.symbol || []); index as index; first as first; last as last">
       <hr *ngIf="!first"/>
 
