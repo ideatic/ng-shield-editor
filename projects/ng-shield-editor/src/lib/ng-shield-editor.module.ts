@@ -21,12 +21,14 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     MatTabsModule,
+    MatButtonModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatSelectModule,

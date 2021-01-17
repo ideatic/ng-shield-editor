@@ -6,6 +6,7 @@ import {lobster} from './fonts/lobster';
 import {bungee} from './fonts/bungee';
 import {overpass} from './fonts/overpass';
 import {luckiestGuy} from './fonts/luckiest-guy';
+import {NgShieldSettingsText} from '../ng-shield-settings';
 
 @Injectable()
 export class NgShieldTextService {
@@ -25,6 +26,29 @@ export class NgShieldTextService {
     {name: 'Lobster', url: lobster},
     {name: 'Overpass', url: overpass},
     {name: 'Luckiest Guy', url: luckiestGuy},
-    {name: 'Bungee Outline', url: bungee}
+    {name: 'Bungee Outline', url: bungee},
+    {name: 'Arial'},
+    {name: 'Verdana'},
+    {name: 'Helvetica'},
+    {name: 'Tahoma'},
+    {name: 'Trebuchet MS'},
+    {name: 'Times New Roman'},
+    {name: 'Georgia'},
+    {name: 'Garamond'},
+    {name: 'Courier New'},
+    {name: 'Brush Script MT'}
   ];
+
+  public readonly defaultSettings: NgShieldSettingsText = {
+    body: '',
+    size: 4,
+    fontFamily: this.fontFamilies[0],
+    path: Object.keys(this.paths)[0],
+    color: '#231F20',
+    borderColor: null,
+    borderSize: 2,
+    x: 50,
+    y: 39,
+    spacing: 0
+  };
 }

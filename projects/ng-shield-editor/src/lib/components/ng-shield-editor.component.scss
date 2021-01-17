@@ -36,6 +36,7 @@ ng-shield-editor-settings {
   @include mat-core-theme($candy-app-theme);
   @include mat-form-field-theme($candy-app-theme);
   @include mat-input-theme($candy-app-theme);
+  @include mat-button-theme($candy-app-theme);
   @include mat-select-theme($candy-app-theme);
   @include mat-slider-theme($candy-app-theme);
   @include mat-slide-toggle-theme($candy-app-theme);

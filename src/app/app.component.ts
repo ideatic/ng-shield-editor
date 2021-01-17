@@ -33,10 +33,7 @@ export class AppComponent {
       httpClient.get(location.href + symbol, {responseType: 'blob'})
         .subscribe(image => {
           let reader = new FileReader();
-          reader.addEventListener('load', () => {
-            symbolSvc.available.push(reader.result);
-          }, false);
-
+          reader.addEventListener('load', () => symbolSvc.available.push(reader.result as string), false);
           reader.readAsDataURL(image);
         });
     });

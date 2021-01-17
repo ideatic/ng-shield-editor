@@ -19,17 +19,19 @@ export interface NgShieldSettings {
     rotation: number;
     trim: boolean
   };
-  text: {
-    body: string;
-    color: string;
-    fontFamily: { name: string, url: string },
-    borderColor: string;
-    borderSize: number;
-    size: number,
-    x: number,
-    y: number,
-    spacing: number,
-    path: string
-  },
+  text: NgShieldSettingsText[],
   gloss: boolean
+}
+
+export interface NgShieldSettingsText{
+  body: string;
+  color: string;
+  fontFamily: { name: string, url?: string },
+  borderColor: string;
+  borderSize: number;
+  size: number,
+  x: number,
+  y: number,
+  spacing: number,
+  path: string
 }
