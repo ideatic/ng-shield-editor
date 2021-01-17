@@ -11,8 +11,10 @@ import {DOCUMENT} from '@angular/common';
     <ng-container *ngFor="let text of (settings?.text || []); index as index; first as first; last as last">
       <hr *ngIf="!first"/>
 
-      <h2 *ngIf="settings.text.length > 1 && text.body">{{ text.body }}</h2>
-      <h2 *ngIf="settings.text.length > 1 && !text.body"><ng-container i18n>Texto</ng-container> #{{ index + 1 | number }}</h2>
+      <h2 *ngIf="settings?.text.length > 1 && text.body">{{ text.body }}</h2>
+      <h2 *ngIf="settings?.text.length > 1 && !text.body">
+        <ng-container i18n>Texto</ng-container>
+        #{{ index + 1 | number }}</h2>
 
       <div class="flex">
         <label class="block">
@@ -101,13 +103,13 @@ import {DOCUMENT} from '@angular/common';
       </div>
 
       <div style="text-align: center; margin:5px 0">
-      <button *ngIf="text.body && last" mat-raised-button (click)="addText()">
-        <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
-          <path
-            d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
-        </svg>
-        <ng-container i18n>Añadir</ng-container>
-      </button>
+        <button *ngIf="text.body && last" mat-raised-button (click)="addText()">
+          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
+            <path
+              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+          </svg>
+          <ng-container i18n>Añadir</ng-container>
+        </button>
       </div>
     </ng-container>
   `,
@@ -196,7 +198,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   public writeValue(settings: NgShieldSettings): void {
     if (settings) {
       if (!Array.isArray(settings.text)) { // Compatibilidad con versiones sin soporte para múltiples textos
-        settings.text = [this.textSvc.defaultSettings];
+        settings.text = [settings.text || this.textSvc.defaultSettings];
       }
       if (settings.text) {
         settings.text.forEach(t => t.fontFamily ??= this.textSvc.fontFamilies[0]);

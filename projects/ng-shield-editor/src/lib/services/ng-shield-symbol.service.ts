@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {NgShieldSettingsSymbol} from '../ng-shield-settings';
+import {ImageToolService} from './image-tool.service';
 
 @Injectable()
 export class NgShieldSymbolService {
@@ -6,7 +8,47 @@ export class NgShieldSymbolService {
   public allowSymbolUpload = true;
 
   public readonly available = [
+    // Estrella
+    `<svg xmlns="http://www.w3.org/2000/svg" width="50.183" height="18.182" viewBox="0 0 50.183 18.182">
+<polygon %attrs% points="25.938 0 28.892 5.985 35.497 6.945 30.718 11.604 31.846 18.182 25.938 15.076 20.031 18.182 21.159 11.604 16.38 6.945 22.984 5.985 25.938 0" />
+</svg>`,
+
     // Estrellas
-'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MC4xODMiIGhlaWdodD0iMTguMTgyIiB2aWV3Qm94PSIwIDAgNTAuMTgzIDE4LjE4MiI+PHRpdGxlPkFzc2V0IDE8L3RpdGxlPjxwb2x5Z29uIHBvaW50cz0iMjUuOTM4IDAgMjguODkyIDUuOTg1IDM1LjQ5NyA2Ljk0NSAzMC43MTggMTEuNjA0IDMxLjg0NiAxOC4xODIgMjUuOTM4IDE1LjA3NiAyMC4wMzEgMTguMTgyIDIxLjE1OSAxMS42MDQgMTYuMzggNi45NDUgMjIuOTg0IDUuOTg1IDI1LjkzOCAwIiBmaWxsPSIjMDAwYjFjIi8+PHBvbHlnb24gcG9pbnRzPSI0My44NTIgMy4wNjkgNDUuODA4IDcuMDM0IDUwLjE4MyA3LjY2OSA0Ny4wMTggMTAuNzU1IDQ3Ljc2NSAxNS4xMTMgNDMuODUyIDEzLjA1NiAzOS45MzggMTUuMTEzIDQwLjY4NiAxMC43NTUgMzcuNTIgNy42NjkgNDEuODk1IDcuMDM0IDQzLjg1MiAzLjA2OSIgZmlsbD0iIzAwMGIxYyIvPjxwb2x5Z29uIHBvaW50cz0iNi4zMzIgMy4wNjkgOC4yODggNy4wMzQgMTIuNjYzIDcuNjY5IDkuNDk4IDEwLjc1NSAxMC4yNDUgMTUuMTEzIDYuMzMyIDEzLjA1NiAyLjQxOCAxNS4xMTMgMy4xNjYgMTAuNzU1IDAgNy42NjkgNC4zNzUgNy4wMzQgNi4zMzIgMy4wNjkiIGZpbGw9IiMwMDBiMWMiLz48L3N2Zz4='
+    `<svg xmlns="http://www.w3.org/2000/svg" width="50.183" height="18.182" viewBox="0 0 50.183 18.182">
+<g %attrs%>
+<polygon points="25.938 0 28.892 5.985 35.497 6.945 30.718 11.604 31.846 18.182 25.938 15.076 20.031 18.182 21.159 11.604 16.38 6.945 22.984 5.985 25.938 0" />
+<polygon points="43.852 3.069 45.808 7.034 50.183 7.669 47.018 10.755 47.765 15.113 43.852 13.056 39.938 15.113 40.686 10.755 37.52 7.669 41.895 7.034 43.852 3.069"/>
+<polygon points="6.332 3.069 8.288 7.034 12.663 7.669 9.498 10.755 10.245 15.113 6.332 13.056 2.418 15.113 3.166 10.755 0 7.669 4.375 7.034 6.332 3.069" />
+</g>
+</svg>`
   ];
+
+  public readonly defaultSettings: NgShieldSettingsSymbol = {
+    content: null,
+    x: 50,
+    y: 50,
+    size: 50,
+    rotation: 0,
+    trim: true,
+    color: '#000000'
+  };
+
+  constructor(private _imageSvc: ImageToolService) {
+  }
+
+  public isConfigurable(symbol: NgShieldSettingsSymbol): boolean {
+    return symbol && symbol.content?.indexOf('<svg') === 0 && symbol.content.indexOf('%attrs%') >= 0;
+  }
+
+  public render(symbol: NgShieldSettingsSymbol): string {
+    let content = symbol.content;
+
+    if (this.isConfigurable(symbol)) {
+      let attrs = `fill="${symbol.color}"`;
+      content = content.replace(/%attrs%/g, attrs);
+      content = this._imageSvc.svgToDataUri(content);
+    }
+
+    return content;
+  }
 }

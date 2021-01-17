@@ -9,21 +9,14 @@ export interface NgShieldSettings {
     color: string;
     x: number;
     y: number;
-    zoom:number;
+    zoom: number;
   };
-  symbol: {
-    content: string,
-    size: number,
-    x: number,
-    y: number,
-    rotation: number;
-    trim: boolean
-  };
+  symbol: NgShieldSettingsSymbol[];
   text: NgShieldSettingsText[],
   gloss: boolean
 }
 
-export interface NgShieldSettingsText{
+export interface NgShieldSettingsText {
   body: string;
   color: string;
   fontFamily: { name: string, url?: string },
@@ -34,4 +27,14 @@ export interface NgShieldSettingsText{
   y: number,
   spacing: number,
   path: string
+}
+
+export interface NgShieldSettingsSymbol {
+  content: string,
+  size: number,
+  x: number,
+  y: number,
+  rotation: number;
+  trim: boolean;
+  color?:string;
 }

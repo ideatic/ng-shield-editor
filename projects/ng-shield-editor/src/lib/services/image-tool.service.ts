@@ -6,6 +6,10 @@ export class ImageToolService {
   constructor(@Inject(DOCUMENT) private _document: Document) {
   }
 
+  public svgToDataUri(svg: string): string {
+    return 'data:image/svg+xml;base64,' + btoa(svg);
+  }
+
   public svgToBase64Image(svg: string, height?: number, width?: number, type = 'image/png'): Promise<string> {
     return new Promise((resolve, reject) => {
       const img = this._document.createElement('img');

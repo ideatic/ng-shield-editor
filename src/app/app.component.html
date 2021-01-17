@@ -1,6 +1,6 @@
 <h1>ng-shield-editor</h1>
 
-<ng-shield-editor (change)="settings = $event"></ng-shield-editor>
+<ng-shield-editor [settings]="settings" (change)="onShieldChange($event)"></ng-shield-editor>
 
 <p style="text-align: center">
   <button mat-raised-button (click)="downloadSVG()">Download as SVG</button>

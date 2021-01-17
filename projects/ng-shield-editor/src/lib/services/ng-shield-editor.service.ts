@@ -26,14 +26,7 @@ export class NgShieldEditorService {
       zoom: 100
     },
     text: [this._textSvc.defaultSettings],
-    symbol: {
-      content: null,
-      x: 50,
-      y: 50,
-      size: 50,
-      rotation: 0,
-      trim: true
-    },
+    symbol: [this._symbolSvc.defaultSettings],
     gloss: true
   };
 
@@ -42,7 +35,7 @@ export class NgShieldEditorService {
     private _motifSvc: NgShieldMotifService,
     private _symbolSvc: NgShieldSymbolService,
     private _textSvc: NgShieldTextService,
-    private _renderer: ImageToolService,
+    private _imageSvc: ImageToolService,
     @Inject(DOCUMENT) private _document: Document
   ) {
   }
@@ -134,7 +127,7 @@ export class NgShieldEditorService {
 
     let svg = '';
 
-    for(const text of settings.text){
+    for (const text of settings.text) {
       // Fuente
       if (text.fontFamily?.url) {
         svg += `<style>
@@ -173,37 +166,38 @@ export class NgShieldEditorService {
   }
 
   private _getSymbol(settings: NgShieldSettings, idSuffix: string): string {
-    // Definir imagen
-    if (!settings.symbol?.content) {
-      return '';
+    let svg = '';
+    for (const symbol of settings.symbol || []) {
+      let image = `<image %attrs% href="${this._symbolSvc.render(symbol)}"/>`;
+
+      // Calcular atributos
+      const imageSize = 512 * (symbol.size * 0.01);
+      let cssAttrs = [`width: ${symbol.size}%`];
+      let attrs = `x="${512 / 100 * symbol.x - imageSize / 2}" y="${512 / 100 * symbol.y - imageSize / 2}"`;
+
+      const shapeData = this._shapeSvc.available[settings.shape.id];
+
+      if (symbol.rotation != 0) {
+        cssAttrs.push('transform-box: fill-box');
+        cssAttrs.push('transform-origin: center');
+        cssAttrs.push(`transform: rotate(${symbol.rotation}deg)`);
+      }
+
+      image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
+
+      // Máscara de recorte
+      const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
+      if (symbol.trim && !isNoBgShape) {
+        image = `<g clip-path="url(#bg-${idSuffix})">${image}</g>`;
+      }
+
+      svg += image;
     }
-    let image = `<image %attrs% href="${settings.symbol.content}"/>`;
 
-    // Calcular atributos
-    const imageSize = 512 * (settings.symbol.size * 0.01);
-    let cssAttrs = [`width: ${settings.symbol.size}%`];
-    let attrs = `x="${512 / 100 * settings.symbol.x - imageSize / 2}" y="${512 / 100 * settings.symbol.y - imageSize / 2}"`;
-
-    const shapeData = this._shapeSvc.available[settings.shape.id];
-
-    if (settings.symbol.rotation != 0) {
-      cssAttrs.push('transform-box: fill-box');
-      cssAttrs.push('transform-origin: center');
-      cssAttrs.push(`transform: rotate(${settings.symbol.rotation}deg)`);
-    }
-
-    image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
-
-    // Máscara de recorte
-    const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
-    if (settings.symbol.trim && !isNoBgShape) {
-      image = `<g clip-path="url(#bg-${idSuffix})">${image}</g>`;
-    }
-
-    return image;
+    return svg;
   }
 
   public renderBase64Image(shield: NgShieldSettings, size?: number, type = 'image/png'): Promise<string> {
-    return this._renderer.svgToBase64Image(this.generateSVG(shield), size, size, type);
+    return this._imageSvc.svgToBase64Image(this.generateSVG(shield), size, size, type);
   }
 }

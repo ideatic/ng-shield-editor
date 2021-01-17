@@ -12,7 +12,7 @@ import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shiel
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public settings:NgShieldSettings;
+  public settings = this._ngShieldSvc.defaultSettings;
 
   constructor(private _ngShieldSvc: NgShieldEditorService,
               symbolSvc: NgShieldSymbolService,
@@ -37,6 +37,12 @@ export class AppComponent {
           reader.readAsDataURL(image);
         });
     });
+
+    // Cargar escudo guardado
+    let prevSessionShield = localStorage?.getItem('shield');
+    if (prevSessionShield) {
+      this.settings = JSON.parse(prevSessionShield);
+    }
   }
 
   public downloadSVG() {
@@ -58,6 +64,14 @@ export class AppComponent {
       }).catch((err) => {
       console.log(err);
     });
+  }
+
+  public onShieldChange(settings: NgShieldSettings) {
+    if (settings !== this.settings) {
+      this.settings = settings;
+    }
+
+    localStorage?.setItem('shield', JSON.stringify(settings));
   }
 }
 
