@@ -23,7 +23,7 @@ export class NgShieldSymbolService {
 </svg>`
   ]
 
-  public readonly available = [].concat(this.default);
+  public available = [].concat(this.default);
 
   public readonly defaultSettings: NgShieldSettingsSymbol = {
     content: null,
