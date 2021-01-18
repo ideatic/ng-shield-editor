@@ -27,8 +27,8 @@ import {DOCUMENT} from '@angular/common';
         <label class="block">
           <mat-form-field appearance="fill">
             <mat-label i18n>Fuente</mat-label>
-            <mat-select [(ngModel)]="text.fontFamily" [compareWith]="isSameFont" (ngModelChange)="onChange()" [disabled]="!text.body">
-              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family" [style.font-family]="family | fn:loadFontFamily:this">
+            <mat-select [(ngModel)]="text.fontFamily" (ngModelChange)="onChange()" [disabled]="!text.body">
+              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">
                 {{ family.name }}
               </mat-option>
             </mat-select>
@@ -201,7 +201,11 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
         settings.text = [settings.text || this.textSvc.defaultSettings];
       }
       if (settings.text) {
-        settings.text.forEach(t => t.fontFamily ??= this.textSvc.fontFamilies[0]);
+        settings.text.forEach(t => {
+          if (!t.fontFamily || typeof t.fontFamily != 'string') {
+            t.fontFamily = this.textSvc.fontFamilies[0].name;
+          }
+        });
       }
     }
 

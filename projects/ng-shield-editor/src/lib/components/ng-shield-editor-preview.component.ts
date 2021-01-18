@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges} from '@angular/core';
-import {NgShieldEditorService} from '../services/ng-shield-editor.service';
+import {NgShieldBuilderService} from '../services/ng-shield-builder.service';
 import {NgShieldSettings} from '../ng-shield-settings';
 
 @Component({
@@ -28,7 +28,7 @@ export class NgShieldEditorPreviewComponent implements OnChanges {
   @Input() public settings: NgShieldSettings;
 
   constructor(private _host: ElementRef<HTMLElement>,
-              private _generatorSvc: NgShieldEditorService) {
+              private _generatorSvc: NgShieldBuilderService) {
   }
 
   public ngOnChanges() {

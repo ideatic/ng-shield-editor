@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NgShieldEditorService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-editor.service';
+import {NgShieldBuilderService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-builder.service';
 import {downloadData} from './download';
 import {NgShieldSymbolService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-symbol.service';
 import {HttpClient} from '@angular/common/http';
@@ -14,7 +14,7 @@ import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shiel
 export class AppComponent {
   public settings = this._ngShieldSvc.defaultSettings;
 
-  constructor(private _ngShieldSvc: NgShieldEditorService,
+  constructor(private _ngShieldSvc: NgShieldBuilderService,
               symbolSvc: NgShieldSymbolService,
               httpClient: HttpClient) {
     // Los símbolos los define el consumidor de la librería
@@ -41,7 +41,7 @@ export class AppComponent {
     // Cargar escudo guardado
     let prevSessionShield = localStorage?.getItem('shield');
     if (prevSessionShield) {
-      this.settings = JSON.parse(prevSessionShield);
+      this.settings = {...this.settings, ...JSON.parse(prevSessionShield)};
     }
   }
 
@@ -67,10 +67,6 @@ export class AppComponent {
   }
 
   public onShieldChange(settings: NgShieldSettings) {
-    if (settings !== this.settings) {
-      this.settings = settings;
-    }
-
     localStorage?.setItem('shield', JSON.stringify(settings));
   }
 }

@@ -42,7 +42,7 @@ export class NgShieldTextService {
   public readonly defaultSettings: NgShieldSettingsText = {
     body: '',
     size: 4,
-    fontFamily: this.fontFamilies[0],
+    fontFamily: this.fontFamilies[0].name,
     path: Object.keys(this.paths)[0],
     color: '#231F20',
     borderColor: null,

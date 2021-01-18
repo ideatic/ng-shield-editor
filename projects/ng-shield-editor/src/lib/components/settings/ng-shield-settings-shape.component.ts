@@ -2,7 +2,7 @@ import {Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
-import {NgShieldEditorService} from '../../services/ng-shield-editor.service';
+import {NgShieldBuilderService} from '../../services/ng-shield-builder.service';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
 
@@ -81,7 +81,7 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   private _onChangeCallback: (v: any) => void = noop;
 
   constructor(public shapeSvc: NgShieldShapeService,
-              private _ngShieldSvc: NgShieldEditorService,
+              private _ngShieldSvc: NgShieldBuilderService,
               private _sanitizer: DomSanitizer) {
   }
 

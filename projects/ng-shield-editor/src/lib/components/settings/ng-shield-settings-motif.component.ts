@@ -2,7 +2,7 @@ import {Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
-import {NgShieldEditorService} from '../../services/ng-shield-editor.service';
+import {NgShieldBuilderService} from '../../services/ng-shield-builder.service';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
 
@@ -32,7 +32,7 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
         </label>
         <label>
           <ng-container i18n>Posición vertical</ng-container>
-          <mat-slider [(ngModel)]="settings.motif.y" (input)="settings.motif.y = $event.value; onChange()" 
+          <mat-slider [(ngModel)]="settings.motif.y" (input)="settings.motif.y = $event.value; onChange()"
                       [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
@@ -108,7 +108,7 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
   private _onChangeCallback: (v: any) => void = noop;
 
   constructor(public motifSvc: NgShieldMotifService,
-              private _ngShieldSvc: NgShieldEditorService,
+              private _ngShieldSvc: NgShieldBuilderService,
               private _sanitizer: DomSanitizer) {
   }
 

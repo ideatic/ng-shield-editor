@@ -11,7 +11,7 @@ import {randomString} from './libs/random-str';
 import {escapeXML} from './libs/xml';
 
 @Injectable()
-export class NgShieldEditorService {
+export class NgShieldBuilderService {
   public readonly defaultSettings: NgShieldSettings = {
     shape: {
       id: 'bwgShield',
@@ -30,14 +30,12 @@ export class NgShieldEditorService {
     gloss: true
   };
 
-  constructor(
-    private _shapeSvc: NgShieldShapeService,
-    private _motifSvc: NgShieldMotifService,
-    private _symbolSvc: NgShieldSymbolService,
-    private _textSvc: NgShieldTextService,
-    private _imageSvc: ImageToolService,
-    @Inject(DOCUMENT) private _document: Document
-  ) {
+  constructor(private _shapeSvc: NgShieldShapeService,
+              private _motifSvc: NgShieldMotifService,
+              private _symbolSvc: NgShieldSymbolService,
+              private _textSvc: NgShieldTextService,
+              private _imageSvc: ImageToolService,
+              @Inject(DOCUMENT) private _document: Document) {
   }
 
   public generateSVG(settings: NgShieldSettings): string {
@@ -128,12 +126,14 @@ export class NgShieldEditorService {
     let svg = '';
 
     for (const text of settings.text) {
+      const fontFamily = this._textSvc.fontFamilies.find(f => f.name == text.fontFamily);
+
       // Fuente
-      if (text.fontFamily?.url) {
+      if (fontFamily?.url) {
         svg += `<style>
 @font-face {
-    font-family: ${text.fontFamily.name};
-    src: url(${text.fontFamily.url}) format('truetype');
+    font-family: ${fontFamily.name};
+    src: url(${fontFamily.url}) format('truetype');
 }
 </style>`;
       }
@@ -151,7 +151,7 @@ export class NgShieldEditorService {
           ${useTextPath ? '' : 'x="50%" y="50%" letter-spacing="0" dominant-baseline="middle" text-anchor="middle"'}
           fill="${escapeXML(text.color)}"
           font-weight="bold"
-          font-family="${escapeXML(text.fontFamily?.name || '')}"
+          font-family="${escapeXML(fontFamily?.name || '')}"
           font-size="${text.size * 15}"
           letter-spacing="${text.spacing}"
           transform="translate(${512 / 100 * (text.x - 50)}, ${512 / 100 * (text.y - 50)})"

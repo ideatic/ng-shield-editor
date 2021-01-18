@@ -3,7 +3,7 @@ import {NgShieldEditorComponent} from './components/ng-shield-editor.component';
 import {NgShieldEditorPreviewComponent} from './components/ng-shield-editor-preview.component';
 import {NgShieldEditorSettingsComponent} from './components/ng-shield-editor-settings.component';
 import {MatTabsModule} from '@angular/material/tabs';
-import {NgShieldEditorService} from './services/ng-shield-editor.service';
+import {NgShieldBuilderService} from './services/ng-shield-builder.service';
 import {ColorPickerComponent} from './components/ui/color-picker.component';
 import {FormsModule} from '@angular/forms';
 import {NgShieldSettingsShapeComponent} from './components/settings/ng-shield-settings-shape.component';
@@ -35,7 +35,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatInputModule,
   ],
   providers: [
-    NgShieldEditorService,
+    NgShieldBuilderService,
     NgShieldShapeService,
     NgShieldMotifService,
     NgShieldSymbolService,
@@ -63,7 +63,7 @@ import {MatButtonModule} from '@angular/material/button';
 })
 export class NgShieldEditorModule {
   // Services
-  public readonly NgShieldEditorService = NgShieldEditorService;
+  public readonly NgShieldEditorService = NgShieldBuilderService;
   public readonly NgShieldShapeService = NgShieldShapeService;
   public readonly NgShieldMotifService = NgShieldMotifService;
   public readonly NgShieldSymbolService = NgShieldSymbolService;

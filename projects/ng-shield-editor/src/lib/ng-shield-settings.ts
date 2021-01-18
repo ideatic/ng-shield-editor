@@ -19,7 +19,7 @@ export interface NgShieldSettings {
 export interface NgShieldSettingsText {
   body: string;
   color: string;
-  fontFamily: { name: string, url?: string },
+  fontFamily: string;
   borderColor: string;
   borderSize: number;
   size: number,
