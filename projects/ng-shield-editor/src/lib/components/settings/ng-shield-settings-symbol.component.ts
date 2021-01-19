@@ -174,8 +174,6 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   }
 
   public onSymbolSelected(symbol: NgShieldSettingsSymbol, content: string) {
-    console.log(symbol);
-    console.log(this.settings.symbol);
     symbol.content = content;
     this.onChange();
   }
