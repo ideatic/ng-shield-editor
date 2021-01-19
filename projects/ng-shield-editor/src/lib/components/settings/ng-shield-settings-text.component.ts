@@ -8,7 +8,7 @@ import {DOCUMENT} from '@angular/common';
 @Component({
   selector: 'ng-shield-editor-settings-text',
   template: `
-    <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="select-label">
+    <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="select-label" floatLabel="never">
       <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
         <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
           <ng-container *ngIf="text.body; else noTextBody">{{ text.body }}</ng-container>
@@ -156,7 +156,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  public selectedText: NgShieldSettingsText= this.textSvc.defaultSettings;
+  public selectedText: NgShieldSettingsText = this.textSvc.defaultSettings;
 
   constructor(public textSvc: NgShieldTextService,
               @Inject(DOCUMENT) private _document: Document) {
