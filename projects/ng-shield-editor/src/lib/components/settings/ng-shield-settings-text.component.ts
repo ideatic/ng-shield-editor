@@ -1,6 +1,6 @@
-import {Component, forwardRef, Inject} from '@angular/core';
+import {Component, forwardRef, Inject, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {NgShieldSettings} from '../../ng-shield-settings';
+import {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
 import {NgShieldTextService} from '../../services/ng-shield-text.service';
 import {DOCUMENT} from '@angular/common';
@@ -10,28 +10,26 @@ import {DOCUMENT} from '@angular/common';
   template: `
     <mat-form-field appearance="fill" class="select-label" *ngIf="settings?.text.length > 1">
       <mat-label i18n>Selecciona un texto</mat-label>
-      <mat-select [(value)]="selected" [(ngModel)]="settings?.text.body" (ngModelChange)="onChange()">
-        <mat-option *ngFor="let text of (settings?.text || []); index as index" value="{{ index }}">
+      <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
+        <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
           <ng-container i18n>Texto</ng-container>
           #{{ index + 1 | number }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    
-
       <div class="flex">
         <label class="block">
           <mat-form-field>
             <mat-label i18n>Texto</mat-label>
-            <input matInput [(ngModel)]="settings?.text[selected].body" (ngModelChange)="onChange()">
+            <input matInput [(ngModel)]="selectedText.body" (ngModelChange)="onChange()">
           </mat-form-field>
         </label>
 
         <label class="block">
           <mat-form-field appearance="fill">
             <mat-label i18n>Fuente</mat-label>
-            <mat-select [(ngModel)]="settings?.text[selected].fontFamily" (ngModelChange)="onChange()" [disabled]="!settings?.text[selected].body">
+            <mat-select [(ngModel)]="selectedText.fontFamily" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
               <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">
                 {{ family.name }}
               </mat-option>
@@ -45,14 +43,14 @@ import {DOCUMENT} from '@angular/common';
       <div class="flex">
         <label class="block">
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings?.text[selected].size" (input)="settings?.text[selected].size = $event.value; onChange()"
-                      [disabled]="!settings?.text[selected].body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="selectedText.size" (input)="selectedText.size = $event.value; onChange()"
+                      [disabled]="!selectedText.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
         </label>
 
         <label class="block">
           <mat-form-field appearance="fill">
             <mat-label i18n>Forma</mat-label>
-            <mat-select [(ngModel)]="settings?.text[selected].path" (ngModelChange)="onChange()" [disabled]="!settings?.text[selected].body">
+            <mat-select [(ngModel)]="selectedText.path" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
               <mat-option [value]="null" i18n>Ninguna</mat-option>
               <mat-option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [value]="path.key">
                 {{ path.key }}
@@ -65,28 +63,28 @@ import {DOCUMENT} from '@angular/common';
       <div>
         <label>
           <ng-container i18n>Color</ng-container>
-          <color-picker [(ngModel)]="settings?.text[selected].color" (ngModelChange)="onChange()" [disabled]="!settings?.text[selected].body"></color-picker>
+          <color-picker [(ngModel)]="selectedText.color" (ngModelChange)="onChange()" [disabled]="!selectedText.body"></color-picker>
         </label>
       </div>
 
       <div class="flex">
         <label>
           <ng-container i18n>Posición horizontal</ng-container>
-          <mat-slider [(ngModel)]="settings?.text[selected].x" (input)="settings?.text[selected].x = $event.value; onChange()"
-                      [disabled]="!settings?.text[selected].body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="selectedText.x" (input)="selectedText.x = $event.value; onChange()"
+                      [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición vertical</ng-container>
-          <mat-slider [(ngModel)]="settings?.text[selected].y" (input)="settings?.text[selected].y = $event.value; onChange()"
-                      [disabled]="!settings?.text[selected].body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="selectedText.y" (input)="selectedText.y = $event.value; onChange()"
+                      [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
       <div>
         <label>
           <ng-container i18n>Espaciado de letras</ng-container>
-          <mat-slider [(ngModel)]="settings?.text[selected].spacing" (input)="settings?.text[selected].spacing = $event.value; onChange()"
-                      [disabled]="!settings?.text[selected].body" [min]="-25" [max]="50" [thumbLabel]="true"></mat-slider>
+          <mat-slider [(ngModel)]="selectedText.spacing" (input)="selectedText.spacing = $event.value; onChange()"
+                      [disabled]="!selectedText.body" [min]="-25" [max]="50" [thumbLabel]="true"></mat-slider>
         </label>
       </div>
 
@@ -95,14 +93,14 @@ import {DOCUMENT} from '@angular/common';
       <div>
         <label>
           <ng-container i18n>Borde</ng-container>
-          <color-picker [(ngModel)]="settings?.text[selected].borderColor" (ngModelChange)="onChange()"
-                        [allowNullSelection]="true" [disabled]="!settings?.text[selected].body"></color-picker>
+          <color-picker [(ngModel)]="selectedText.borderColor" (ngModelChange)="onChange()"
+                        [allowNullSelection]="true" [disabled]="!selectedText.body"></color-picker>
         </label>
 
-        <label *ngIf="settings?.text[selected].borderColor">
+        <label *ngIf="selectedText.borderColor">
           <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="settings?.text[selected].borderSize" (input)="settings?.text[selected].borderSize = $event.value; onChange()"
-                      [min]="1" [max]="8" [thumbLabel]="true" [disabled]="!settings?.text[selected].body"></mat-slider>
+          <mat-slider [(ngModel)]="selectedText.borderSize" (input)="selectedText.borderSize = $event.value; onChange()"
+                      [min]="1" [max]="8" [thumbLabel]="true" [disabled]="!selectedText.body"></mat-slider>
         </label>
       </div>
 
@@ -152,15 +150,19 @@ import {DOCUMENT} from '@angular/common';
     multi: true
   }]
 })
-export class NgShieldSettingsTextComponent implements ControlValueAccessor {
+export class NgShieldSettingsTextComponent implements ControlValueAccessor, OnInit {
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  selected = 0;
+  public selectedText: NgShieldSettingsText;
 
   constructor(public textSvc: NgShieldTextService,
               @Inject(DOCUMENT) private _document: Document) {
 
+  }
+
+  ngOnInit(): void {
+    this.selectedText = this.textSvc.defaultSettings;
   }
 
   public onChange() {
