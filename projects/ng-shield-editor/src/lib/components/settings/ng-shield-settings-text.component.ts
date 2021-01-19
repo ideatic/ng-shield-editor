@@ -8,18 +8,36 @@ import {DOCUMENT} from '@angular/common';
 @Component({
   selector: 'ng-shield-editor-settings-text',
   template: `
-    <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="select-label" floatLabel="never">
-      <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
-        <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
-          <ng-container *ngIf="text.body; else noTextBody">{{ text.body }}</ng-container>
-          <ng-template #noTextBody>
-            <ng-container i18n>Texto</ng-container>
-            #{{ index + 1 | number }}
-          </ng-template>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="mat-align">
+      <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="select-label" floatLabel="never">
+        <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
+          <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
+            <ng-container *ngIf="text.body; else noTextBody">{{ text.body }}</ng-container>
+            <ng-template #noTextBody>
+              <ng-container i18n>Texto</ng-container>
+              #{{ index + 1 | number }}
+            </ng-template>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
+      <div style="text-align: center; margin:5px 0">
+        <button mat-raised-button class="addBtn" (click)="addText()">
+          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
+            <path
+              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+          </svg>
+          <ng-container i18n>Añadir</ng-container>
+        </button>
+        <button mat-raised-button *ngIf="settings?.text.length > 1" (click)="deleteText()">
+          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
+            <path
+              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+          </svg>
+          <ng-container i18n>Eliminar</ng-container>
+        </button>
+      </div>
+    </div>
     <div class="flex">
       <label class="block">
         <mat-form-field>
@@ -105,16 +123,6 @@ import {DOCUMENT} from '@angular/common';
                     [min]="1" [max]="8" [thumbLabel]="true" [disabled]="!selectedText.body"></mat-slider>
       </label>
     </div>
-
-    <div style="text-align: center; margin:5px 0">
-      <button mat-raised-button (click)="addText()">
-        <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
-          <path
-            d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
-        </svg>
-        <ng-container i18n>Añadir</ng-container>
-      </button>
-    </div>
   `,
   styles: [
     `div {
@@ -123,6 +131,16 @@ import {DOCUMENT} from '@angular/common';
 
     label {
       margin: 0 5px;
+    }
+
+    .addBtn {
+      margin: 5px;
+    }
+
+    .mat-align {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .select-label {
@@ -172,6 +190,14 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
     const newText = {...this.textSvc.defaultSettings};
     newText.y = Math.min(90, newText.y + this.settings.text.length * 10);
     this.settings.text.push(newText);
+    this.onChange();
+  }
+
+  public deleteText() {
+    const index = this.settings.text.indexOf(this.selectedText);
+    const selectedContent = this.settings.text[index].body;
+    const text = this.settings.text;
+    text.splice(text.findIndex(item => item.body === selectedContent), 1);
     this.onChange();
   }
 

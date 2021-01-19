@@ -10,15 +10,33 @@ import {ImageToolService} from '../../services/image-tool.service';
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
   template: `
-    <mat-form-field *ngIf="settings?.symbol.length > 1" appearance="fill" class="select-label" floatLabel="never">
-      <mat-select [(ngModel)]="selectedSymbol" (ngModelChange)="onChange()">
-        <mat-option *ngFor="let symbol of (settings?.symbol || []); index as index" [value]="symbol">
-          <ng-container i18n>Símbolo</ng-container>
-          #{{ index + 1 | number }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="mat-align">
+      <mat-form-field *ngIf="settings?.symbol.length > 1" appearance="fill" class="select-label" floatLabel="never">
+        <mat-select [(ngModel)]="selectedSymbol" (ngModelChange)="onChange()">
+          <mat-option *ngFor="let symbol of (settings?.symbol || []); index as index" [value]="symbol">
+            <ng-container i18n>Símbolo</ng-container>
+            #{{ index + 1 | number }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
+      <div style="text-align: right; margin: 5px 0">
+        <button mat-raised-button class="addBtn" (click)="addSymbol()">
+          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
+            <path
+              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+          </svg>
+          <ng-container i18n>Añadir</ng-container>
+        </button>
+        <button mat-raised-button *ngIf="settings?.symbol.length > 1" (click)="deleteSymbol()">
+          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
+            <path
+              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+          </svg>
+          <ng-container i18n>Eliminar</ng-container>
+        </button>
+      </div>
+    </div>
     <div class="symbol-list">
       <div *ngIf="allowNullSelection"
            class="symbol-thumb"
@@ -86,22 +104,22 @@ import {ImageToolService} from '../../services/image-tool.service';
         <color-picker [(ngModel)]="selectedSymbol.color" (ngModelChange)="onChange()"></color-picker>
       </label>
     </div>
-
-    <div style="text-align: center; margin:5px 0">
-      <button mat-raised-button (click)="addSymbol()">
-        <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
-          <path
-            d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
-        </svg>
-        <ng-container i18n>Añadir</ng-container>
-      </button>
-    </div>
   `,
   styles: [
     `
       :host {
         display: block;
         width: 100%;
+      }
+
+      .addBtn {
+        margin: 5px;
+      }
+
+      .mat-align {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .select-label {
@@ -222,6 +240,14 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
     const newSymbol = {...this.symbolSvc.defaultSettings};
     newSymbol.y = Math.min(90, newSymbol.y + this.settings.text.length * 10);
     this.settings.symbol.push(newSymbol);
+    this.onChange();
+  }
+
+  public deleteSymbol() {
+    const index = this.settings.symbol.indexOf(this.selectedSymbol);
+    const selectedContent = this.settings.symbol[index].content;
+    const symbol = this.settings.symbol;
+    symbol.splice(symbol.findIndex(item => item.content === selectedContent), 1);
     this.onChange();
   }
 
