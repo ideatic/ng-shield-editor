@@ -10,7 +10,7 @@ import {ImageToolService} from '../../services/image-tool.service';
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
   template: `
-    <mat-form-field class="select-label" *ngIf="settings?.symbol.length > 1">
+    <mat-form-field appearance="fill" class="select-label" *ngIf="settings?.symbol.length > 1">
       <mat-label i18n>Selecciona un símbolo</mat-label>
       <mat-select [(value)]="selected" [(ngModel)]="settings?.symbol.content" (ngModelChange)="onChange()">
         <mat-option *ngFor="let symbol of (settings?.symbol || []); index as index" value="{{ index }}">
