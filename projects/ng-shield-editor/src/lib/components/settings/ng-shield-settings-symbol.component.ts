@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, forwardRef, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings, NgShieldSettingsSymbol} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -10,8 +10,7 @@ import {ImageToolService} from '../../services/image-tool.service';
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
   template: `
-    <mat-form-field appearance="fill" class="select-label" *ngIf="settings?.symbol.length > 1">
-      <mat-label i18n>Selecciona un símbolo</mat-label>
+    <mat-form-field *ngIf="settings?.symbol.length > 1" appearance="fill" class="select-label">
       <mat-select [(ngModel)]="selectedSymbol" (ngModelChange)="onChange()">
         <mat-option *ngFor="let symbol of (settings?.symbol || []); index as index" [value]="symbol">
           <ng-container i18n>Símbolo</ng-container>
@@ -19,12 +18,12 @@ import {ImageToolService} from '../../services/image-tool.service';
         </mat-option>
       </mat-select>
     </mat-form-field>
-  
+
     <div class="symbol-list">
       <div *ngIf="allowNullSelection"
-          class="symbol-thumb"
-          [class.active]="selectedSymbol.content === null"
-          (click)="onSymbolSelected(selectedSymbol, null)">
+           class="symbol-thumb"
+           [class.active]="selectedSymbol.content === null"
+           (click)="onSymbolSelected(selectedSymbol, null)">
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
           <path
             d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"></path>
@@ -42,9 +41,9 @@ import {ImageToolService} from '../../services/image-tool.service';
       </div>
 
       <div *ngFor="let availableSymbol of symbolSvc.available"
-          class="symbol-thumb"
-          [class.active]="availableSymbol === selectedSymbol.content"
-          (click)="onSymbolSelected(selectedSymbol, availableSymbol)">
+           class="symbol-thumb"
+           [class.active]="availableSymbol === selectedSymbol.content"
+           (click)="onSymbolSelected(selectedSymbol, availableSymbol)">
         <img [src]="selectedSymbol | fn:getPreview:this:availableSymbol"/>
       </div>
     </div>
@@ -160,28 +159,24 @@ import {ImageToolService} from '../../services/image-tool.service';
     }
   ]
 })
-export class NgShieldSettingsSymbolComponent implements ControlValueAccessor, OnInit {
+export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   @Input() public allowNullSelection = true;
 
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
-  
-  public selectedSymbol: NgShieldSettingsSymbol;
-  
-  constructor(public symbolSvc: NgShieldSymbolService,
-    private _imageSvc: ImageToolService,
-    private _sanitizer: DomSanitizer) {
-  }
 
-  ngOnInit(): void {
-    this.selectedSymbol = this.symbolSvc.defaultSettings;
+  public selectedSymbol: NgShieldSettingsSymbol = this.symbolSvc.defaultSettings;
+
+  constructor(public symbolSvc: NgShieldSymbolService,
+              private _imageSvc: ImageToolService,
+              private _sanitizer: DomSanitizer) {
   }
 
   public onSymbolSelected(symbol: NgShieldSettingsSymbol, content: string) {
     symbol.content = content;
     this.onChange();
   }
-    
+
   public onChange() {
     this.settings = {...this.settings};
     this._onChangeCallback(this.settings);
@@ -239,8 +234,12 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor, On
   }
 
   public writeValue(settings: NgShieldSettings): void {
-    if (settings && !Array.isArray(settings.symbol)) { // Compatibilidad con versiones sin soporte para múltiples símbolos
-      settings.symbol = [settings.symbol || this.symbolSvc.defaultSettings];
+    if (settings) {
+      if (!Array.isArray(settings.symbol)) { // Compatibilidad con versiones sin soporte para múltiples símbolos
+        settings.symbol = [settings.symbol || this.symbolSvc.defaultSettings];
+      }
+
+      this.selectedSymbol = settings.symbol.find(s => s === this.selectedSymbol) || settings.symbol[0];
     }
 
     this.settings = settings;

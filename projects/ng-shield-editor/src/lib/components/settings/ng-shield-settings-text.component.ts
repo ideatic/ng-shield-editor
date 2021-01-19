@@ -1,4 +1,4 @@
-import {Component, forwardRef, Inject, OnInit} from '@angular/core';
+import {Component, forwardRef, Inject} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -8,111 +8,113 @@ import {DOCUMENT} from '@angular/common';
 @Component({
   selector: 'ng-shield-editor-settings-text',
   template: `
-    <mat-form-field appearance="fill" class="select-label" *ngIf="settings?.text.length > 1">
-      <mat-label i18n>Selecciona un texto</mat-label>
+    <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="select-label">
       <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
         <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
-          <ng-container i18n>Texto</ng-container>
-          #{{ index + 1 | number }}
+          <ng-container *ngIf="text.body; else noTextBody">{{ text.body }}</ng-container>
+          <ng-template #noTextBody>
+            <ng-container i18n>Texto</ng-container>
+            #{{ index + 1 | number }}
+          </ng-template>
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-      <div class="flex">
-        <label class="block">
-          <mat-form-field>
-            <mat-label i18n>Texto</mat-label>
-            <input matInput [(ngModel)]="selectedText.body" (ngModelChange)="onChange()">
-          </mat-form-field>
-        </label>
+    <div class="flex">
+      <label class="block">
+        <mat-form-field>
+          <mat-label i18n>Texto</mat-label>
+          <input matInput [(ngModel)]="selectedText.body" (ngModelChange)="onChange()">
+        </mat-form-field>
+      </label>
 
-        <label class="block">
-          <mat-form-field appearance="fill">
-            <mat-label i18n>Fuente</mat-label>
-            <mat-select [(ngModel)]="selectedText.fontFamily" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
-              <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">
-                {{ family.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </label>
+      <label class="block">
+        <mat-form-field appearance="fill">
+          <mat-label i18n>Fuente</mat-label>
+          <mat-select [(ngModel)]="selectedText.fontFamily" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
+            <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">
+              {{ family.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </label>
 
 
-      </div>
+    </div>
 
-      <div class="flex">
-        <label class="block">
-          <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="selectedText.size" (input)="selectedText.size = $event.value; onChange()"
-                      [disabled]="!selectedText.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
-        </label>
+    <div class="flex">
+      <label class="block">
+        <ng-container i18n>Tamaño</ng-container>
+        <mat-slider [(ngModel)]="selectedText.size" (input)="selectedText.size = $event.value; onChange()"
+                    [disabled]="!selectedText.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
+      </label>
 
-        <label class="block">
-          <mat-form-field appearance="fill">
-            <mat-label i18n>Forma</mat-label>
-            <mat-select [(ngModel)]="selectedText.path" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
-              <mat-option [value]="null" i18n>Ninguna</mat-option>
-              <mat-option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [value]="path.key">
-                {{ path.key }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </label>
-      </div>
+      <label class="block">
+        <mat-form-field appearance="fill">
+          <mat-label i18n>Forma</mat-label>
+          <mat-select [(ngModel)]="selectedText.path" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
+            <mat-option [value]="null" i18n>Ninguna</mat-option>
+            <mat-option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [value]="path.key">
+              {{ path.key }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </label>
+    </div>
 
-      <div>
-        <label>
-          <ng-container i18n>Color</ng-container>
-          <color-picker [(ngModel)]="selectedText.color" (ngModelChange)="onChange()" [disabled]="!selectedText.body"></color-picker>
-        </label>
-      </div>
+    <div>
+      <label>
+        <ng-container i18n>Color</ng-container>
+        <color-picker [(ngModel)]="selectedText.color" (ngModelChange)="onChange()" [disabled]="!selectedText.body"></color-picker>
+      </label>
+    </div>
 
-      <div class="flex">
-        <label>
-          <ng-container i18n>Posición horizontal</ng-container>
-          <mat-slider [(ngModel)]="selectedText.x" (input)="selectedText.x = $event.value; onChange()"
-                      [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
-        </label>
-        <label>
-          <ng-container i18n>Posición vertical</ng-container>
-          <mat-slider [(ngModel)]="selectedText.y" (input)="selectedText.y = $event.value; onChange()"
-                      [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
-        </label>
-      </div>
+    <div class="flex">
+      <label>
+        <ng-container i18n>Posición horizontal</ng-container>
+        <mat-slider [(ngModel)]="selectedText.x" (input)="selectedText.x = $event.value; onChange()"
+                    [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+      </label>
+      <label>
+        <ng-container i18n>Posición vertical</ng-container>
+        <mat-slider [(ngModel)]="selectedText.y" (input)="selectedText.y = $event.value; onChange()"
+                    [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+      </label>
+    </div>
 
-      <div>
-        <label>
-          <ng-container i18n>Espaciado de letras</ng-container>
-          <mat-slider [(ngModel)]="selectedText.spacing" (input)="selectedText.spacing = $event.value; onChange()"
-                      [disabled]="!selectedText.body" [min]="-25" [max]="50" [thumbLabel]="true"></mat-slider>
-        </label>
-      </div>
+    <div>
+      <label>
+        <ng-container i18n>Espaciado de letras</ng-container>
+        <mat-slider [(ngModel)]="selectedText.spacing" (input)="selectedText.spacing = $event.value; onChange()"
+                    [disabled]="!selectedText.body" [min]="-25" [max]="50" [thumbLabel]="true"></mat-slider>
+      </label>
+    </div>
 
-      <hr/>
+    <hr/>
 
-      <div>
-        <label>
-          <ng-container i18n>Borde</ng-container>
-          <color-picker [(ngModel)]="selectedText.borderColor" (ngModelChange)="onChange()"
-                        [allowNullSelection]="true" [disabled]="!selectedText.body"></color-picker>
-        </label>
+    <div>
+      <label>
+        <ng-container i18n>Borde</ng-container>
+        <color-picker [(ngModel)]="selectedText.borderColor" (ngModelChange)="onChange()"
+                      [allowNullSelection]="true" [disabled]="!selectedText.body"></color-picker>
+      </label>
 
-        <label *ngIf="selectedText.borderColor">
-          <ng-container i18n>Tamaño</ng-container>
-          <mat-slider [(ngModel)]="selectedText.borderSize" (input)="selectedText.borderSize = $event.value; onChange()"
-                      [min]="1" [max]="8" [thumbLabel]="true" [disabled]="!selectedText.body"></mat-slider>
-        </label>
-      </div>
+      <label *ngIf="selectedText.borderColor">
+        <ng-container i18n>Tamaño</ng-container>
+        <mat-slider [(ngModel)]="selectedText.borderSize" (input)="selectedText.borderSize = $event.value; onChange()"
+                    [min]="1" [max]="8" [thumbLabel]="true" [disabled]="!selectedText.body"></mat-slider>
+      </label>
+    </div>
 
-      <div style="text-align: center; margin:5px 0">
-        <button mat-raised-button (click)="addText()">
-          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
-            <path
-              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
-          </svg>
-          <ng-container i18n>Añadir</ng-container>
-        </button>
-      </div>
+    <div style="text-align: center; margin:5px 0">
+      <button mat-raised-button (click)="addText()">
+        <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
+          <path
+            d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+        </svg>
+        <ng-container i18n>Añadir</ng-container>
+      </button>
+    </div>
   `,
   styles: [
     `div {
@@ -150,19 +152,15 @@ import {DOCUMENT} from '@angular/common';
     multi: true
   }]
 })
-export class NgShieldSettingsTextComponent implements ControlValueAccessor, OnInit {
+export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  public selectedText: NgShieldSettingsText;
+  public selectedText: NgShieldSettingsText= this.textSvc.defaultSettings;
 
   constructor(public textSvc: NgShieldTextService,
               @Inject(DOCUMENT) private _document: Document) {
 
-  }
-
-  ngOnInit(): void {
-    this.selectedText = this.textSvc.defaultSettings;
   }
 
   public onChange() {
@@ -218,6 +216,8 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor, OnIn
           }
         });
       }
+
+      this.selectedText = settings.text.find(t => t === this.selectedText) || settings.text[0];
     }
 
     this.settings = settings;
