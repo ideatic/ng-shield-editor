@@ -194,10 +194,16 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   }
 
   public deleteText() {
-    const index = this.settings.text.indexOf(this.selectedText);
-    const selectedContent = this.settings.text[index].body;
-    const text = this.settings.text;
-    text.splice(text.findIndex(item => item.body === selectedContent), 1);
+    let index = this.settings.text.indexOf(this.selectedText);
+    if(index > -1) {
+      this.settings.text.splice(index, 1);
+      if(index !== 0) {
+        index -= 1;
+      } 
+      
+      this.selectedText = this.settings.text[index];
+    }
+    
     this.onChange();
   }
 
