@@ -56,7 +56,7 @@ export class NgShieldBuilderService {
         ${this._getMotif(settings, idSuffix)}
 
         <!-- Symbol -->
-        ${this._getSymbol(settings, idSuffix)}
+        ${this._getSymbols(settings, idSuffix)}
 
         <!-- Text -->
         ${this._getText(settings, idSuffix)}
@@ -126,28 +126,29 @@ export class NgShieldBuilderService {
     let svg = '';
 
     for (const text of settings.text) {
-      const fontFamily = this._textSvc.fontFamilies.find(f => f.name == text.fontFamily);
+      if (text.body) {
+        const fontFamily = this._textSvc.fontFamilies.find(f => f.name == text.fontFamily);
 
-      // Fuente
-      if (fontFamily?.url) {
-        svg += `<style>
+        // Fuente
+        if (fontFamily?.url) {
+          svg += `<style>
 @font-face {
     font-family: ${fontFamily.name};
     src: url(${fontFamily.url}) format('truetype');
 }
 </style>`;
-      }
+        }
 
-      // Forma
-      const useTextPath = text.path && this._textSvc.paths[text.path];
-      const textPathID = `text-path-${text.path}-${isSuffix}`;
+        // Forma
+        const useTextPath = text.path && this._textSvc.paths[text.path];
+        const textPathID = `text-path-${text.path}-${isSuffix}`;
 
-      if (useTextPath) {
-        svg += `<defs>${this._textSvc.paths[text.path].replace(/%attrs%/g, `id="${textPathID}"`)}</defs>`;
-      }
+        if (useTextPath) {
+          svg += `<defs>${this._textSvc.paths[text.path].replace(/%attrs%/g, `id="${textPathID}"`)}</defs>`;
+        }
 
-      svg +=
-        `<text
+        svg +=
+          `<text
           ${useTextPath ? '' : 'x="50%" y="50%" letter-spacing="0" dominant-baseline="middle" text-anchor="middle"'}
           fill="${escapeXML(text.color)}"
           font-weight="bold"
@@ -157,41 +158,46 @@ export class NgShieldBuilderService {
           transform="translate(${512 / 100 * (text.x - 50)}, ${512 / 100 * (text.y - 50)})"
           ${text.borderColor && text.borderSize ? `stroke="${text.borderColor}" stroke-width="${text.borderSize}"` : ''}
         >${useTextPath
-          ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${escapeXML(text.body)}</textPath>`
-          : escapeXML(text.body)
-        }</text>`;
+            ? `<textPath xlink:href="#${textPathID}" text-anchor="middle" startOffset="50%">${escapeXML(text.body)}</textPath>`
+            : escapeXML(text.body)
+          }</text>`;
+      }
     }
 
     return svg;
   }
 
-  private _getSymbol(settings: NgShieldSettings, idSuffix: string): string {
+  private _getSymbols(settings: NgShieldSettings, idSuffix: string): string {
     let svg = '';
     for (const symbol of (settings?.symbol || [])) {
-      let image = `<image %attrs% href="${this._symbolSvc.render(symbol)}"/>`;
+      const symbolContent = this._symbolSvc.render(symbol);
 
-      // Calcular atributos
-      const imageSize = 512 * (symbol.size * 0.01);
-      let cssAttrs = [`width: ${symbol.size}%`];
-      let attrs = `x="${512 / 100 * symbol.x - imageSize / 2}" y="${512 / 100 * symbol.y - imageSize / 2}"`;
+      if (symbolContent) {
+        let image = `<image %attrs% href="${symbolContent}"/>`;
 
-      const shapeData = this._shapeSvc.available[settings.shape.id];
+        // Calcular atributos
+        const imageSize = 512 * (symbol.size * 0.01);
+        let cssAttrs = [`width: ${symbol.size}%`];
+        let attrs = `x="${512 / 100 * symbol.x - imageSize / 2}" y="${512 / 100 * symbol.y - imageSize / 2}"`;
 
-      if (symbol.rotation != 0) {
-        cssAttrs.push('transform-box: fill-box');
-        cssAttrs.push('transform-origin: center');
-        cssAttrs.push(`transform: rotate(${symbol.rotation}deg)`);
+        const shapeData = this._shapeSvc.available[settings.shape.id];
+
+        if (symbol.rotation != 0) {
+          cssAttrs.push('transform-box: fill-box');
+          cssAttrs.push('transform-origin: center');
+          cssAttrs.push(`transform: rotate(${symbol.rotation}deg)`);
+        }
+
+        image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
+
+        // Máscara de recorte
+        const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
+        if (symbol.trim && !isNoBgShape) {
+          image = `<g clip-path="url(#bg-${idSuffix})">${image}</g>`;
+        }
+
+        svg += image;
       }
-
-      image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
-
-      // Máscara de recorte
-      const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;
-      if (symbol.trim && !isNoBgShape) {
-        image = `<g clip-path="url(#bg-${idSuffix})">${image}</g>`;
-      }
-
-      svg += image;
     }
 
     return svg;

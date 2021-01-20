@@ -9,7 +9,22 @@ import {DOCUMENT} from '@angular/common';
   selector: 'ng-shield-editor-settings-text',
   template: `
     <div class="mat-align">
-      <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="select-label" floatLabel="never">
+      <div style="margin:5px 0">
+        <button mat-stroked-button class="addBtn" (click)="addText()">
+          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
+            <path
+              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+          </svg>
+        </button>
+        <button *ngIf="settings?.text.length > 1" mat-stroked-button color="warn" class="trash-icon" (click)="deleteText(selectedText)">
+          <svg width="1.3em" height="1.3em" viewBox="0 0 512 512">
+            <path
+              d="m464 32l-120 0-9-19c-4-8-13-13-22-13l-114 0c-9 0-18 5-22 13l-9 19-120 0c-9 0-16 7-16 16l0 32c0 9 7 16 16 16l416 0c9 0 16-7 16-16l0-32c0-9-7-16-16-16z m-379 435c2 25 23 45 48 45l246 0c25 0 46-20 48-45l21-339-384 0z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="no-label-select" floatLabel="never">
         <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
           <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
             <ng-container *ngIf="text.body; else noTextBody">{{ text.body }}</ng-container>
@@ -20,20 +35,6 @@ import {DOCUMENT} from '@angular/common';
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <div style="text-align: center; margin:5px 0">
-        <button mat-raised-button class="addBtn" (click)="addText()">
-          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
-            <path
-              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
-          </svg>
-        </button>
-        <button mat-stroked-button color="warn" *ngIf="settings?.text.length > 1" (click)="deleteText()">
-          <svg class="svgColor" width="1.3em" height="1.3em" viewBox="0 0 512 512">
-            <path d="m464 32l-120 0-9-19c-4-8-13-13-22-13l-114 0c-9 0-18 5-22 13l-9 19-120 0c-9 0-16 7-16 16l0 32c0 9 7 16 16 16l416 0c9 0 16-7 16-16l0-32c0-9-7-16-16-16z m-379 435c2 25 23 45 48 45l246 0c25 0 46-20 48-45l21-339-384 0z"></path>
-          </svg>
-        </button>
-      </div>
     </div>
     <div class="flex">
       <label class="block">
@@ -44,7 +45,7 @@ import {DOCUMENT} from '@angular/common';
       </label>
 
       <label class="block">
-        <mat-form-field appearance="fill">
+        <mat-form-field>
           <mat-label i18n>Fuente</mat-label>
           <mat-select [(ngModel)]="selectedText.fontFamily" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
             <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">
@@ -65,7 +66,7 @@ import {DOCUMENT} from '@angular/common';
       </label>
 
       <label class="block">
-        <mat-form-field appearance="fill">
+        <mat-form-field>
           <mat-label i18n>Forma</mat-label>
           <mat-select [(ngModel)]="selectedText.path" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
             <mat-option [value]="null" i18n>Ninguna</mat-option>
@@ -130,13 +131,23 @@ import {DOCUMENT} from '@angular/common';
       margin: 0 5px;
     }
 
-    .mat-stroked-button:hover {
+
+    /* Ajustar selects material que no usan label */
+    .no-label-select ::ng-deep .mat-form-field-flex {
+      padding: 0 .75em 0 .75em;
+    }
+
+    .no-label-select ::ng-deep .mat-select-arrow-wrapper{
+      transform: none;
+    }
+
+    .trash-icon:hover {
       border-color: #f44336;
       transition: 0.3s;
     }
 
-    .svgColor {
-      filter: invert(49%) sepia(71%) saturate(5496%) hue-rotate(340deg) brightness(96%) contrast(99%);
+    .trash-icon svg {
+      fill: #f44336;
     }
 
     .addBtn {
@@ -147,10 +158,7 @@ import {DOCUMENT} from '@angular/common';
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .select-label {
-      margin-top: 10px;
+      flex-direction: row-reverse;
     }
 
     .flex {
@@ -196,20 +204,17 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
     const newText = {...this.textSvc.defaultSettings};
     newText.y = Math.min(90, newText.y + this.settings.text.length * 10);
     this.settings.text.push(newText);
+    this.selectedText = newText;
     this.onChange();
   }
 
-  public deleteText() {
-    let index = this.settings.text.indexOf(this.selectedText);
-    if(index > -1) {
+  public deleteText(text: NgShieldSettingsText) {
+    let index = this.settings.text.indexOf(text);
+    if (index > -1 && text == this.selectedText) {
       this.settings.text.splice(index, 1);
-      if(index !== 0) {
-        index -= 1;
-      } 
-      
-      this.selectedText = this.settings.text[index];
+      this.selectedText = this.settings.text[Math.max(index - 1, 0)];
     }
-    
+
     this.onChange();
   }
 
