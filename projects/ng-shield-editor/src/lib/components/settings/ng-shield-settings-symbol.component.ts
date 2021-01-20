@@ -26,14 +26,11 @@ import {ImageToolService} from '../../services/image-tool.service';
             <path
               d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
           </svg>
-          <ng-container i18n>Añadir</ng-container>
         </button>
-        <button mat-raised-button *ngIf="settings?.symbol.length > 1" (click)="deleteSymbol()">
-          <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
-            <path
-              d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
+        <button mat-stroked-button color="warn" *ngIf="settings?.symbol.length > 1" (click)="deleteSymbol()">
+          <svg class="svgColor" width="1.3em" height="1.3em" viewBox="0 0 512 512">
+            <path d="m464 32l-120 0-9-19c-4-8-13-13-22-13l-114 0c-9 0-18 5-22 13l-9 19-120 0c-9 0-16 7-16 16l0 32c0 9 7 16 16 16l416 0c9 0 16-7 16-16l0-32c0-9-7-16-16-16z m-379 435c2 25 23 45 48 45l246 0c25 0 46-20 48-45l21-339-384 0z"></path>
           </svg>
-          <ng-container i18n>Eliminar</ng-container>
         </button>
       </div>
     </div>
@@ -110,6 +107,15 @@ import {ImageToolService} from '../../services/image-tool.service';
       :host {
         display: block;
         width: 100%;
+      }
+
+      .mat-stroked-button:hover {
+        border-color: #f44336;
+        transition: 0.3s;
+      }
+
+      .svgColor {
+        filter: invert(49%) sepia(71%) saturate(5496%) hue-rotate(340deg) brightness(96%) contrast(99%);
       }
 
       .addBtn {
