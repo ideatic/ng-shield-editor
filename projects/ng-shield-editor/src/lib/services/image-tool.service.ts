@@ -7,7 +7,7 @@ export class ImageToolService {
   }
 
   public svgToDataUri(svg: string): string {
-    return 'data:image/svg+xml;base64,' + btoa(svg);
+    return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065;
   }
 
   public svgToBase64Image(svg: string, height?: number, width?: number, type = 'image/png'): Promise<string> {
@@ -15,7 +15,7 @@ export class ImageToolService {
       const img = this._document.createElement('img');
 
       img.onload = () => {
-        setTimeout(() => { // Allow some time to load external resources
+        setTimeout(() => { // Allow some time to prepare external resources
           const canvas = this._document.createElement('canvas');
           const ctx = canvas.getContext('2d');
 
@@ -31,19 +31,9 @@ export class ImageToolService {
 
           resolve(canvas.toDataURL(type));
         }, 50);
-
-        /* if (URL?.revokeObjectURL) {
-           URL.revokeObjectURL(img.src);
-         }*/
       };
-      img.onerror = () => reject('Unable to load SVG');
-
-      /*  if (URL?.createObjectURL) {
-          const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
-          img.src = URL.createObjectURL(svgBlob);
-        } else {*/
-      img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065
-      //  }
+      img.onerror = () => reject(`Unable to load SVG: ${svg}`);
+      img.src = this.svgToDataUri(svg);
     });
   }
 
