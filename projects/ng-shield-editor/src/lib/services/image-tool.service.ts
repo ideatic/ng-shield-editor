@@ -7,7 +7,7 @@ export class ImageToolService {
   }
 
   public svgToDataUri(svg: string): string {
-    return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`; // https://stackoverflow.com/a/26603875/528065;
+    return `data:image/svg+xml;base64,${btoa(svg.replace(/[\u00A0-\uFFFF]/g, c => `&#${c.charCodeAt(0)};`))}`; // https://stackoverflow.com/a/33140101/528065
   }
 
   public svgToBase64Image(svg: string, height?: number, width?: number, type = 'image/png'): Promise<string> {
