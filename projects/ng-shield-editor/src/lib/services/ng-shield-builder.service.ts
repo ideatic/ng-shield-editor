@@ -149,7 +149,7 @@ export class NgShieldBuilderService {
 
         svg +=
           `<text
-          ${useTextPath ? '' : 'x="50%" y="50%" letter-spacing="0" dominant-baseline="middle" text-anchor="middle"'}
+          ${useTextPath ? '' : 'x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"'}
           fill="${escapeXML(text.color)}"
           font-weight="bold"
           font-family="${escapeXML(fontFamily?.name || '')}"
