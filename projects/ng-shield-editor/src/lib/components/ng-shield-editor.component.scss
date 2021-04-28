@@ -1,3 +1,15 @@
+/* Prevent DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables*/
+$mat-theme-ignore-duplication-warnings: null;
+$mat-form-field-dedupe: null;
+$mat-form-field-legacy-dedupe: null;
+$mat-form-field-fill-dedupe: null;
+$mat-form-field-outline-dedupe: null;
+$_mat-theme-emitted-color: null;
+$mat-private-density-generate-styles: null;
+$mat-private-density-generate-at-root: null;
+$_mat-theme-emitted-density: null;
+$_mat-theme-emitted-typography: null;
+
 :host {
   display: flex;
   flex-wrap: wrap;
