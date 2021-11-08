@@ -34,8 +34,7 @@ export class NgShieldBuilderService {
               private _motifSvc: NgShieldMotifService,
               private _symbolSvc: NgShieldSymbolService,
               private _textSvc: NgShieldTextService,
-              private _imageSvc: ImageToolService,
-              @Inject(DOCUMENT) private _document: Document) {
+              private _imageSvc: ImageToolService) {
   }
 
   public generateSVG(settings: NgShieldSettings): string {
