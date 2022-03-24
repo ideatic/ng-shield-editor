@@ -1,9 +1,8 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {NgShieldSettings} from '../ng-shield-settings';
 import {NgShieldShapeService} from './ng-shield-shape.service';
 import {NgShieldMotifService} from './ng-shield-motif.service';
 import {NgShieldTextService} from './ng-shield-text.service';
-import {DOCUMENT} from '@angular/common';
 import {NgShieldSymbolService} from './ng-shield-symbol.service';
 import {ImageToolService} from './image-tool.service';
 import {gloss} from './gloss';
