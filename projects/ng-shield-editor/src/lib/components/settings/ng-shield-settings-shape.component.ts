@@ -28,47 +28,47 @@ import {NgShieldShapeService} from '../../services/ng-shield-shape.service';
   `,
   styles: [
     `
-      :host {
-        display: block;
-        width: 100%;
-      }
-
-      .shapes {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 10px 0;
-        margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
-
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
-      }
-
-      .shape-thumb {
-        width: 75px;
-        height: 75px;
-        margin: 10px;
-        padding: 5px;
-        border-radius: 6px;
-        background: #ebf0f6;
-        outline: none;
-        cursor: pointer;
-        border: 2px solid transparent;
-      }
-
-      .shape-thumb ::ng-deep svg {
-        max-width: 100%;
-        max-height: 100%;
-      }
-
-      .shape-thumb.active {
-        border: 2px solid #3666c8;
-      }
-
-      mat-slide-toggle {
-        display: block;
-        margin: 5px 0;
-      }
-    `
+                  :host {
+                    display: block;
+                    width: 100%;
+                  }
+            
+                  .shapes {
+                    display: flex;
+                    flex-wrap: wrap;
+                    padding: 10px 0;
+                    margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
+            
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+                  }
+            
+                  .shape-thumb {
+                    width: 75px;
+                    height: 75px;
+                    margin: 10px;
+                    padding: 5px;
+                    border-radius: 6px;
+                    background: #ebf0f6;
+                    outline: none;
+                    cursor: pointer;
+                    border: 2px solid transparent;
+                  }
+            
+                  .shape-thumb ::ng-deep svg {
+                    max-width: 100%;
+                    max-height: 100%;
+                  }
+            
+                  .shape-thumb.active {
+                    border: 2px solid #3666c8;
+                  }
+            
+                  mat-slide-toggle {
+                    display: block;
+                    margin: 5px 0;
+                  }
+                `
   ],
   providers: [{
     provide: NG_VALUE_ACCESSOR,

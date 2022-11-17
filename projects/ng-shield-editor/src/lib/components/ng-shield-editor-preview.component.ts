@@ -7,19 +7,19 @@ import {NgShieldSettings} from '../ng-shield-settings';
   template: '',
   styles: [
     `
-      :host {
-        display: block;
-        text-align: center;
-        margin: 0 auto;
-      }
-
-      :host ::ng-deep svg {
-        max-width: 100%;
-        max-height: 100%;
-        display: block;
-        margin: 0 auto;
-      }
-    `
+                  :host {
+                    display: block;
+                    text-align: center;
+                    margin: 0 auto;
+                  }
+            
+                  :host ::ng-deep svg {
+                    max-width: 100%;
+                    max-height: 100%;
+                    display: block;
+                    margin: 0 auto;
+                  }
+                `
   ],
   // Este componente solo necesita activar el detector de cambios cuando cambia alguno de sus parámetros de entrada
   changeDetection: ChangeDetectionStrategy.OnPush

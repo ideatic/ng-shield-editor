@@ -26,7 +26,7 @@ import {ImageToolService} from '../../services/image-tool.service';
         </button>
       </div>
 
-      <mat-form-field *ngIf="settings?.symbol.length > 1" appearance="fill" class="no-label-select" floatLabel="never">
+      <mat-form-field *ngIf="settings?.symbol.length > 1" appearance="fill" class="no-label-select">
         <mat-select [(ngModel)]="selectedSymbol" (ngModelChange)="onChange()">
           <mat-option *ngFor="let symbol of (settings?.symbol || []); index as index" [value]="symbol">
             <ng-container i18n>Símbolo</ng-container>
@@ -67,26 +67,30 @@ import {ImageToolService} from '../../services/image-tool.service';
     <div class="flex">
       <label>
         <ng-container i18n>Posición horizontal</ng-container>
-        <mat-slider [(ngModel)]="selectedSymbol.x" (input)="selectedSymbol.x = $event.value; onChange()"
-                    [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" discrete>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.x" (valueChange)="selectedSymbol.x = $event; onChange()"/>
+        </mat-slider>
       </label>
       <label>
         <ng-container i18n>Posición vertical</ng-container>
-        <mat-slider [(ngModel)]="selectedSymbol.y" (input)="selectedSymbol.y = $event.value; onChange()"
-                    [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" discrete>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.y" (valueChange)="selectedSymbol.y = $event; onChange()"/>
+        </mat-slider>
       </label>
     </div>
 
     <div class="flex">
       <label>
         <ng-container i18n>Tamaño</ng-container>
-        <mat-slider [(ngModel)]="selectedSymbol.size" (input)="selectedSymbol.size = $event.value; onChange()"
-                    [disabled]="selectedSymbol.content === null" [min]="1" [max]="200" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="selectedSymbol.content === null" [min]="1" [max]="200" discrete>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.size" (valueChange)="selectedSymbol.size = $event; onChange()"/>
+        </mat-slider>
       </label>
       <label>
         <ng-container i18n>Rotación</ng-container>
-        <mat-slider [(ngModel)]="selectedSymbol.rotation" (input)="selectedSymbol.rotation = $event.value; onChange()"
-                    [disabled]="selectedSymbol.content === null" [min]="-180" [max]="180" [step]="5" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="selectedSymbol.content === null" [min]="-180" [max]="180" [step]="5" discrete>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.rotation" (valueChange)="selectedSymbol.rotation = $event; onChange()"/>
+        </mat-slider>
       </label>
     </div>
 

@@ -27,21 +27,24 @@ import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
       <div class="flex">
         <label>
           <ng-container i18n>Posición horizontal</ng-container>
-          <mat-slider [(ngModel)]="settings.motif.x" (input)="settings.motif.x = $event.value; onChange()"
-                      [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" discrete>
+            <input matSliderThumb [(ngModel)]="settings.motif.x" (valueChange)="settings.motif.x = $event; onChange()"/>
+          </mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición vertical</ng-container>
-          <mat-slider [(ngModel)]="settings.motif.y" (input)="settings.motif.y = $event.value; onChange()"
-                      [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+          <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" discrete>
+            <input matSliderThumb [(ngModel)]="settings.motif.y" (valueChange)="settings.motif.y = $event; onChange()"/>
+          </mat-slider>
         </label>
       </div>
 
       <div>
         <label>
           <ng-container i18n>Zoom</ng-container>
-          <mat-slider [(ngModel)]="settings.motif.zoom" (input)="settings.motif.zoom = $event.value; onChange()"
-                      [disabled]="settings.motif.id === 'none'" [min]="0" [max]="300" [step]="10" [thumbLabel]="true"></mat-slider>
+          <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="300" [step]="10" discrete>
+            <input matSliderThumb [(ngModel)]="settings.motif.zoom" (valueChange)="settings.motif.zoom = $event; onChange()"/>
+          </mat-slider>
         </label>
       </div>
     </ng-container>

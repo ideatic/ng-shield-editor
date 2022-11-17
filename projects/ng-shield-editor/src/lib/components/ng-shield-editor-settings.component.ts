@@ -23,11 +23,11 @@ import {noop} from 'rxjs';
   `,
   styles: [
     `
-      /* Fix for Material tabs overflow bug */
-      :host ::ng-deep .mat-tab-body-content {
-        overflow: hidden;
-      }
-    `
+                  /* Fix for Material tabs overflow bug */
+                  :host ::ng-deep .mat-tab-body-content {
+                    overflow: hidden;
+                  }
+                `
   ],
   providers: [
     {

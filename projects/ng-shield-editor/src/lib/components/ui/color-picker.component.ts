@@ -26,40 +26,40 @@ import {noop} from 'rxjs';
   `,
   styles: [
     `
-      :host {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 10px 0;
-        margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
-
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-      }
-
-      .swatch {
-        width: 32px;
-        height: 32px;
-        margin: 10px;
-        border-radius: 6px;
-        outline: none;
-        cursor: pointer;
-        border: 2px solid transparent;
-      }
-
-      :host.disabled .swatch {
-        cursor: not-allowed;
-        opacity: .5;
-      }
-
-      .swatch.light {
-        box-shadow: rgb(221, 221, 221) 0 0 0 1px inset;
-      }
-
-      .swatch.active {
-        border: 2px solid #3666c8;
-      }
-    `
+                  :host {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    padding: 10px 0;
+                    margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
+            
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+                  }
+            
+                  .swatch {
+                    width: 32px;
+                    height: 32px;
+                    margin: 10px;
+                    border-radius: 6px;
+                    outline: none;
+                    cursor: pointer;
+                    border: 2px solid transparent;
+                  }
+            
+                  :host.disabled .swatch {
+                    cursor: not-allowed;
+                    opacity: .5;
+                  }
+            
+                  .swatch.light {
+                    box-shadow: rgb(221, 221, 221) 0 0 0 1px inset;
+                  }
+            
+                  .swatch.active {
+                    border: 2px solid #3666c8;
+                  }
+                `
   ],
   providers: [
     {

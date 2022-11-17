@@ -24,7 +24,7 @@ import {DOCUMENT} from '@angular/common';
         </button>
       </div>
 
-      <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="no-label-select" floatLabel="never">
+      <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="no-label-select">
         <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
           <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
             <ng-container *ngIf="text.body; else noTextBody">{{ text.body }}</ng-container>
@@ -61,8 +61,9 @@ import {DOCUMENT} from '@angular/common';
     <div class="flex">
       <label class="block">
         <ng-container i18n>Tamaño</ng-container>
-        <mat-slider [(ngModel)]="selectedText.size" (input)="selectedText.size = $event.value; onChange()"
-                    [disabled]="!selectedText.body" [min]="1" [max]="10" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="!selectedText.body" [min]="1" [max]="10" discrete>
+          <input matSliderThumb [(ngModel)]="selectedText.size" (valueChange)="selectedText.size = $event; onChange()"/>
+        </mat-slider>
       </label>
 
       <label class="block">
@@ -88,21 +89,24 @@ import {DOCUMENT} from '@angular/common';
     <div class="flex">
       <label>
         <ng-container i18n>Posición horizontal</ng-container>
-        <mat-slider [(ngModel)]="selectedText.x" (input)="selectedText.x = $event.value; onChange()"
-                    [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="!selectedText.body" [min]="0" [max]="100" discrete>
+          <input matSliderThumb [(ngModel)]="selectedText.x" (valueChange)="selectedText.x = $event; onChange()"/>
+        </mat-slider>
       </label>
       <label>
         <ng-container i18n>Posición vertical</ng-container>
-        <mat-slider [(ngModel)]="selectedText.y" (input)="selectedText.y = $event.value; onChange()"
-                    [disabled]="!selectedText.body" [min]="0" [max]="100" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="!selectedText.body" [min]="0" [max]="100" discrete>
+          <input matSliderThumb [(ngModel)]="selectedText.y" (valueChange)="selectedText.y = $event; onChange()"/>
+        </mat-slider>
       </label>
     </div>
 
     <div>
       <label>
         <ng-container i18n>Espaciado de letras</ng-container>
-        <mat-slider [(ngModel)]="selectedText.spacing" (input)="selectedText.spacing = $event.value; onChange()"
-                    [disabled]="!selectedText.body" [min]="-25" [max]="50" [thumbLabel]="true"></mat-slider>
+        <mat-slider [disabled]="!selectedText.body" [min]="-25" [max]="50" discrete>
+          <input matSliderThumb [(ngModel)]="selectedText.spacing" (valueChange)="selectedText.spacing = $event; onChange()"/>
+        </mat-slider>
       </label>
     </div>
 
@@ -117,8 +121,9 @@ import {DOCUMENT} from '@angular/common';
 
       <label *ngIf="selectedText.borderColor">
         <ng-container i18n>Tamaño</ng-container>
-        <mat-slider [(ngModel)]="selectedText.borderSize" (input)="selectedText.borderSize = $event.value; onChange()"
-                    [min]="1" [max]="8" [thumbLabel]="true" [disabled]="!selectedText.body"></mat-slider>
+        <mat-slider [min]="1" [max]="8" discrete [disabled]="!selectedText.body">
+          <input matSliderThumb [(ngModel)]="selectedText.borderSize" (valueChange)="selectedText.borderSize = $event; onChange()" />
+        </mat-slider>
       </label>
     </div>
   `,
@@ -137,7 +142,7 @@ import {DOCUMENT} from '@angular/common';
       padding: 0 .75em 0 .75em;
     }
 
-    .no-label-select ::ng-deep .mat-select-arrow-wrapper{
+    .no-label-select ::ng-deep .mat-select-arrow-wrapper {
       transform: none;
     }
 
