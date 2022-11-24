@@ -5,9 +5,12 @@ import {noop} from 'rxjs';
 import {NgShieldBuilderService} from '../../services/ng-shield-builder.service';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
+import {imports} from "../imports";
 
 @Component({
   selector: 'ng-shield-editor-settings-motif',
+  standalone: true,
+  imports: [imports],
   template: `
     <div class="motifs">
       <div *ngFor="let motif of motifSvc.available | keyvalue: originalOrder"
@@ -115,14 +118,14 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
               private _sanitizer: DomSanitizer) {
   }
 
-  public onMotifSelected(motifID: string): void {
+  protected onMotifSelected(motifID: string): void {
     if (motifID != this.settings.motif.id) {
       this.settings = {...this.settings, motif: {...this.settings.motif, id: motifID}};
       this._onChangeCallback(this.settings);
     }
   }
 
-  public getMotifThumbnail(motifID: string): SafeHtml | null {
+  protected getMotifThumbnail(motifID: string): SafeHtml | null {
     if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: {...this.settings.motif, id: motifID}}));
     } else {
@@ -130,12 +133,12 @@ export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
     }
   }
 
-  public onChange(): void {
+  protected onChange(): void {
     this.settings = {...this.settings};
     this._onChangeCallback(this.settings);
   }
 
-  public originalOrder(): number {
+  protected originalOrder(): number {
     return 0;
   }
 

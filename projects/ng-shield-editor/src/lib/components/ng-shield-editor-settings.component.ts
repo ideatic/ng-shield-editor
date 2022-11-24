@@ -2,9 +2,22 @@ import {Component, forwardRef} from '@angular/core';
 import {NgShieldSettings} from '../ng-shield-settings';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
+import {imports} from "./imports";
+import {NgShieldSettingsShapeComponent} from "./settings/ng-shield-settings-shape.component";
+import {NgShieldSettingsMotifComponent} from "./settings/ng-shield-settings-motif.component";
+import {NgShieldSettingsSymbolComponent} from "./settings/ng-shield-settings-symbol.component";
+import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.component";
 
 @Component({
   selector: 'ng-shield-editor-settings',
+  standalone: true,
+  imports: [
+    imports,
+    NgShieldSettingsShapeComponent,
+    NgShieldSettingsMotifComponent,
+    NgShieldSettingsSymbolComponent,
+    NgShieldSettingsTextComponent
+  ],
   template: `
     <mat-tab-group>
       <mat-tab label="Forma" i18n-label>
@@ -23,11 +36,11 @@ import {noop} from 'rxjs';
   `,
   styles: [
     `
-                  /* Fix for Material tabs overflow bug */
-                  :host ::ng-deep .mat-tab-body-content {
-                    overflow: hidden;
-                  }
-                `
+      /* Fix for Material tabs overflow bug */
+      :host ::ng-deep .mat-tab-body-content {
+        overflow: hidden;
+      }
+    `
   ],
   providers: [
     {

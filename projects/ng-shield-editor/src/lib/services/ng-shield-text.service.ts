@@ -8,7 +8,9 @@ import {overpass} from './fonts/overpass';
 import {luckiestGuy} from './fonts/luckiest-guy';
 import {NgShieldSettingsText} from '../ng-shield-settings';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NgShieldTextService {
 
   public readonly paths = {

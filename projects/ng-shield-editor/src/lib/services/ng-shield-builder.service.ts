@@ -9,7 +9,9 @@ import {gloss} from './gloss';
 import {randomString} from './libs/random-str';
 import {escapeXML} from './libs/xml';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NgShieldBuilderService {
   public readonly defaultSettings: NgShieldSettings = {
     shape: {

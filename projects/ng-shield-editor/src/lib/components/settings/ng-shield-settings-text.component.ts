@@ -4,9 +4,13 @@ import {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
 import {NgShieldTextService} from '../../services/ng-shield-text.service';
 import {DOCUMENT} from '@angular/common';
+import {imports} from "../imports";
+import {ColorPickerComponent} from "../ui/color-picker.component";
 
 @Component({
   selector: 'ng-shield-editor-settings-text',
+  standalone: true,
+  imports: [imports, ColorPickerComponent],
   template: `
     <div class="mat-align">
       <div style="margin:5px 0">
@@ -190,22 +194,22 @@ import {DOCUMENT} from '@angular/common';
   }]
 })
 export class NgShieldSettingsTextComponent implements ControlValueAccessor {
-  public settings: NgShieldSettings;
+  protected settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  public selectedText: NgShieldSettingsText = this.textSvc.defaultSettings;
+  protected selectedText: NgShieldSettingsText = this.textSvc.defaultSettings;
 
-  constructor(public textSvc: NgShieldTextService,
+  constructor(protected textSvc: NgShieldTextService,
               @Inject(DOCUMENT) private _document: Document) {
 
   }
 
-  public onChange() {
+  protected onChange() {
     this.settings = {...this.settings}; // Realizar copia superficial del objeto para que el detector de cambios pueda detectar el cambio
     this._onChangeCallback(this.settings);
   }
 
-  public addText() {
+  protected addText() {
     const newText = {...this.textSvc.defaultSettings};
     newText.y = Math.min(90, newText.y + this.settings.text.length * 10);
     this.settings.text.push(newText);
@@ -213,7 +217,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
     this.onChange();
   }
 
-  public deleteText(text: NgShieldSettingsText) {
+  protected deleteText(text: NgShieldSettingsText) {
     let index = this.settings.text.indexOf(text);
     if (index > -1 && text == this.selectedText) {
       this.settings.text.splice(index, 1);
@@ -223,15 +227,15 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
     this.onChange();
   }
 
-  public isSameFont(fontA, fontB): boolean {
+  protected isSameFont(fontA, fontB): boolean {
     return fontA && fontB && fontA.name == fontB.name;
   }
 
-  public originalOrder() {
+  protected originalOrder() {
     return 0;
   }
 
-  public loadFontFamily(font: { name: string, url?: string }): string {
+  protected loadFontFamily(font: { name: string, url?: string }): string {
     if (font.url) {
       const style = this._document.createElement('style');
       style.appendChild(document.createTextNode(`@font-face {

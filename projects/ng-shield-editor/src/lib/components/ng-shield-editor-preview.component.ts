@@ -4,22 +4,22 @@ import {NgShieldSettings} from '../ng-shield-settings';
 
 @Component({
   selector: 'ng-shield-editor-preview',
+  standalone: true,
   template: '',
-  styles: [
-    `
-                  :host {
-                    display: block;
-                    text-align: center;
-                    margin: 0 auto;
-                  }
-            
-                  :host ::ng-deep svg {
-                    max-width: 100%;
-                    max-height: 100%;
-                    display: block;
-                    margin: 0 auto;
-                  }
-                `
+  styles: [`
+    :host {
+      display: block;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    :host ::ng-deep svg {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      margin: 0 auto;
+    }
+  `
   ],
   // Este componente solo necesita activar el detector de cambios cuando cambia alguno de sus parámetros de entrada
   changeDetection: ChangeDetectionStrategy.OnPush

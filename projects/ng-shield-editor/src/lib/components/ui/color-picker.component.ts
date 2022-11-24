@@ -1,9 +1,12 @@
 import {Component, forwardRef, HostBinding, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
+import {imports} from "../imports";
 
 @Component({
   selector: 'color-picker',
+  standalone: true,
+  imports: [imports],
   template: `
     <div *ngIf="allowNullSelection"
          class="swatch"
@@ -24,42 +27,41 @@ import {noop} from 'rxjs';
       (click)="onColorSelected(color)"
     ></div>
   `,
-  styles: [
-    `
-                  :host {
-                    width: 100%;
-                    display: flex;
-                    flex-wrap: wrap;
-                    padding: 10px 0;
-                    margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
-            
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-                  }
-            
-                  .swatch {
-                    width: 32px;
-                    height: 32px;
-                    margin: 10px;
-                    border-radius: 6px;
-                    outline: none;
-                    cursor: pointer;
-                    border: 2px solid transparent;
-                  }
-            
-                  :host.disabled .swatch {
-                    cursor: not-allowed;
-                    opacity: .5;
-                  }
-            
-                  .swatch.light {
-                    box-shadow: rgb(221, 221, 221) 0 0 0 1px inset;
-                  }
-            
-                  .swatch.active {
-                    border: 2px solid #3666c8;
-                  }
-                `
+  styles: [`
+    :host {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 0;
+      margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
+
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    }
+
+    .swatch {
+      width: 32px;
+      height: 32px;
+      margin: 10px;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    :host.disabled .swatch {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+
+    .swatch.light {
+      box-shadow: rgb(221, 221, 221) 0 0 0 1px inset;
+    }
+
+    .swatch.active {
+      border: 2px solid #3666c8;
+    }
+  `
   ],
   providers: [
     {
@@ -72,17 +74,17 @@ import {noop} from 'rxjs';
 export class ColorPickerComponent implements ControlValueAccessor {
   @Input() public allowNullSelection = false;
 
-  public selectedColor: string;
+  protected selectedColor: string;
 
   @HostBinding('class.disabled')
-  public isDisabled = false;
+  protected isDisabled = false;
 
   private _onChangeCallback: (v: string) => void = noop;
 
-  public readonly colorPalette = ColorPickerComponent.palette;
+  protected readonly colorPalette = ColorPickerComponent.palette;
 
 
-  public onColorSelected(color) {
+  protected onColorSelected(color) {
     if (!this.isDisabled) {
       this.selectedColor = color;
       this._onChangeCallback(color);
@@ -93,7 +95,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
    * Obtiene el valor de brillo: oscuro (0) ... claro (255)
    * @param color
    */
-  public brightnessByColor(color: string): number | null {
+  protected brightnessByColor(color: string): number | null {
     color = '' + color;
 
     let r, g, b;
@@ -118,7 +120,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
     }
   }
 
-  public isSameColor(color1: string, color2: string): boolean {
+  protected isSameColor(color1: string, color2: string): boolean {
     return color1 && color2 && color1.toUpperCase() == color2.toUpperCase();
   }
 

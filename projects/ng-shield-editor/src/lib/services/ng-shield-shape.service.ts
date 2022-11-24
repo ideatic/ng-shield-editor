@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NgShieldShapeService {
-
-
   public readonly available: { [key: string]: string | { main: string, extra: string } } = {
     // Escudo Biwenger
     bwgShield: '<path %attrs% d="M252.066,488.964C128.683,408.569,28.191,261.79,61.946,101.684c42.212-26.65,114.1-50.385,192.344-51.008v.007c1.782-.047,8.482-.023,10.918-.029v.151c74.442,1.619,145.71,25.865,184.846,50.879,36.475,180.271-88.832,322.975-194.066,389.662Z"  />',

@@ -1,9 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgShieldBuilderService} from '../services/ng-shield-builder.service';
 import {NgShieldSettings} from '../ng-shield-settings';
+import {imports} from "./imports";
+import {NgShieldEditorPreviewComponent} from "./ng-shield-editor-preview.component";
+import {NgShieldEditorSettingsComponent} from "./ng-shield-editor-settings.component";
 
 @Component({
   selector: 'ng-shield-editor',
+  standalone: true,
+  imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent],
   template: `
     <ng-shield-editor-preview *ngIf="showPreview" [settings]="settings"></ng-shield-editor-preview>
     <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)"></ng-shield-editor-settings>

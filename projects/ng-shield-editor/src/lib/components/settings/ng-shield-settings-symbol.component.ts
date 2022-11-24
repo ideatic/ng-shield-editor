@@ -5,10 +5,14 @@ import {noop} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
 import {NgShieldSymbolService} from '../../services/ng-shield-symbol.service';
 import {ImageToolService} from '../../services/image-tool.service';
+import {imports} from "../imports";
+import {ColorPickerComponent} from "../ui/color-picker.component";
 
 
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
+  standalone: true,
+  imports: [imports, ColorPickerComponent],
   template: `
     <div class="mat-align">
       <div style="margin: 5px 0">
@@ -198,28 +202,28 @@ import {ImageToolService} from '../../services/image-tool.service';
 export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   @Input() public allowNullSelection = true;
 
-  public settings: NgShieldSettings;
+  protected settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  public selectedSymbol: NgShieldSettingsSymbol = this.symbolSvc.defaultSettings;
+  protected selectedSymbol: NgShieldSettingsSymbol = this.symbolSvc.defaultSettings;
 
-  constructor(public symbolSvc: NgShieldSymbolService,
+  constructor(protected symbolSvc: NgShieldSymbolService,
               private _imageSvc: ImageToolService,
               private _sanitizer: DomSanitizer) {
   }
 
-  public onSymbolSelected(symbol: NgShieldSettingsSymbol, content: string) {
+  protected onSymbolSelected(symbol: NgShieldSettingsSymbol, content: string) {
     symbol.content = content;
     this.onChange();
   }
 
-  public onChange() {
+  protected onChange() {
     this.settings = {...this.settings};
     this._onChangeCallback(this.settings);
   }
 
 
-  public fileChanged(symbol: NgShieldSettingsSymbol, event: Event) {
+  protected fileChanged(symbol: NgShieldSettingsSymbol, event: Event) {
     new Promise((resolve, reject) => {
       const fileField = event.currentTarget as HTMLInputElement;
       const file = fileField.files[0];
@@ -250,11 +254,11 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
     });
   }
 
-  public getPreview(symbol: NgShieldSettingsSymbol, content: string) {
+  protected getPreview(symbol: NgShieldSettingsSymbol, content: string) {
     return this._sanitizer.bypassSecurityTrustUrl(this.symbolSvc.render({...symbol, content: content}));
   }
 
-  public addSymbol() {
+  protected addSymbol() {
     const newSymbol = {...this.symbolSvc.defaultSettings};
     newSymbol.y = Math.min(90, newSymbol.y + this.settings.text.length * 10);
     this.settings.symbol.push(newSymbol);
@@ -262,7 +266,7 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
     this.onChange();
   }
 
-  public deleteSymbol(symbol: NgShieldSettingsSymbol) {
+  protected deleteSymbol(symbol: NgShieldSettingsSymbol) {
     let index = this.settings.symbol.indexOf(symbol);
     if (index > -1 && symbol === this.selectedSymbol) {
       this.settings.symbol.splice(index, 1);
