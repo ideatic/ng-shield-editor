@@ -12,7 +12,7 @@ export class ImageToolService {
     return `data:image/svg+xml;base64,${btoa(svg.replace(/[\u00A0-\uFFFF]/g, c => `&#${c.charCodeAt(0)};`))}`; // https://stackoverflow.com/a/33140101/528065
   }
 
-  public svgToBase64Image(svg: string, height?: number, width?: number, type = 'image/png'): Promise<string> {
+  public svgToBase64Image(svg: string, width?: number, height?: number, type = 'image/png'): Promise<string> {
     return new Promise((resolve, reject) => {
       const img = this._document.createElement('img');
 
@@ -22,9 +22,14 @@ export class ImageToolService {
           const ctx = canvas.getContext('2d');
 
           if (height || width) {
-            canvas.height = height;
-            canvas.width = width;
-            ctx.drawImage(img, 0, 0, width, height);
+            canvas.height = height ?? img.height;
+            canvas.width = width ?? img.width;
+
+            // Draw the image centered using the maxiumum available space
+            const destW = canvas.width > canvas.height ? canvas.width * (canvas.height / canvas.width) : canvas.width;
+            const destH = canvas.height > canvas.width ? canvas.height * (canvas.width / canvas.height) : canvas.height;
+
+            ctx.drawImage(img, canvas.width / 2 - destW / 2, canvas.height / 2 - destH / 2, destW, destH);
           } else {
             canvas.height = img.height;
             canvas.width = img.width;

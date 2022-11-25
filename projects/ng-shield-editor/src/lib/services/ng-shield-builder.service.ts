@@ -203,7 +203,7 @@ export class NgShieldBuilderService {
     return svg;
   }
 
-  public renderBase64Image(shield: NgShieldSettings, size?: number, type = 'image/png'): Promise<string> {
-    return this._imageSvc.svgToBase64Image(this.generateSVG(shield), size, size, type);
+  public renderBase64Image(shield: NgShieldSettings, width?: number, height?: number, type = 'image/png'): Promise<string> {
+    return this._imageSvc.svgToBase64Image(this.generateSVG(shield), width, height, type);
   }
 }

@@ -23,7 +23,7 @@ export class NgShieldEditorComponent {
   constructor(private _ngShieldSvc: NgShieldBuilderService) {
   }
 
-  public render(size: number, type = 'image/png'): Promise<string> {
-    return this._ngShieldSvc.renderBase64Image(this.settings, size, type);
+  public render(width: number, height: number, type = 'image/png'): Promise<string> {
+    return this._ngShieldSvc.renderBase64Image(this.settings, width, height, type);
   }
 }
