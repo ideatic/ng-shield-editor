@@ -1,4 +1,4 @@
-import {Component, forwardRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -6,19 +6,20 @@ import {NgShieldBuilderService} from '../../services/ng-shield-builder.service';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
 import {imports} from "../imports";
+import {ColorPickerComponent} from "../ui/color-picker.component";
 
 @Component({
   selector: 'ng-shield-editor-settings-motif',
   standalone: true,
-  imports: [imports],
+  imports: [imports, ColorPickerComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="motifs">
       <div *ngFor="let motif of motifSvc.available | keyvalue: originalOrder"
            class="motif-thumb"
            [class.active]="motif.key == settings?.motif.id"
            (click)="onMotifSelected(motif.key)"
-           [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"
-      ></div>
+           [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"></div>
     </div>
 
     <ng-container *ngIf="settings">

@@ -1,4 +1,4 @@
-import {Component, forwardRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -12,6 +12,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   selector: 'ng-shield-editor-settings-shape',
   standalone: true,
   imports: [imports, ColorPickerComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="shapes">
       <div *ngFor="let shape of shapeSvc.available | keyvalue: originalOrder"

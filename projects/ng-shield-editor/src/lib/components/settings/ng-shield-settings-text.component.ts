@@ -1,4 +1,4 @@
-import {Component, forwardRef, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, Inject} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -11,6 +11,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   selector: 'ng-shield-editor-settings-text',
   standalone: true,
   imports: [imports, ColorPickerComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="mat-align">
       <div style="margin:5px 0">

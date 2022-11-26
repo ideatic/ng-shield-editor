@@ -1,4 +1,4 @@
-import {Component, forwardRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef} from '@angular/core';
 import {NgShieldSettings} from '../ng-shield-settings';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
@@ -11,6 +11,7 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
 @Component({
   selector: 'ng-shield-editor-settings',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     imports,
     NgShieldSettingsShapeComponent,
@@ -24,24 +25,28 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
         <ng-shield-editor-settings-shape [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-shape>
       </mat-tab>
       <mat-tab label="Motivo" i18n-label>
-        <ng-shield-editor-settings-motif [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-motif>
+        <ng-template matTabContent>
+          <ng-shield-editor-settings-motif [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-motif>
+        </ng-template>
       </mat-tab>
       <mat-tab label="Símbolo" i18n-label>
-        <ng-shield-editor-settings-symbol [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-symbol>
+        <ng-template matTabContent>
+          <ng-shield-editor-settings-symbol [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-symbol>
+        </ng-template>
       </mat-tab>
       <mat-tab label="Texto" i18n-label>
-        <ng-shield-editor-settings-text [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-text>
+        <ng-template matTabContent>
+          <ng-shield-editor-settings-text [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-text>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   `,
-  styles: [
-    `
-      /* Fix for Material tabs overflow bug */
-      :host ::ng-deep .mat-tab-body-content {
-        overflow: hidden;
-      }
-    `
-  ],
+  styles: [`
+    /* Fix for Material tabs overflow bug */
+    :host ::ng-deep .mat-tab-body-content {
+      overflow: hidden;
+    }
+  `],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

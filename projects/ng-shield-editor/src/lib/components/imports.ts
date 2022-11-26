@@ -20,4 +20,4 @@ export const imports=[
   MatInputModule,
   // Tools
   FnPipe
-];
+] as const;
