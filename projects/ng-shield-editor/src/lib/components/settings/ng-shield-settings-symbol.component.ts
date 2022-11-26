@@ -73,13 +73,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <label>
         <ng-container i18n>Posición horizontal</ng-container>
         <mat-slider [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" discrete>
-          <input matSliderThumb [(ngModel)]="selectedSymbol.x" (valueChange)="selectedSymbol.x = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.x" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
       <label>
         <ng-container i18n>Posición vertical</ng-container>
         <mat-slider [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" discrete>
-          <input matSliderThumb [(ngModel)]="selectedSymbol.y" (valueChange)="selectedSymbol.y = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.y" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
     </div>
@@ -88,13 +88,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <label>
         <ng-container i18n>Tamaño</ng-container>
         <mat-slider [disabled]="selectedSymbol.content === null" [min]="1" [max]="200" discrete>
-          <input matSliderThumb [(ngModel)]="selectedSymbol.size" (valueChange)="selectedSymbol.size = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.size" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
       <label>
         <ng-container i18n>Rotación</ng-container>
         <mat-slider [disabled]="selectedSymbol.content === null" [min]="-180" [max]="180" [step]="5" discrete>
-          <input matSliderThumb [(ngModel)]="selectedSymbol.rotation" (valueChange)="selectedSymbol.rotation = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedSymbol.rotation" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
     </div>

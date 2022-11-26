@@ -67,7 +67,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <label class="block">
         <ng-container i18n>Tamaño</ng-container>
         <mat-slider [disabled]="!selectedText.body" [min]="1" [max]="10" discrete>
-          <input matSliderThumb [(ngModel)]="selectedText.size" (valueChange)="selectedText.size = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedText.size" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
 
@@ -95,13 +95,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <label>
         <ng-container i18n>Posición horizontal</ng-container>
         <mat-slider [disabled]="!selectedText.body" [min]="0" [max]="100" discrete>
-          <input matSliderThumb [(ngModel)]="selectedText.x" (valueChange)="selectedText.x = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedText.x" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
       <label>
         <ng-container i18n>Posición vertical</ng-container>
         <mat-slider [disabled]="!selectedText.body" [min]="0" [max]="100" discrete>
-          <input matSliderThumb [(ngModel)]="selectedText.y" (valueChange)="selectedText.y = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedText.y" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
     </div>
@@ -110,7 +110,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <label>
         <ng-container i18n>Espaciado de letras</ng-container>
         <mat-slider [disabled]="!selectedText.body" [min]="-25" [max]="50" discrete>
-          <input matSliderThumb [(ngModel)]="selectedText.spacing" (valueChange)="selectedText.spacing = $event; onChange()"/>
+          <input matSliderThumb [(ngModel)]="selectedText.spacing" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
     </div>
@@ -127,7 +127,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <label *ngIf="selectedText.borderColor">
         <ng-container i18n>Tamaño</ng-container>
         <mat-slider [min]="1" [max]="8" discrete [disabled]="!selectedText.body">
-          <input matSliderThumb [(ngModel)]="selectedText.borderSize" (valueChange)="selectedText.borderSize = $event; onChange()" />
+          <input matSliderThumb [(ngModel)]="selectedText.borderSize" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
     </div>

@@ -32,13 +32,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         <label>
           <ng-container i18n>Posición horizontal</ng-container>
           <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" discrete>
-            <input matSliderThumb [(ngModel)]="settings.motif.x" (valueChange)="settings.motif.x = $event; onChange()"/>
+            <input matSliderThumb [(ngModel)]="settings.motif.x" (ngModelChange)="onChange()"/>
           </mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición vertical</ng-container>
           <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" discrete>
-            <input matSliderThumb [(ngModel)]="settings.motif.y" (valueChange)="settings.motif.y = $event; onChange()"/>
+            <input matSliderThumb [(ngModel)]="settings.motif.y" (ngModelChange)="onChange()"/>
           </mat-slider>
         </label>
       </div>
@@ -47,7 +47,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         <label>
           <ng-container i18n>Zoom</ng-container>
           <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="300" [step]="10" discrete>
-            <input matSliderThumb [(ngModel)]="settings.motif.zoom" (valueChange)="settings.motif.zoom = $event; onChange()"/>
+            <input matSliderThumb [(ngModel)]="settings.motif.zoom" (ngModelChange)="onChange()"/>
           </mat-slider>
         </label>
       </div>
