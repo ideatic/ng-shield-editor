@@ -120,11 +120,11 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       }
 
       /* Ajustar selects material que no usan label */
-      .no-label-select ::ng-deep .mat-form-field-flex {
+      .no-label-select ::ng-deep .mat-mdc-form-field-flex {
         padding: 0 .75em 0 .75em;
       }
 
-      .no-label-select ::ng-deep .mat-select-arrow-wrapper {
+      .no-label-select ::ng-deep .mat-mdc-select-arrow-wrapper {
         transform: none;
       }
 

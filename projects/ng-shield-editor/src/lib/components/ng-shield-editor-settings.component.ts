@@ -43,7 +43,7 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
   `,
   styles: [`
     /* Fix for Material tabs overflow bug */
-    :host ::ng-deep .mat-tab-body-content {
+    :host ::ng-deep .mat-mdc-tab-body-content {
       overflow: hidden;
     }
   `],

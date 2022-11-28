@@ -41,7 +41,9 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="flex">
+
+    <!-- Text and font -->
+    <div class="flex-md">
       <label class="block">
         <mat-form-field>
           <mat-label i18n>Texto</mat-label>
@@ -132,22 +134,17 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       </label>
     </div>
   `,
-  styles: [
-    `div {
+  styles: [`
+    div {
       margin: 10px 0;
     }
 
-    label {
-      margin: 0 5px;
-    }
-
-
     /* Ajustar selects material que no usan label */
-    .no-label-select ::ng-deep .mat-form-field-flex {
+    .no-label-select ::ng-deep .mat-mdc-form-field-flex {
       padding: 0 .75em 0 .75em;
     }
 
-    .no-label-select ::ng-deep .mat-select-arrow-wrapper {
+    .no-label-select ::ng-deep .mat-mdc-select-arrow-wrapper {
       transform: none;
     }
 
@@ -173,9 +170,17 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 
     .flex {
       display: flex;
+      gap: 10px;
     }
 
-    .flex * {
+    @media (min-width: 768px) {
+      .flex-md {
+        display: flex;
+        gap: 10px;
+      }
+    }
+
+    .flex *, .flex-md * {
       flex-grow: 1;
       display: flex;
       align-items: center;
@@ -186,7 +191,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       display: block;
       align-items: center;
     }
-    `
+  `
   ],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
