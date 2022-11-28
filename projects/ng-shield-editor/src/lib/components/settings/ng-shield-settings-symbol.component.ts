@@ -16,7 +16,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="mat-align">
-      <div style="margin: 5px 0">
+      <div style="margin: 0; white-space: nowrap">
         <button mat-stroked-button class="addBtn" (click)="addSymbol()">
           <svg style="width: 1.3em; height: 1.3em;" viewBox="0 0 512 512">
             <path
@@ -147,6 +147,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         align-items: center;
         flex-direction: row-reverse;
         margin: 10px 0;
+        gap: 10px;
       }
 
       .symbol-list {
