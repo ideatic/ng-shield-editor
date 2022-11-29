@@ -25,7 +25,12 @@ export class ImageToolService {
             canvas.height = height ?? img.height;
             canvas.width = width ?? img.width;
 
-            // Draw the image centered using the maxiumum available space
+            if (type == 'image/jpeg') {
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // Draw the image centered using the maximum available space
             const destW = canvas.width > canvas.height ? canvas.width * (canvas.height / canvas.width) : canvas.width;
             const destH = canvas.height > canvas.width ? canvas.height * (canvas.width / canvas.height) : canvas.height;
 
@@ -33,6 +38,12 @@ export class ImageToolService {
           } else {
             canvas.height = img.height;
             canvas.width = img.width;
+
+            if (type == 'image/jpeg') {
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
             ctx.drawImage(img, 0, 0);
           }
 
