@@ -84,7 +84,7 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  constructor(public shapeSvc: NgShieldShapeService,
+  constructor(protected shapeSvc: NgShieldShapeService,
               private _ngShieldSvc: NgShieldBuilderService,
               private _sanitizer: DomSanitizer) {
   }

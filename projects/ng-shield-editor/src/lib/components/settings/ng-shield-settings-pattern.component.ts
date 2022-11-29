@@ -4,22 +4,22 @@ import {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
 import {NgShieldBuilderService} from '../../services/ng-shield-builder.service';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-import {NgShieldMotifService} from '../../services/ng-shield-motif.service';
+import {NgShieldPatternService} from '../../services/ng-shield-pattern.service';
 import {imports} from "../imports";
 import {ColorPickerComponent} from "../ui/color-picker.component";
 
 @Component({
-  selector: 'ng-shield-editor-settings-motif',
+  selector: 'ng-shield-editor-settings-pattern',
   standalone: true,
   imports: [imports, ColorPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="motifs">
-      <div *ngFor="let motif of motifSvc.available | keyvalue: originalOrder"
-           class="motif-thumb"
-           [class.active]="motif.key == settings?.motif.id"
-           (click)="onMotifSelected(motif.key)"
-           [innerHTML]="motif.key | fn:getMotifThumbnail:this:settings"></div>
+    <div class="patterns">
+      <div *ngFor="let pattern of patternSvc.available | keyvalue: originalOrder"
+           class="pattern-thumb"
+           [class.active]="pattern.key == settings?.motif.id"
+           (click)="onPatternSelected(pattern.key)"
+           [innerHTML]="pattern.key | fn:getPatternThumbnail:this:settings"></div>
     </div>
 
     <ng-container *ngIf="settings">
@@ -60,7 +60,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         width: 100%;
       }
 
-      .motifs {
+      .patterns {
         display: flex;
         flex-wrap: wrap;
         padding: 10px 0;
@@ -70,7 +70,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
       }
 
-      .motif-thumb {
+      .pattern-thumb {
         width: 75px;
         height: 75px;
         margin: 10px;
@@ -82,12 +82,12 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         border: 2px solid transparent;
       }
 
-      .motif-thumb ::ng-deep svg {
+      .pattern-thumb ::ng-deep svg {
         max-width: 100%;
         max-height: 100%;
       }
 
-      .motif-thumb.active {
+      .pattern-thumb.active {
         border: 2px solid #3666c8;
       }
 
@@ -105,28 +105,28 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NgShieldSettingsMotifComponent),
+      useExisting: forwardRef(() => NgShieldSettingsPatternComponent),
       multi: true
     }
   ]
 })
-export class NgShieldSettingsMotifComponent implements ControlValueAccessor {
+export class NgShieldSettingsPatternComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
-  constructor(public motifSvc: NgShieldMotifService,
+  constructor(protected patternSvc: NgShieldPatternService,
               private _ngShieldSvc: NgShieldBuilderService,
               private _sanitizer: DomSanitizer) {
   }
 
-  protected onMotifSelected(motifID: string): void {
-    if (motifID != this.settings.motif.id) {
-      this.settings = {...this.settings, motif: {...this.settings.motif, id: motifID}};
+  protected onPatternSelected(patternID: string): void {
+    if (patternID != this.settings.motif.id) {
+      this.settings = {...this.settings, motif: {...this.settings.motif, id: patternID}};
       this._onChangeCallback(this.settings);
     }
   }
 
-  protected getMotifThumbnail(motifID: string): SafeHtml | null {
+  protected getPatternThumbnail(motifID: string): SafeHtml | null {
     if (this.settings) {
       return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: {...this.settings.motif, id: motifID}}));
     } else {

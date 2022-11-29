@@ -7,7 +7,7 @@ import {NgShieldBuilderService} from './services/ng-shield-builder.service';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {NgShieldShapeService} from './services/ng-shield-shape.service';
-import {NgShieldMotifService} from './services/ng-shield-motif.service';
+import {NgShieldPatternService} from './services/ng-shield-pattern.service';
 import {NgShieldTextService} from './services/ng-shield-text.service';
 import {NgShieldSymbolService} from './services/ng-shield-symbol.service';
 import {ImageToolService} from './services/image-tool.service';
@@ -32,7 +32,7 @@ import {MatButtonModule} from '@angular/material/button';
   providers: [
     NgShieldBuilderService,
     NgShieldShapeService,
-    NgShieldMotifService,
+    NgShieldPatternService,
     NgShieldSymbolService,
     NgShieldTextService,
     ImageToolService
@@ -42,7 +42,7 @@ export class NgShieldEditorModule {
   // Services
   public readonly NgShieldEditorService = NgShieldBuilderService;
   public readonly NgShieldShapeService = NgShieldShapeService;
-  public readonly NgShieldMotifService = NgShieldMotifService;
+  public readonly NgShieldPatternService = NgShieldPatternService;
   public readonly NgShieldSymbolService = NgShieldSymbolService;
 
   // Components

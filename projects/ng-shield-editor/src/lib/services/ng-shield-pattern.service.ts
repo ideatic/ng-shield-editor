@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class NgShieldMotifService {
+export class NgShieldPatternService {
   public readonly available = {
     // Sin motivo
     none: '',

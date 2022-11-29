@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {NgShieldSettings} from '../ng-shield-settings';
 import {NgShieldShapeService} from './ng-shield-shape.service';
-import {NgShieldMotifService} from './ng-shield-motif.service';
+import {NgShieldPatternService} from './ng-shield-pattern.service';
 import {NgShieldTextService} from './ng-shield-text.service';
 import {NgShieldSymbolService} from './ng-shield-symbol.service';
 import {ImageToolService} from './image-tool.service';
@@ -32,7 +32,7 @@ export class NgShieldBuilderService {
   };
 
   constructor(private _shapeSvc: NgShieldShapeService,
-              private _motifSvc: NgShieldMotifService,
+              private _patternSvc: NgShieldPatternService,
               private _symbolSvc: NgShieldSymbolService,
               private _textSvc: NgShieldTextService,
               private _imageSvc: ImageToolService) {
@@ -52,8 +52,8 @@ export class NgShieldBuilderService {
         <!-- Background shape -->
         ${this._getShape(settings, true)}
 
-        <!-- Motif -->
-        ${this._getMotif(settings, idSuffix)}
+        <!-- Pattern -->
+        ${this._getPattern(settings, idSuffix)}
 
         <!-- Symbol -->
         ${this._getSymbols(settings, idSuffix)}
@@ -93,14 +93,14 @@ export class NgShieldBuilderService {
     return shapeSvg;
   }
 
-  private _getMotif(settings: NgShieldSettings, idSuffix: string): string {
-    const motifContent = this._motifSvc.available[settings.motif.id];
+  private _getPattern(settings: NgShieldSettings, idSuffix: string): string {
+    const patternContent = this._patternSvc.available[settings.motif.id];
 
-    if (!motifContent) {
+    if (!patternContent) {
       return '';
     }
 
-    let motifAttrs = `fill="${settings.motif.color}"`;
+    let patternAttrs = `fill="${settings.motif.color}"`;
 
     const transforms = [];
     if (settings.motif.x != 50 || settings.motif.y != 50) {
@@ -112,10 +112,10 @@ export class NgShieldBuilderService {
     }
 
     if (transforms.length) {
-      motifAttrs += ` transform="${transforms.join(' ')}" style="transform-origin: center" transform-origin="center"`;
+      patternAttrs += ` transform="${transforms.join(' ')}" style="transform-origin: center" transform-origin="center"`;
     }
 
-    return `<g clip-path="url(#bg-${idSuffix})">${motifContent.replace(/%attrs%/g, motifAttrs)}</g>`;
+    return `<g clip-path="url(#bg-${idSuffix})">${patternContent.replace(/%attrs%/g, patternAttrs)}</g>`;
   }
 
   private _getText(settings: NgShieldSettings, isSuffix: string): string {

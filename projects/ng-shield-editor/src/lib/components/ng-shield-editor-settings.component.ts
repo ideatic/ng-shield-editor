@@ -4,7 +4,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
 import {imports} from "./imports";
 import {NgShieldSettingsShapeComponent} from "./settings/ng-shield-settings-shape.component";
-import {NgShieldSettingsMotifComponent} from "./settings/ng-shield-settings-motif.component";
+import {NgShieldSettingsPatternComponent} from "./settings/ng-shield-settings-pattern.component";
 import {NgShieldSettingsSymbolComponent} from "./settings/ng-shield-settings-symbol.component";
 import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.component";
 
@@ -15,7 +15,7 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
   imports: [
     imports,
     NgShieldSettingsShapeComponent,
-    NgShieldSettingsMotifComponent,
+    NgShieldSettingsPatternComponent,
     NgShieldSettingsSymbolComponent,
     NgShieldSettingsTextComponent
   ],
@@ -26,7 +26,7 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
       </mat-tab>
       <mat-tab label="Motivo" i18n-label="pattern|">
         <ng-template matTabContent>
-          <ng-shield-editor-settings-motif [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-motif>
+          <ng-shield-editor-settings-pattern [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-pattern>
         </ng-template>
       </mat-tab>
       <mat-tab label="Símbolo" i18n-label>
