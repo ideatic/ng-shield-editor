@@ -8,7 +8,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {FnPipe} from "./ui/fn.pipe";
 
-export const imports=[
+export const imports = [
   CommonModule,
   FormsModule,
   // Material
