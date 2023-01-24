@@ -25,7 +25,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     <ng-container *ngIf="settings">
       <label>
         <ng-container i18n>Color</ng-container>
-        <color-picker [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()" [disabled]="settings.motif.id === 'none'"></color-picker>
+        <color-picker [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()" [disabled]="settings.motif.id === 'none'"/>
       </label>
 
       <div class="flex">

@@ -89,7 +89,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     <div>
       <label>
         <ng-container i18n>Color</ng-container>
-        <color-picker [(ngModel)]="selectedText.color" (ngModelChange)="onChange()" [disabled]="!selectedText.body"></color-picker>
+        <color-picker [(ngModel)]="selectedText.color" (ngModelChange)="onChange()" [disabled]="!selectedText.body"/>
       </label>
     </div>
 
@@ -123,7 +123,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <label>
         <ng-container i18n>Borde</ng-container>
         <color-picker [(ngModel)]="selectedText.borderColor" (ngModelChange)="onChange()"
-                      [allowNullSelection]="true" [disabled]="!selectedText.body"></color-picker>
+                      [allowNullSelection]="true" [disabled]="!selectedText.body"/>
       </label>
 
       <label *ngIf="selectedText.borderColor">

@@ -27,7 +27,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 
       <label>
         <ng-container i18n>Color</ng-container>
-        <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"></color-picker>
+        <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"/>
       </label>
     </ng-container>
   `,

@@ -108,7 +108,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     <div *ngIf="symbolSvc.isConfigurable(selectedSymbol)" style="margin-top: 10px">
       <label>
         <ng-container i18n>Color</ng-container>
-        <color-picker [(ngModel)]="selectedSymbol.color" (ngModelChange)="onChange()"></color-picker>
+        <color-picker [(ngModel)]="selectedSymbol.color" (ngModelChange)="onChange()"/>
       </label>
     </div>
   `,
