@@ -22,21 +22,21 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
   template: `
     <mat-tab-group>
       <mat-tab label="Forma" i18n-label="shape|">
-        <ng-shield-editor-settings-shape [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-shape>
+        <ng-shield-editor-settings-shape [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"/>
       </mat-tab>
       <mat-tab label="Motivo" i18n-label="pattern|">
         <ng-template matTabContent>
-          <ng-shield-editor-settings-pattern [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-pattern>
+          <ng-shield-editor-settings-pattern [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"/>
         </ng-template>
       </mat-tab>
       <mat-tab label="Símbolo" i18n-label>
         <ng-template matTabContent>
-          <ng-shield-editor-settings-symbol [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-symbol>
+          <ng-shield-editor-settings-symbol [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"/>
         </ng-template>
       </mat-tab>
       <mat-tab label="Texto" i18n-label>
         <ng-template matTabContent>
-          <ng-shield-editor-settings-text [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"></ng-shield-editor-settings-text>
+          <ng-shield-editor-settings-text [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"/>
         </ng-template>
       </mat-tab>
     </mat-tab-group>

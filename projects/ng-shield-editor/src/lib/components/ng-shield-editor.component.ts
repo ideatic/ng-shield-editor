@@ -10,8 +10,8 @@ import {NgShieldEditorSettingsComponent} from "./ng-shield-editor-settings.compo
   standalone: true,
   imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent],
   template: `
-    <ng-shield-editor-preview *ngIf="showPreview" [settings]="settings"></ng-shield-editor-preview>
-    <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)"></ng-shield-editor-settings>
+    <ng-shield-editor-preview *ngIf="showPreview" [settings]="settings"/>
+    <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)"/>
   `,
   styleUrls: ['ng-shield-editor.component.scss']
 })
