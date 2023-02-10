@@ -48,7 +48,7 @@ export class NgShieldSymbolService {
     let content = symbol.content;
 
     if (this.isConfigurable(symbol)) {
-      let attrs = `fill="${symbol.color}"`;
+      const attrs = `fill="${symbol.color}"`;
       content = content.replace(/%attrs%/g, attrs);
       content = this._imageSvc.svgToDataUri(content);
     }

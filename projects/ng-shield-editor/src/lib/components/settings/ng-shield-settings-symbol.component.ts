@@ -269,7 +269,7 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   }
 
   protected deleteSymbol(symbol: NgShieldSettingsSymbol) {
-    let index = this.settings.symbol.indexOf(symbol);
+    const index = this.settings.symbol.indexOf(symbol);
     if (index > -1 && symbol === this.selectedSymbol) {
       this.settings.symbol.splice(index, 1);
       this.selectedSymbol = this.settings.symbol[Math.max(index - 1, 0)];

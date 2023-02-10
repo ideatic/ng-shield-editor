@@ -225,7 +225,7 @@ export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   }
 
   protected deleteText(text: NgShieldSettingsText) {
-    let index = this.settings.text.indexOf(text);
+    const index = this.settings.text.indexOf(text);
     if (index > -1 && text == this.selectedText) {
       this.settings.text.splice(index, 1);
       this.selectedText = this.settings.text[Math.max(index - 1, 0)];

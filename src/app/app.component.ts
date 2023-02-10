@@ -32,14 +32,14 @@ export class AppComponent {
     symbols.forEach(symbol => {
       httpClient.get(location.href + symbol, {responseType: 'blob'})
         .subscribe(image => {
-          let reader = new FileReader();
+          const reader = new FileReader();
           reader.addEventListener('load', () => symbolSvc.available.push(reader.result as string), false);
           reader.readAsDataURL(image);
         });
     });
 
     // Cargar escudo guardado
-    let prevSessionShield = localStorage?.getItem('shield');
+    const prevSessionShield = localStorage?.getItem('shield');
     if (prevSessionShield) {
       this.settings = {...this.settings, ...JSON.parse(prevSessionShield)};
     }

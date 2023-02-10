@@ -177,8 +177,8 @@ export class NgShieldBuilderService {
 
         // Calcular atributos
         const imageSize = 512 * (symbol.size * 0.01);
-        let cssAttrs = [`width: ${symbol.size}%`];
-        let attrs = `x="${512 / 100 * symbol.x - imageSize / 2}" y="${512 / 100 * symbol.y - imageSize / 2}"`;
+        const cssAttrs = [`width: ${symbol.size}%`];
+        const attrs = `x="${512 / 100 * symbol.x - imageSize / 2}" y="${512 / 100 * symbol.y - imageSize / 2}"`;
 
         const shapeData = this._shapeSvc.available[settings.shape.id];
 
