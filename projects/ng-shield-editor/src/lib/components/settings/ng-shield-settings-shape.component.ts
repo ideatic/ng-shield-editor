@@ -119,7 +119,8 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
     this._onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+    public registerOnTouched(): void {
+    // No se utiliza
   }
 
   public writeValue(obj: any): void {

@@ -64,7 +64,8 @@ export class NgShieldEditorSettingsComponent implements ControlValueAccessor {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+    public registerOnTouched(): void {
+    // No se utiliza
   }
 
   public writeValue(obj: any): void {

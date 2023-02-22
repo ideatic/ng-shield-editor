@@ -13,7 +13,7 @@ export function downloadData(
 
     if (/[\x00-\x1F]/.test(content)) {
       // Cadena binaria
-      const base64 = btoa(_utf8Encode(content)); // https://stackoverflow.com/a/26603875/528065
+      const base64 = btoa(utf8Encode(content)); // https://stackoverflow.com/a/26603875/528065
       downloadLink.href =
         mime === false || mime === undefined
           ? base64
@@ -41,7 +41,7 @@ export function downloadData(
   });
 }
 
-function _utf8Encode(string) {
+function utf8Encode(string) {
   let utfText = '';
   string = string.replace(/\r\n/g, '\n');
 
