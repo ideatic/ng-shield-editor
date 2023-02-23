@@ -11,6 +11,7 @@ export function downloadData(
   if (typeof content == 'string') {
     content = includeBOM ? decodeURIComponent('%ef%bb%bf') + content : content;
 
+    // eslint-disable-next-line no-control-regex
     if (/[\x00-\x1F]/.test(content)) {
       // Cadena binaria
       const base64 = btoa(utf8Encode(content)); // https://stackoverflow.com/a/26603875/528065
