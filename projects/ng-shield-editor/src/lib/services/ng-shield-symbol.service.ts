@@ -23,7 +23,7 @@ export class NgShieldSymbolService {
 <polygon points="6.332 3.069 8.288 7.034 12.663 7.669 9.498 10.755 10.245 15.113 6.332 13.056 2.418 15.113 3.166 10.755 0 7.669 4.375 7.034 6.332 3.069" />
 </g>
 </svg>`
-  ]
+  ];
 
   public available = [].concat(this.default);
 
