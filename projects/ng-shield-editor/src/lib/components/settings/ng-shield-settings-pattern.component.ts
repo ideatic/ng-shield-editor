@@ -15,15 +15,16 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="patterns">
-      <div *ngFor="let pattern of patternSvc.available | keyvalue: originalOrder"
+        @for (pattern of patternSvc.available | keyvalue: originalOrder; track pattern) {
+            <div
            class="pattern-thumb"
            [class.active]="pattern.key == settings?.motif.id"
            (click)="onPatternSelected(pattern.key)"
            [innerHTML]="pattern.key | fn:getPatternThumbnail:this:settings"></div>
+        }
     </div>
 
-    <ng-container *ngIf="settings">
-      <label>
+    @if (settings) {        <label>
         <ng-container i18n>Color</ng-container>
         <color-picker [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()" [disabled]="settings.motif.id === 'none'"/>
       </label>
@@ -51,7 +52,8 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
           </mat-slider>
         </label>
       </div>
-    </ng-container>
+
+    }
   `,
   styles: [
     `

@@ -21,25 +21,34 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
               d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
           </svg>
         </button>
-        <button *ngIf="settings?.text.length > 1" mat-stroked-button color="warn" class="trash-icon" (click)="deleteText(selectedText)">
+          @if (settings?.text.length > 1) {
+              <button mat-stroked-button color="warn" class="trash-icon" (click)="deleteText(selectedText)">
           <svg width="1.3em" height="1.3em" viewBox="0 0 512 512">
             <path
               d="m464 32l-120 0-9-19c-4-8-13-13-22-13l-114 0c-9 0-18 5-22 13l-9 19-120 0c-9 0-16 7-16 16l0 32c0 9 7 16 16 16l416 0c9 0 16-7 16-16l0-32c0-9-7-16-16-16z m-379 435c2 25 23 45 48 45l246 0c25 0 46-20 48-45l21-339-384 0z"></path>
           </svg>
         </button>
+          }
       </div>
 
-      <mat-form-field *ngIf="settings?.text.length > 1" appearance="fill" class="no-label-select">
+        @if (settings?.text.length > 1) {
+            <mat-form-field appearance="fill" class="no-label-select">
         <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
-          <mat-option *ngFor="let text of (settings?.text || []); index as index" [value]="text">
-            <ng-container *ngIf="text.body; else noTextBody">{{ text.body }}</ng-container>
-            <ng-template #noTextBody>
-              <ng-container i18n>Texto</ng-container>
+            @for (text of (settings?.text || []); track text; let index = $index) {
+                <mat-option [value]="text">
+                    @if (text.body) {
+                        {{ text.body }}
+                    } @else {
+                        <ng-container i18n>Texto</ng-container>
               #{{ index + 1 | number }}
-            </ng-template>
-          </mat-option>
+
+                    }
+
+                </mat-option>
+            }
         </mat-select>
       </mat-form-field>
+        }
     </div>
 
     <!-- Text and font -->
@@ -55,9 +64,11 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         <mat-form-field>
           <mat-label i18n>Fuente</mat-label>
           <mat-select [(ngModel)]="selectedText.fontFamily" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
-            <mat-option *ngFor="let family of textSvc.fontFamilies" [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">
+              @for (family of textSvc.fontFamilies; track family) {
+                  <mat-option [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">
               {{ family.name }}
             </mat-option>
+              }
           </mat-select>
         </mat-form-field>
       </label>
@@ -78,9 +89,11 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
           <mat-label i18n>Forma</mat-label>
           <mat-select [(ngModel)]="selectedText.path" (ngModelChange)="onChange()" [disabled]="!selectedText.body">
             <mat-option [value]="null" i18n>Ninguna</mat-option>
-            <mat-option *ngFor="let path of textSvc.paths | keyvalue: originalOrder" [value]="path.key">
+              @for (path of textSvc.paths | keyvalue: originalOrder; track path) {
+                  <mat-option [value]="path.key">
               {{ path.key }}
             </mat-option>
+              }
           </mat-select>
         </mat-form-field>
       </label>
@@ -126,12 +139,14 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
                       [allowNullSelection]="true" [disabled]="!selectedText.body"/>
       </label>
 
-      <label *ngIf="selectedText.borderColor">
+        @if (selectedText.borderColor) {
+            <label>
         <ng-container i18n>Tamaño</ng-container>
         <mat-slider [min]="1" [max]="8" discrete [disabled]="!selectedText.body">
           <input matSliderThumb [(ngModel)]="selectedText.borderSize" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
+        }
     </div>
   `,
   styles: [`

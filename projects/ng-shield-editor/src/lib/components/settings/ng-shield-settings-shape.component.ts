@@ -15,13 +15,14 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="shapes">
-      <div *ngFor="let shape of shapeSvc.available | keyvalue: originalOrder"
+        @for (shape of shapeSvc.available | keyvalue: originalOrder; track shape) {
+            <div
            class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
            (click)="onShapeSelected($any(shape.key))" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
+        }
     </div>
 
-    <ng-container *ngIf="settings">
-      <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
+    @if (settings) {        <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
 
       <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
 
@@ -29,7 +30,8 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         <ng-container i18n>Color</ng-container>
         <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"/>
       </label>
-    </ng-container>
+
+    }
   `,
   styles: [`
       :host {

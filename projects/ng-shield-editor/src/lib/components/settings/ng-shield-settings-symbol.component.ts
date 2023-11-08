@@ -23,25 +23,32 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
               d="m432 203l-123 0l0-123c0-5-5-10-10-10l-86 0c-5 0-10 5-10 10l0 123l-123 0c-5 0-10 5-10 10l0 86c0 3 1 5 3 7c2 2 4 3 7 3l123 0l0 123c0 3 1 5 3 7c2 2 4 3 7 3l86 0c3 0 5-1 7-3c2-2 3-4 3-7l0-123l123 0c3 0 5-1 7-3c2-2 3-4 3-7l0-86c0-5-5-10-10-10z"></path>
           </svg>
         </button>
-        <button *ngIf="settings?.symbol.length > 1" mat-stroked-button color="warn" class="trash-icon" (click)="deleteSymbol(selectedSymbol)">
+          @if (settings?.symbol.length > 1) {
+              <button mat-stroked-button color="warn" class="trash-icon" (click)="deleteSymbol(selectedSymbol)">
           <svg width="1.3em" height="1.3em" viewBox="0 0 512 512">
             <path
               d="m464 32l-120 0-9-19c-4-8-13-13-22-13l-114 0c-9 0-18 5-22 13l-9 19-120 0c-9 0-16 7-16 16l0 32c0 9 7 16 16 16l416 0c9 0 16-7 16-16l0-32c0-9-7-16-16-16z m-379 435c2 25 23 45 48 45l246 0c25 0 46-20 48-45l21-339-384 0z"></path>
           </svg>
         </button>
+          }
       </div>
 
-      <mat-form-field *ngIf="settings?.symbol.length > 1" appearance="fill" class="no-label-select">
+        @if (settings?.symbol.length > 1) {
+            <mat-form-field appearance="fill" class="no-label-select">
         <mat-select [(ngModel)]="selectedSymbol" (ngModelChange)="onChange()">
-          <mat-option *ngFor="let symbol of (settings?.symbol || []); index as index" [value]="symbol">
+            @for (symbol of (settings?.symbol || []); track symbol; let index = $index) {
+                <mat-option [value]="symbol">
             <ng-container i18n>Símbolo</ng-container>
             #{{ index + 1 | number }}
           </mat-option>
+            }
         </mat-select>
       </mat-form-field>
+        }
     </div>
     <div class="symbol-list">
-      <div *ngIf="allowNullSelection"
+        @if (allowNullSelection) {
+            <div
            class="symbol-thumb"
            [class.active]="selectedSymbol.content === null"
            (click)="onSymbolSelected(selectedSymbol, null)">
@@ -50,8 +57,10 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
             d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"></path>
         </svg>
       </div>
+        }
 
-      <div *ngIf="symbolSvc.allowSymbolUpload" class="symbol-thumb">
+        @if (symbolSvc.allowSymbolUpload) {
+            <div class="symbol-thumb">
         <label style="display: block; cursor: pointer;">
           <svg viewBox="0 0 512 512">
             <path
@@ -60,13 +69,16 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
           <input type="file" accept="image/*" (change)="fileChanged(selectedSymbol, $event)" style="display:none"/>
         </label>
       </div>
+        }
 
-      <div *ngFor="let availableSymbol of symbolSvc.available"
+        @for (availableSymbol of symbolSvc.available; track availableSymbol) {
+            <div
            class="symbol-thumb"
            [class.active]="availableSymbol === selectedSymbol.content"
            (click)="onSymbolSelected(selectedSymbol, availableSymbol)">
         <img [src]="selectedSymbol | fn:getPreview:this:availableSymbol"/>
       </div>
+        }
     </div>
 
     <div class="flex">
@@ -105,12 +117,14 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       </mat-slide-toggle>
     </div>
 
-    <div *ngIf="symbolSvc.isConfigurable(selectedSymbol)" style="margin-top: 10px">
+    @if (symbolSvc.isConfigurable(selectedSymbol)) {
+        <div style="margin-top: 10px">
       <label>
         <ng-container i18n>Color</ng-container>
         <color-picker [(ngModel)]="selectedSymbol.color" (ngModelChange)="onChange()"/>
       </label>
     </div>
+    }
   `,
   styles: [
     `

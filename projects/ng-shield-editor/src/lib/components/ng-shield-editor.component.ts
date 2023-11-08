@@ -11,7 +11,9 @@ import {NgShieldEditorMaterialStylesComponent} from "./ng-shield-editor-material
   standalone: true,
   imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent, NgShieldEditorMaterialStylesComponent],
   template: `
-    <ng-shield-editor-preview *ngIf="showPreview" [settings]="settings"/>
+      @if (showPreview) {
+          <ng-shield-editor-preview [settings]="settings"/>
+      }
     <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)"/>
     <ng-shield-editor-material-styles style="display: none"/>
   `,
