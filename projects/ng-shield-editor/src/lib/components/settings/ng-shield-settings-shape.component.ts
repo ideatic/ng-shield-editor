@@ -14,26 +14,27 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   imports: [imports, ColorPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="shapes">
-        @for (shape of shapeSvc.available | keyvalue: originalOrder; track shape) {
-            <div
-           class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
-           (click)="onShapeSelected($any(shape.key))" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
-        }
-    </div>
+      <div class="shapes">
+          @for (shape of shapeSvc.available | keyvalue: originalOrder;track shape) {
+              <div
+                      class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
+                      (click)="onShapeSelected($any(shape.key))" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
+          }
+      </div>
 
-    @if (settings) {        <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
+      @if (settings) {
+          <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
 
-      <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
+          <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
 
-      <label>
-        <ng-container i18n>Color</ng-container>
-        <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"/>
-      </label>
+          <label>
+              <ng-container i18n>Color</ng-container>
+              <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"/>
+          </label>
 
-    }
+      }
   `,
-  styles: [`
+  styles: `
       :host {
         display: block;
         width: 100%;
@@ -74,8 +75,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         display: block;
         margin: 5px 0;
       }
-    `
-  ],
+    `,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgShieldSettingsShapeComponent),
@@ -121,7 +121,7 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
     this._onChangeCallback = fn;
   }
 
-    public registerOnTouched(): void {
+  public registerOnTouched(): void {
     // No se utiliza
   }
 

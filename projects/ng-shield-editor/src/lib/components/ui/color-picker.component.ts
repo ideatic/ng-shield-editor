@@ -25,7 +25,7 @@ import {imports} from "../imports";
                (click)="onColorSelected(color)"></div>
       }
   `,
-  styles: [`
+  styles: `
     :host {
       width: 100%;
       display: flex;
@@ -59,8 +59,7 @@ import {imports} from "../imports";
     .swatch.active {
       border: 2px solid #3666c8;
     }
-  `
-  ],
+  `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

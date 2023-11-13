@@ -6,7 +6,7 @@ import {NgShieldSettings} from '../ng-shield-settings';
   selector: 'ng-shield-editor-preview',
   standalone: true,
   template: '',
-  styles: [`
+  styles: `
     :host {
       display: block;
       text-align: center;
@@ -19,8 +19,7 @@ import {NgShieldSettings} from '../ng-shield-settings';
       display: block;
       margin: 0 auto;
     }
-  `
-  ],
+  `,
   // Este componente solo necesita activar el detector de cambios cuando cambia alguno de sus parámetros de entrada
   changeDetection: ChangeDetectionStrategy.OnPush
 })

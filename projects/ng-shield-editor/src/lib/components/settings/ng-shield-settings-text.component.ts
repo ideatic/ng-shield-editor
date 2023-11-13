@@ -149,7 +149,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         }
     </div>
   `,
-  styles: [`
+  styles: `
     div {
       margin: 10px 0;
     }
@@ -207,8 +207,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       display: block;
       align-items: center;
     }
-  `
-  ],
+  `,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgShieldSettingsTextComponent),
