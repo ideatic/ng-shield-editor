@@ -41,12 +41,12 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
       </mat-tab>
     </mat-tab-group>
   `,
-  styles: [`
+  styles: `
     /* Fix for Material tabs overflow bug */
     :host ::ng-deep .mat-mdc-tab-body-content {
       overflow: hidden;
     }
-  `],
+  `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
