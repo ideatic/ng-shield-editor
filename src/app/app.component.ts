@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shield-settings';
 
 
+// eslint-disable-next-line
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
