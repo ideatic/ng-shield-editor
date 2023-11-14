@@ -19,26 +19,26 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
             <div
            class="pattern-thumb"
            [class.active]="pattern.key == settings?.motif.id"
-           (click)="onPatternSelected(pattern.key)"
-           [innerHTML]="pattern.key | fn:getPatternThumbnail:this:settings"></div>
+           [innerHTML]="pattern.key | fn:getPatternThumbnail:this:settings"
+           (click)="onPatternSelected(pattern.key)"></div>
         }
     </div>
 
     @if (settings) {        <label>
         <ng-container i18n>Color</ng-container>
-        <color-picker [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()" [disabled]="settings.motif.id === 'none'"/>
+        <color-picker [disabled]="settings.motif.id === 'none'" [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()"/>
       </label>
 
       <div class="flex">
         <label>
           <ng-container i18n>Posición horizontal</ng-container>
-          <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" discrete>
+          <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100">
             <input matSliderThumb [(ngModel)]="settings.motif.x" (ngModelChange)="onChange()"/>
           </mat-slider>
         </label>
         <label>
           <ng-container i18n>Posición vertical</ng-container>
-          <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100" discrete>
+          <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100">
             <input matSliderThumb [(ngModel)]="settings.motif.y" (ngModelChange)="onChange()"/>
           </mat-slider>
         </label>
@@ -47,7 +47,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       <div>
         <label>
           <ng-container i18n>Zoom</ng-container>
-          <mat-slider [disabled]="settings.motif.id === 'none'" [min]="0" [max]="300" [step]="10" discrete>
+          <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="300" [step]="10">
             <input matSliderThumb [(ngModel)]="settings.motif.zoom" (ngModelChange)="onChange()"/>
           </mat-slider>
         </label>

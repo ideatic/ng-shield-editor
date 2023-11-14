@@ -66,7 +66,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
             <path
               d="m165 210l0 55c0 8-3 14-8 20-6 5-12 8-20 8l-55 0c-7 0-14-3-19-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 19-8l55 0c8 0 14 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-20 8l-54 0c-8 0-15-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 20-8l54 0c8 0 15 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-19 8l-55 0c-8 0-14-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 6-5 12-8 20-8l55 0c7 0 14 3 19 8 5 5 8 12 8 19z" />
           </svg>
-          <input type="file" accept="image/*" (change)="fileChanged(selectedSymbol, $event)" style="display:none"/>
+          <input type="file" accept="image/*" style="display:none" (change)="fileChanged(selectedSymbol, $event)"/>
         </label>
       </div>
         }
@@ -84,13 +84,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     <div class="flex">
       <label>
         <ng-container i18n>Posición horizontal</ng-container>
-        <mat-slider [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" discrete>
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="0" [max]="100">
           <input matSliderThumb [(ngModel)]="selectedSymbol.x" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
       <label>
         <ng-container i18n>Posición vertical</ng-container>
-        <mat-slider [disabled]="selectedSymbol.content === null" [min]="0" [max]="100" discrete>
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="0" [max]="100">
           <input matSliderThumb [(ngModel)]="selectedSymbol.y" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
@@ -99,21 +99,21 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     <div class="flex">
       <label>
         <ng-container i18n>Tamaño</ng-container>
-        <mat-slider [disabled]="selectedSymbol.content === null" [min]="1" [max]="200" discrete>
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="1" [max]="200">
           <input matSliderThumb [(ngModel)]="selectedSymbol.size" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
       <label>
         <ng-container i18n>Rotación</ng-container>
-        <mat-slider [disabled]="selectedSymbol.content === null" [min]="-180" [max]="180" [step]="5" discrete>
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="-180" [max]="180" [step]="5">
           <input matSliderThumb [(ngModel)]="selectedSymbol.rotation" (ngModelChange)="onChange()"/>
         </mat-slider>
       </label>
     </div>
 
     <div>
-      <mat-slide-toggle [(ngModel)]="selectedSymbol.trim" (ngModelChange)="onChange()"
-                        [disabled]="selectedSymbol.content === null" i18n>Recortar
+      <mat-slide-toggle [disabled]="selectedSymbol.content === null" [(ngModel)]="selectedSymbol.trim"
+                        (ngModelChange)="onChange()" i18n>Recortar
       </mat-slide-toggle>
     </div>
 

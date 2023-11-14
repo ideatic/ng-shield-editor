@@ -18,7 +18,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
           @for (shape of shapeSvc.available | keyvalue: originalOrder;track shape) {
               <div
                       class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
-                      (click)="onShapeSelected($any(shape.key))" [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings"></div>
+                      [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings" (click)="onShapeSelected($any(shape.key))"></div>
           }
       </div>
 
