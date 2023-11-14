@@ -1,4 +1,3 @@
-import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonModule} from "@angular/material/button";
@@ -7,9 +6,11 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {FnPipe} from "./ui/fn.pipe";
+import {DecimalPipe, KeyValuePipe} from "@angular/common";
 
 export const imports = [
-  CommonModule,
+  DecimalPipe,
+  KeyValuePipe,
   FormsModule,
   // Material
   MatTabsModule,
