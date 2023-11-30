@@ -36,5 +36,5 @@ export interface NgShieldSettingsSymbol {
   y: number,
   rotation: number;
   trim: boolean;
-  color?:string;
+  color?: string;
 }
