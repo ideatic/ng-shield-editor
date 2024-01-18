@@ -20,7 +20,6 @@ import {NgShieldSettings} from '../ng-shield-settings';
       margin: 0 auto;
     }
   `,
-  // Este componente solo necesita activar el detector de cambios cuando cambia alguno de sus parámetros de entrada
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgShieldEditorPreviewComponent implements OnChanges {

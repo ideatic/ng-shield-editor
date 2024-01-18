@@ -14,25 +14,24 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   imports: [imports, ColorPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-      <div class="shapes">
-          @for (shape of shapeSvc.available | keyvalue: originalOrder;track shape) {
-              <div
-                      class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
-                      [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings" (click)="onShapeSelected($any(shape.key))"></div>
-          }
-      </div>
-
-      @if (settings) {
-          <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
-
-          <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
-
-          <label>
-              <ng-container i18n>Color</ng-container>
-              <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"/>
-          </label>
-
+    <div class="shapes">
+      @for (shape of shapeSvc.available | keyvalue: originalOrder; track shape) {
+        <div class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
+             [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings" (click)="onShapeSelected($any(shape.key))"></div>
       }
+    </div>
+
+    @if (settings) {
+      <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
+
+      <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
+
+      <label>
+        <ng-container i18n>Color</ng-container>
+        <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"/>
+      </label>
+
+    }
   `,
   styles: `
       :host {

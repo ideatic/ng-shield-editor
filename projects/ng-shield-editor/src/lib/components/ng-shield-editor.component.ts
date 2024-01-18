@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgShieldBuilderService} from '../services/ng-shield-builder.service';
 import {NgShieldSettings} from '../ng-shield-settings';
 import {imports} from "./imports";
@@ -11,9 +11,9 @@ import {NgShieldEditorMaterialStylesComponent} from "./ng-shield-editor-material
   standalone: true,
   imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent, NgShieldEditorMaterialStylesComponent],
   template: `
-      @if (showPreview) {
-          <ng-shield-editor-preview [settings]="settings"/>
-      }
+    @if (showPreview) {
+      <ng-shield-editor-preview [settings]="settings"/>
+    }
     <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)"/>
     <ng-shield-editor-material-styles style="display: none"/>
   `,
@@ -34,7 +34,8 @@ import {NgShieldEditorMaterialStylesComponent} from "./ng-shield-editor-material
     max-width: 100%;
     flex: 50%;
   }
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgShieldEditorComponent {
   @Input() public settings: NgShieldSettings = JSON.parse(JSON.stringify(this._ngShieldSvc.defaultSettings)); // Crear copia para no editar la instancia original

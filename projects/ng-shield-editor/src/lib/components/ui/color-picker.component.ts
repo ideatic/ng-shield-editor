@@ -1,4 +1,4 @@
-import {Component, forwardRef, HostBinding, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
 import {imports} from "../imports";
@@ -8,22 +8,22 @@ import {imports} from "../imports";
   standalone: true,
   imports: [imports],
   template: `
-      @if (allowNullSelection) {
-          <div class="swatch" [class.active]="selectedColor === null && !isDisabled" (click)="onColorSelected(null)">
-              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                          d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"/>
-              </svg>
-          </div>
-      }
+    @if (allowNullSelection) {
+      <div class="swatch" [class.active]="selectedColor === null && !isDisabled" (click)="onColorSelected(null)">
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"/>
+        </svg>
+      </div>
+    }
 
-      @for (color of colorPalette;track color) {
-          <div class="swatch"
-               [class.active]="(color | fn:isSameColor:this:selectedColor) && !isDisabled"
-               [class.light]="(color | fn:brightnessByColor) > 200"
-               [style.background]="color"
-               (click)="onColorSelected(color)"></div>
-      }
+    @for (color of colorPalette; track color) {
+      <div class="swatch"
+           [class.active]="(color | fn:isSameColor:this:selectedColor) && !isDisabled"
+           [class.light]="(color | fn:brightnessByColor) > 200"
+           [style.background]="color"
+           (click)="onColorSelected(color)"></div>
+    }
   `,
   styles: `
     :host {
@@ -66,7 +66,8 @@ import {imports} from "../imports";
       useExisting: forwardRef(() => ColorPickerComponent),
       multi: true
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColorPickerComponent implements ControlValueAccessor {
   @Input() public allowNullSelection = false;

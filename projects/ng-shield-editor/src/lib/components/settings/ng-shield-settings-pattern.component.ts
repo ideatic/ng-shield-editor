@@ -14,97 +14,93 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   imports: [imports, ColorPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-      <div class="patterns">
-          @for (pattern of patternSvc.available | keyvalue: originalOrder;track pattern) {
-              <div
-                      class="pattern-thumb"
-                      [class.active]="pattern.key == settings?.motif.id"
-                      [innerHTML]="pattern.key | fn:getPatternThumbnail:this:settings"
-                      (click)="onPatternSelected(pattern.key)"></div>
-          }
+    <div class="patterns">
+      @for (pattern of patternSvc.available | keyvalue: originalOrder; track pattern) {
+        <div class="pattern-thumb" [class.active]="pattern.key == settings?.motif.id"
+             [innerHTML]="pattern.key | fn:getPatternThumbnail:this:settings"
+             (click)="onPatternSelected(pattern.key)"></div>
+      }
+    </div>
+
+    @if (settings) {
+      <label>
+        <ng-container i18n>Color</ng-container>
+        <color-picker [disabled]="settings.motif.id === 'none'" [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()"/>
+      </label>
+
+      <div class="flex">
+        <label>
+          <ng-container i18n>Posición horizontal</ng-container>
+          <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100">
+            <input matSliderThumb [(ngModel)]="settings.motif.x" (ngModelChange)="onChange()"/>
+          </mat-slider>
+        </label>
+        <label>
+          <ng-container i18n>Posición vertical</ng-container>
+          <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100">
+            <input matSliderThumb [(ngModel)]="settings.motif.y" (ngModelChange)="onChange()"/>
+          </mat-slider>
+        </label>
       </div>
 
-      @if (settings) {
-          <label>
-              <ng-container i18n>Color</ng-container>
-              <color-picker [disabled]="settings.motif.id === 'none'" [(ngModel)]="settings.motif.color" (ngModelChange)="onChange()"/>
-          </label>
+      <div>
+        <label>
+          <ng-container i18n>Zoom</ng-container>
+          <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="300" [step]="10">
+            <input matSliderThumb [(ngModel)]="settings.motif.zoom" (ngModelChange)="onChange()"/>
+          </mat-slider>
+        </label>
+      </div>
 
-          <div class="flex">
-              <label>
-                  <ng-container i18n>Posición horizontal</ng-container>
-                  <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100">
-                      <input matSliderThumb [(ngModel)]="settings.motif.x" (ngModelChange)="onChange()"/>
-                  </mat-slider>
-              </label>
-              <label>
-                  <ng-container i18n>Posición vertical</ng-container>
-                  <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="100">
-                      <input matSliderThumb [(ngModel)]="settings.motif.y" (ngModelChange)="onChange()"/>
-                  </mat-slider>
-              </label>
-          </div>
-
-          <div>
-              <label>
-                  <ng-container i18n>Zoom</ng-container>
-                  <mat-slider discrete [disabled]="settings.motif.id === 'none'" [min]="0" [max]="300" [step]="10">
-                      <input matSliderThumb [(ngModel)]="settings.motif.zoom" (ngModelChange)="onChange()"/>
-                  </mat-slider>
-              </label>
-          </div>
-
-      }
+    }
   `,
-  styles: [
-    `
-      :host {
-        display: block;
-        width: 100%;
-      }
+  styles: `
+    :host {
+      display: block;
+      width: 100%;
+    }
 
-      .patterns {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 10px 0;
-        margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
+    .patterns {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 0;
+      margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
 
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
-      }
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+    }
 
-      .pattern-thumb {
-        width: 75px;
-        height: 75px;
-        margin: 10px;
-        padding: 5px;
-        border-radius: 6px;
-        background: #ebf0f6;
-        outline: none;
-        cursor: pointer;
-        border: 2px solid transparent;
-      }
+    .pattern-thumb {
+      width: 75px;
+      height: 75px;
+      margin: 10px;
+      padding: 5px;
+      border-radius: 6px;
+      background: #ebf0f6;
+      outline: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
 
-      .pattern-thumb ::ng-deep svg {
-        max-width: 100%;
-        max-height: 100%;
-      }
+    .pattern-thumb ::ng-deep svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
 
-      .pattern-thumb.active {
-        border: 2px solid #3666c8;
-      }
+    .pattern-thumb.active {
+      border: 2px solid #3666c8;
+    }
 
-      .flex {
-        display: flex;
-      }
+    .flex {
+      display: flex;
+    }
 
-      .flex * {
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-      }
-    `
-  ],
+    .flex * {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+    }
+  `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
