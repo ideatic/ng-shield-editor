@@ -1,12 +1,11 @@
-import {Inject, Injectable} from '@angular/core';
+import {inject, Injectable} from "@angular/core";
 import {DOCUMENT} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageToolService {
-  constructor(@Inject(DOCUMENT) private _document: Document) {
-  }
+  private _document = inject(DOCUMENT);
 
   public svgToDataUri(svg: string): string {
     return `data:image/svg+xml;base64,${btoa(svg.replace(/[\u00A0-\uFFFF]/g, c => `&#${c.charCodeAt(0)};`))}`; // https://stackoverflow.com/a/33140101/528065

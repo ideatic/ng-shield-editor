@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, inject} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -11,8 +11,8 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 @Component({
   selector: 'ng-shield-editor-settings-pattern',
   standalone: true,
-  imports: [imports, ColorPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [imports, ColorPickerComponent],
   template: `
     <div class="patterns">
       @for (pattern of patternSvc.available | keyvalue: originalOrder; track pattern) {
@@ -110,13 +110,14 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   ]
 })
 export class NgShieldSettingsPatternComponent implements ControlValueAccessor {
+  // Deps
+  protected readonly patternSvc = inject(NgShieldPatternService);
+  private readonly _ngShieldSvc = inject(NgShieldBuilderService);
+  private readonly _sanitizer = inject(DomSanitizer);
+
+  // State
   public settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
-
-  constructor(protected patternSvc: NgShieldPatternService,
-              private _ngShieldSvc: NgShieldBuilderService,
-              private _sanitizer: DomSanitizer) {
-  }
 
   protected onPatternSelected(patternID: string): void {
     if (patternID != this.settings.motif.id) {

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from "@angular/core";
 import {NgShieldSettingsSymbol} from '../ng-shield-settings';
 import {ImageToolService} from './image-tool.service';
 
@@ -6,6 +6,8 @@ import {ImageToolService} from './image-tool.service';
   providedIn: 'root'
 })
 export class NgShieldSymbolService {
+  private _imageSvc = inject(ImageToolService);
+
   public autoResizeImages: number | false = 1000; // Resize input files to 1000px to avoid performance bottlenecks
   public allowSymbolUpload = true;
 
@@ -36,9 +38,6 @@ export class NgShieldSymbolService {
     trim: true,
     color: '#000000'
   };
-
-  constructor(private _imageSvc: ImageToolService) {
-  }
 
   public isConfigurable(symbol: NgShieldSettingsSymbol): boolean {
     return symbol && symbol.content?.indexOf('<svg') === 0 && symbol.content.indexOf('%attrs%') >= 0;

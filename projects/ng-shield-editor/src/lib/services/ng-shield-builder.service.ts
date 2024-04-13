@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from "@angular/core";
 import {NgShieldSettings} from '../ng-shield-settings';
 import {NgShieldShapeService} from './ng-shield-shape.service';
 import {NgShieldPatternService} from './ng-shield-pattern.service';
@@ -13,6 +13,14 @@ import {escapeXML} from './libs/xml';
   providedIn: 'root'
 })
 export class NgShieldBuilderService {
+  // Deps
+  private _shapeSvc = inject(NgShieldShapeService);
+  private _patternSvc = inject(NgShieldPatternService);
+  private _symbolSvc = inject(NgShieldSymbolService);
+  private _textSvc = inject(NgShieldTextService);
+  private _imageSvc = inject(ImageToolService);
+
+  // State
   public readonly defaultSettings: NgShieldSettings = {
     shape: {
       id: 'bwgShield',
@@ -30,13 +38,6 @@ export class NgShieldBuilderService {
     symbol: [this._symbolSvc.defaultSettings],
     gloss: true
   };
-
-  constructor(private _shapeSvc: NgShieldShapeService,
-              private _patternSvc: NgShieldPatternService,
-              private _symbolSvc: NgShieldSymbolService,
-              private _textSvc: NgShieldTextService,
-              private _imageSvc: ImageToolService) {
-  }
 
   public generateSVG(settings: NgShieldSettings): string {
     const idSuffix = randomString(16);

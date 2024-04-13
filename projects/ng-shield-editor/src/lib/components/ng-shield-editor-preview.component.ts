@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, inject, Input, OnChanges} from "@angular/core";
 import {NgShieldBuilderService} from '../services/ng-shield-builder.service';
 import {NgShieldSettings} from '../ng-shield-settings';
 
 @Component({
   selector: 'ng-shield-editor-preview',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
   styles: `
     :host {
@@ -19,15 +20,15 @@ import {NgShieldSettings} from '../ng-shield-settings';
       display: block;
       margin: 0 auto;
     }
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  `
 })
 export class NgShieldEditorPreviewComponent implements OnChanges {
-  @Input() public settings: NgShieldSettings;
+  // Deps
+  private _host = inject(ElementRef<HTMLElement>);
+  private _generatorSvc = inject(NgShieldBuilderService);
 
-  constructor(private _host: ElementRef<HTMLElement>,
-              private _generatorSvc: NgShieldBuilderService) {
-  }
+  // Bindings
+  @Input() public settings: NgShieldSettings;
 
   public ngOnChanges() {
     this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(this.settings);

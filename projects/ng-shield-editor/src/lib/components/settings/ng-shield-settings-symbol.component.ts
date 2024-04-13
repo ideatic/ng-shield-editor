@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, inject, Input} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings, NgShieldSettingsSymbol} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -12,8 +12,8 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
   standalone: true,
-  imports: [imports, ColorPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [imports, ColorPickerComponent],
   template: `
     <div class="mat-align">
       <div style="margin: 0; white-space: nowrap">
@@ -214,17 +214,19 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   ]
 })
 export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
+  // Deps
+  protected readonly symbolSvc = inject(NgShieldSymbolService);
+  private readonly _imageSvc = inject(ImageToolService);
+  private readonly _sanitizer = inject(DomSanitizer);
+
+  // Bindings
   @Input() public allowNullSelection = true;
 
+  // State
   protected settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
   protected selectedSymbol: NgShieldSettingsSymbol = this.symbolSvc.defaultSettings;
-
-  constructor(protected symbolSvc: NgShieldSymbolService,
-              private _imageSvc: ImageToolService,
-              private _sanitizer: DomSanitizer) {
-  }
 
   protected onSymbolSelected(symbol: NgShieldSettingsSymbol, content: string) {
     symbol.content = content;

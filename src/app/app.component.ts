@@ -1,3 +1,4 @@
+import {inject} from "@angular/core";
 import {Component} from '@angular/core';
 import {NgShieldBuilderService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-builder.service';
 import {downloadData} from './download';
@@ -13,11 +14,11 @@ import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shiel
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  private _ngShieldSvc = inject(NgShieldBuilderService);
+
   public settings = this._ngShieldSvc.defaultSettings;
 
-  constructor(private _ngShieldSvc: NgShieldBuilderService,
-              symbolSvc: NgShieldSymbolService,
-              httpClient: HttpClient) {
+  constructor() {
     // Los símbolos los define el consumidor de la librería
     const symbols = [
       'assets/symbols/iron-man.png',
@@ -30,6 +31,8 @@ export class AppComponent {
       'assets/symbols/puma.png'
     ];
 
+    const httpClient = inject(HttpClient);
+    const symbolSvc = inject(NgShieldSymbolService);
     symbols.forEach(symbol => {
       httpClient.get(location.href + symbol, {responseType: 'blob'})
         .subscribe(image => {

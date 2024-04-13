@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, inject} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -10,8 +10,8 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 @Component({
   selector: 'ng-shield-editor-settings-text',
   standalone: true,
-  imports: [imports, ColorPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [imports, ColorPickerComponent],
   template: `
     <div class="mat-align">
       <div style="margin: 0; white-space: nowrap">
@@ -206,15 +206,15 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
   }]
 })
 export class NgShieldSettingsTextComponent implements ControlValueAccessor {
+  // Deps
+  protected readonly textSvc = inject(NgShieldTextService);
+  private readonly _document = inject(DOCUMENT);
+
+  // State
   protected settings: NgShieldSettings;
   private _onChangeCallback: (v: any) => void = noop;
 
   protected selectedText: NgShieldSettingsText = this.textSvc.defaultSettings;
-
-  constructor(protected textSvc: NgShieldTextService,
-              @Inject(DOCUMENT) private _document: Document) {
-
-  }
 
   protected onChange() {
     this.settings = {...this.settings}; // Realizar copia superficial del objeto para que el detector de cambios pueda detectar el cambio
