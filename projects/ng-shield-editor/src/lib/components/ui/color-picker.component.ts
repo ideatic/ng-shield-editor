@@ -6,6 +6,7 @@ import {imports} from "../imports";
 @Component({
   selector: 'color-picker',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [imports],
   template: `
     @if (allowNullSelection) {
@@ -66,8 +67,7 @@ import {imports} from "../imports";
       useExisting: forwardRef(() => ColorPickerComponent),
       multi: true
     }
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
 export class ColorPickerComponent implements ControlValueAccessor {
   @Input() public allowNullSelection = false;
