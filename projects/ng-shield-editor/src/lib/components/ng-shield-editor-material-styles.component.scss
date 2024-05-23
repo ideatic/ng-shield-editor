@@ -1,10 +1,10 @@
 @use '@angular/material' as mat;
 
 // Create the theme object (a Sass map containing all of the palettes).
-$app-theme: mat.define-light-theme((
+$app-theme: mat.m2-define-light-theme((
   color: (
-    primary: mat.define-palette(mat.$teal-palette),
-    accent: mat.define-palette(mat.$teal-palette),
+    primary: mat.m2-define-palette(mat.$m2-teal-palette),
+    accent: mat.m2-define-palette(mat.$m2-teal-palette),
   ),
   density: 0,
 ));
