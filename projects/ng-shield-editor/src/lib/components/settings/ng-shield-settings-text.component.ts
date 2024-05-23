@@ -34,13 +34,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       @if (settings?.text.length > 1) {
         <mat-form-field appearance="fill" class="no-label-select">
           <mat-select [(ngModel)]="selectedText" (ngModelChange)="onChange()">
-            @for (text of (settings?.text || []); track text; let index = $index) {
+            @for (text of (settings?.text || []); track text) {
               <mat-option [value]="text">
                 @if (text.body) {
                   {{ text.body }}
                 } @else {
                   <ng-container i18n>Texto</ng-container>
-                  #{{ index + 1 | number }}
+                  #{{ $index + 1 | number }}
                 }
               </mat-option>
             }

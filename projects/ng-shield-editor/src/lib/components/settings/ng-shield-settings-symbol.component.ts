@@ -36,10 +36,10 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       @if (settings?.symbol.length > 1) {
         <mat-form-field appearance="fill" class="no-label-select">
           <mat-select [(ngModel)]="selectedSymbol" (ngModelChange)="onChange()">
-            @for (symbol of (settings?.symbol || []); track symbol; let index = $index) {
+            @for (symbol of (settings?.symbol || []); track symbol) {
               <mat-option [value]="symbol">
                 <ng-container i18n>Símbolo</ng-container>
-                #{{ index + 1 | number }}
+                #{{ $index + 1 | number }}
               </mat-option>
             }
           </mat-select>
