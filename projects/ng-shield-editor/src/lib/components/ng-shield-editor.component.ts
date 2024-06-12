@@ -44,7 +44,7 @@ export class NgShieldEditorComponent {
   // Bindings
   @Input() public settings: NgShieldSettings = JSON.parse(JSON.stringify(this._ngShieldSvc.defaultSettings)); // Crear copia para no editar la instancia original
   @Input() public showPreview = true;
-  public settingsChange = output<NgShieldSettings>();
+  public readonly settingsChange = output<NgShieldSettings>();
 
   public render(width: number, height: number, type = 'image/png'): Promise<string> {
     return this._ngShieldSvc.renderBase64Image(this.settings, width, height, type);
