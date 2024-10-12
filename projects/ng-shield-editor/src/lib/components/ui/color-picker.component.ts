@@ -20,7 +20,7 @@ import {imports} from "../imports";
 
     @for (color of colorPalette; track color) {
       <div class="swatch"
-           [class.active]="(color | fn:isSameColor:this:selectedColor) && !isDisabled"
+           [class.active]="(color | fn:isSameColor:selectedColor) && !isDisabled"
            [class.light]="(color | fn:brightnessByColor) > 200"
            [style.background]="color"
            (click)="onColorSelected(color)"></div>

@@ -76,7 +76,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
           class="symbol-thumb"
           [class.active]="availableSymbol === selectedSymbol.content"
           (click)="onSymbolSelected(selectedSymbol, availableSymbol)">
-          <img [src]="selectedSymbol | fn:getPreview:this:availableSymbol"/>
+          <img [src]="selectedSymbol | fn:getPreview:availableSymbol"/>
         </div>
       }
     </div>

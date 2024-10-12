@@ -17,7 +17,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     <div class="patterns">
       @for (pattern of patternSvc.available | keyvalue: originalOrder; track pattern) {
         <div class="pattern-thumb" [class.active]="pattern.key == settings?.motif.id"
-             [innerHTML]="pattern.key | fn:getPatternThumbnail:this:settings"
+             [innerHTML]="pattern.key | fn:getPatternThumbnail:settings"
              (click)="onPatternSelected(pattern.key)"></div>
       }
     </div>
@@ -126,9 +126,9 @@ export class NgShieldSettingsPatternComponent implements ControlValueAccessor {
     }
   }
 
-  protected getPatternThumbnail(motifID: string): SafeHtml | null {
-    if (this.settings) {
-      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, motif: {...this.settings.motif, id: motifID}}));
+  protected getPatternThumbnail(motifID: string, settings: this['settings']): SafeHtml | null {
+    if (settings) {
+      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...settings, motif: {...settings.motif, id: motifID}}));
     } else {
       return null;
     }

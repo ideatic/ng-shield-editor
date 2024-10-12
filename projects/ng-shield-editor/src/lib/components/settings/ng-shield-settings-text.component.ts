@@ -63,7 +63,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
           <mat-label i18n>Fuente</mat-label>
           <mat-select [disabled]="!selectedText.body" [(ngModel)]="selectedText.fontFamily" (ngModelChange)="onChange()">
             @for (family of textSvc.fontFamilies; track family) {
-              <mat-option [value]="family.name" [style.font-family]="family | fn:loadFontFamily:this">{{ family.name }}</mat-option>
+              <mat-option [value]="family.name" [style.font-family]="family | fn:loadFontFamily">{{ family.name }}</mat-option>
             }
           </mat-select>
         </mat-form-field>

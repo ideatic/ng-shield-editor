@@ -17,7 +17,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     <div class="shapes">
       @for (shape of shapeSvc.available | keyvalue: originalOrder; track shape) {
         <div class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
-             [innerHTML]="shape.key | fn:getShapeThumbnail:this:settings" (click)="onShapeSelected($any(shape.key))"></div>
+             [innerHTML]="shape.key | fn:getShapeThumbnail:settings" (click)="onShapeSelected($any(shape.key))"></div>
       }
     </div>
 
@@ -99,9 +99,9 @@ export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
     }
   }
 
-  protected getShapeThumbnail(shapeID: string): SafeHtml | null {
-    if (this.settings) {
-      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...this.settings, shape: {...this.settings.shape, id: shapeID}}));
+  protected getShapeThumbnail(shapeID: string, settings: this['settings']): SafeHtml | null {
+    if (settings) {
+      return this._sanitizer.bypassSecurityTrustHtml(this._ngShieldSvc.generateSVG({...settings, shape: {...settings.shape, id: shapeID}}));
     } else {
       return null;
     }
