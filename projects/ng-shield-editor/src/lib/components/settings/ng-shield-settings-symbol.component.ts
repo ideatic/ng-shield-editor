@@ -10,11 +10,10 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 
 
 @Component({
-  selector: 'ng-shield-editor-settings-symbol',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [imports, ColorPickerComponent],
-  template: `
+    selector: 'ng-shield-editor-settings-symbol',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [imports, ColorPickerComponent],
+    template: `
     <div class="mat-align">
       <div style="margin: 0; white-space: nowrap">
         <button mat-stroked-button class="addBtn" (click)="addSymbol()">
@@ -126,7 +125,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       </div>
     }
   `,
-  styles: `
+    styles: `
     :host {
       display: block;
       width: 100%;
@@ -205,13 +204,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       align-items: center;
     }
   `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NgShieldSettingsSymbolComponent),
-      multi: true
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NgShieldSettingsSymbolComponent),
+            multi: true
+        }
+    ]
 })
 export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   // Deps

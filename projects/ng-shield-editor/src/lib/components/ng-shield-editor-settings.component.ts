@@ -9,17 +9,16 @@ import {NgShieldSettingsSymbolComponent} from "./settings/ng-shield-settings-sym
 import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.component";
 
 @Component({
-  selector: 'ng-shield-editor-settings',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    imports,
-    NgShieldSettingsShapeComponent,
-    NgShieldSettingsPatternComponent,
-    NgShieldSettingsSymbolComponent,
-    NgShieldSettingsTextComponent
-  ],
-  template: `
+    selector: 'ng-shield-editor-settings',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        imports,
+        NgShieldSettingsShapeComponent,
+        NgShieldSettingsPatternComponent,
+        NgShieldSettingsSymbolComponent,
+        NgShieldSettingsTextComponent
+    ],
+    template: `
     <mat-tab-group>
       <mat-tab label="Forma" i18n-label="shape|">
         <ng-shield-editor-settings-shape [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"/>
@@ -41,19 +40,19 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
       </mat-tab>
     </mat-tab-group>
   `,
-  styles: `
+    styles: `
     /* Fix for Material tabs overflow bug */
     :host ::ng-deep .mat-mdc-tab-body-content {
       overflow: hidden;
     }
   `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NgShieldEditorSettingsComponent),
-      multi: true
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NgShieldEditorSettingsComponent),
+            multi: true
+        }
+    ]
 })
 export class NgShieldEditorSettingsComponent implements ControlValueAccessor {
   public settings: NgShieldSettings;

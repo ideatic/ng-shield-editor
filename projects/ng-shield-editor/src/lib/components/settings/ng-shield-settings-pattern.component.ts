@@ -9,11 +9,10 @@ import {imports} from "../imports";
 import {ColorPickerComponent} from "../ui/color-picker.component";
 
 @Component({
-  selector: 'ng-shield-editor-settings-pattern',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [imports, ColorPickerComponent],
-  template: `
+    selector: 'ng-shield-editor-settings-pattern',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [imports, ColorPickerComponent],
+    template: `
     <div class="patterns">
       @for (pattern of patternSvc.available | keyvalue: originalOrder; track pattern) {
         <div class="pattern-thumb" [class.active]="pattern.key == settings?.motif.id"
@@ -54,7 +53,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 
     }
   `,
-  styles: `
+    styles: `
     :host {
       display: block;
       width: 100%;
@@ -101,13 +100,13 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       align-items: center;
     }
   `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NgShieldSettingsPatternComponent),
-      multi: true
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NgShieldSettingsPatternComponent),
+            multi: true
+        }
+    ]
 })
 export class NgShieldSettingsPatternComponent implements ControlValueAccessor {
   // Deps

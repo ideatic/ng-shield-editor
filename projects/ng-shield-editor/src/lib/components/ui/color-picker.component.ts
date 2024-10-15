@@ -4,11 +4,10 @@ import {noop} from 'rxjs';
 import {imports} from "../imports";
 
 @Component({
-  selector: 'color-picker',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [imports],
-  template: `
+    selector: 'color-picker',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [imports],
+    template: `
     @if (allowNullSelection) {
       <div class="swatch" [class.active]="selectedColor === null && !isDisabled" (click)="onColorSelected(null)">
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +25,7 @@ import {imports} from "../imports";
            (click)="onColorSelected(color)"></div>
     }
   `,
-  styles: `
+    styles: `
     :host {
       width: 100%;
       display: flex;
@@ -61,13 +60,13 @@ import {imports} from "../imports";
       border: 2px solid #3666c8;
     }
   `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ColorPickerComponent),
-      multi: true
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ColorPickerComponent),
+            multi: true
+        }
+    ]
 })
 export class ColorPickerComponent implements ControlValueAccessor {
   @Input() public allowNullSelection = false;

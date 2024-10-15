@@ -9,11 +9,10 @@ import {imports} from "../imports";
 import {ColorPickerComponent} from "../ui/color-picker.component";
 
 @Component({
-  selector: 'ng-shield-editor-settings-shape',
-  standalone: true,
-  imports: [imports, ColorPickerComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'ng-shield-editor-settings-shape',
+    imports: [imports, ColorPickerComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <div class="shapes">
       @for (shape of shapeSvc.available | keyvalue: originalOrder; track shape) {
         <div class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
@@ -33,7 +32,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
 
     }
   `,
-  styles: `
+    styles: `
     :host {
       display: block;
       width: 100%;
@@ -75,11 +74,11 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       margin: 5px 0;
     }
   `,
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgShieldSettingsShapeComponent),
-    multi: true
-  }]
+    providers: [{
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NgShieldSettingsShapeComponent),
+            multi: true
+        }]
 })
 export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   // Deps

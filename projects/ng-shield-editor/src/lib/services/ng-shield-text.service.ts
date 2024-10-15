@@ -3,6 +3,7 @@ import {openSans} from './fonts/open-sans';
 import {jura} from './fonts/jura';
 import {novaFlat} from './fonts/nova-flat';
 import {lobster} from './fonts/lobster';
+// import {lobster} from './fonts/lobster' with { loader: 'binary' }; // TODO: Implementar custom loaders https://blog.ninja-squad.com/2024/08/14/what-is-new-angular-18.2/
 import {bungee} from './fonts/bungee';
 import {overpass} from './fonts/overpass';
 import {luckiestGuy} from './fonts/luckiest-guy';

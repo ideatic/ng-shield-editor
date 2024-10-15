@@ -7,18 +7,17 @@ import {NgShieldEditorPreviewComponent} from "./ng-shield-editor-preview.compone
 import {NgShieldEditorSettingsComponent} from "./ng-shield-editor-settings.component";
 
 @Component({
-  selector: 'ng-shield-editor',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent, NgShieldEditorMaterialStylesComponent],
-  template: `
+    selector: 'ng-shield-editor',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent, NgShieldEditorMaterialStylesComponent],
+    template: `
     @if (showPreview) {
       <ng-shield-editor-preview [settings]="settings"/>
     }
     <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)"/>
     <ng-shield-editor-material-styles style="display: none"/>
   `,
-  styles: `
+    styles: `
     :host {
       display: flex;
       flex-wrap: wrap;

@@ -8,11 +8,10 @@ import {imports} from "../imports";
 import {ColorPickerComponent} from "../ui/color-picker.component";
 
 @Component({
-  selector: 'ng-shield-editor-settings-text',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [imports, ColorPickerComponent],
-  template: `
+    selector: 'ng-shield-editor-settings-text',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [imports, ColorPickerComponent],
+    template: `
     <div class="mat-align">
       <div style="margin: 0; white-space: nowrap">
         <button mat-stroked-button class="addBtn" (click)="addText()">
@@ -140,7 +139,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       }
     </div>
   `,
-  styles: `
+    styles: `
     div {
       margin: 10px 0;
     }
@@ -199,11 +198,11 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       align-items: center;
     }
   `,
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgShieldSettingsTextComponent),
-    multi: true
-  }]
+    providers: [{
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NgShieldSettingsTextComponent),
+            multi: true
+        }]
 })
 export class NgShieldSettingsTextComponent implements ControlValueAccessor {
   // Deps
