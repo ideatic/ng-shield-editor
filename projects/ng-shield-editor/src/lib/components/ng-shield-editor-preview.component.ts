@@ -4,7 +4,6 @@ import {NgShieldSettings} from '../ng-shield-settings';
 
 @Component({
   selector: 'ng-shield-editor-preview',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
   styles: `
