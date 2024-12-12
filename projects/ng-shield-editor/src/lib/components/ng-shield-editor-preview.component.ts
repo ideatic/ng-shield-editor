@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject, Input, OnChanges} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, inject, OnChanges, input} from "@angular/core";
 import {NgShieldBuilderService} from '../services/ng-shield-builder.service';
 import {NgShieldSettings} from '../ng-shield-settings';
 
@@ -27,9 +27,9 @@ export class NgShieldEditorPreviewComponent implements OnChanges {
   private _generatorSvc = inject(NgShieldBuilderService);
 
   // Bindings
-  @Input() public settings: NgShieldSettings;
+  public readonly settings = input<NgShieldSettings>(undefined);
 
   public ngOnChanges() {
-    this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(this.settings);
+    this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(this.settings());
   }
 }

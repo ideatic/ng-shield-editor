@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef, inject, Input} from "@angular/core";
+import {ChangeDetectionStrategy, Component, forwardRef, inject, input} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings, NgShieldSettingsSymbol} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
@@ -46,7 +46,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       }
     </div>
     <div class="symbol-list">
-      @if (allowNullSelection) {
+      @if (allowNullSelection()) {
         <div
           class="symbol-thumb"
           [class.active]="selectedSymbol.content === null"
@@ -219,7 +219,7 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   private readonly _sanitizer = inject(DomSanitizer);
 
   // Bindings
-  @Input() public allowNullSelection = true;
+  public readonly allowNullSelection = input(true);
 
   // State
   protected settings: NgShieldSettings;

@@ -7,17 +7,17 @@ import {NgShieldEditorPreviewComponent} from "./ng-shield-editor-preview.compone
 import {NgShieldEditorSettingsComponent} from "./ng-shield-editor-settings.component";
 
 @Component({
-    selector: 'ng-shield-editor',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent, NgShieldEditorMaterialStylesComponent],
-    template: `
+  selector: 'ng-shield-editor',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent, NgShieldEditorMaterialStylesComponent],
+  template: `
     @if (showPreview) {
       <ng-shield-editor-preview [settings]="settings"/>
     }
     <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)"/>
     <ng-shield-editor-material-styles style="display: none"/>
   `,
-    styles: `
+  styles: `
     :host {
       display: flex;
       flex-wrap: wrap;
@@ -41,7 +41,11 @@ export class NgShieldEditorComponent {
   private _ngShieldSvc = inject(NgShieldBuilderService);
 
   // Bindings
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() public settings: NgShieldSettings = JSON.parse(JSON.stringify(this._ngShieldSvc.defaultSettings)); // Crear copia para no editar la instancia original
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() public showPreview = true;
   public readonly settingsChange = output<NgShieldSettings>();
 

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
 import {imports} from "../imports";
@@ -8,7 +8,7 @@ import {imports} from "../imports";
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [imports],
     template: `
-    @if (allowNullSelection) {
+    @if (allowNullSelection()) {
       <div class="swatch" [class.active]="selectedColor === null && !isDisabled" (click)="onColorSelected(null)">
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -69,7 +69,7 @@ import {imports} from "../imports";
     ]
 })
 export class ColorPickerComponent implements ControlValueAccessor {
-  @Input() public allowNullSelection = false;
+  public readonly allowNullSelection = input(false);
 
   protected selectedColor: string;
 
