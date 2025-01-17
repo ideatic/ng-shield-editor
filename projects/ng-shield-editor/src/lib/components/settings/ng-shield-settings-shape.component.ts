@@ -9,10 +9,10 @@ import {imports} from "../imports";
 import {ColorPickerComponent} from "../ui/color-picker.component";
 
 @Component({
-    selector: 'ng-shield-editor-settings-shape',
-    imports: [imports, ColorPickerComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'ng-shield-editor-settings-shape',
+  imports: [imports, ColorPickerComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <div class="shapes">
       @for (shape of shapeSvc.available | keyvalue: originalOrder; track shape) {
         <div class="shape-thumb" [class.active]="shape.key == settings?.shape.id"
@@ -21,7 +21,9 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     </div>
 
     @if (settings) {
-      <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n>Pintar borde</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n="Indicar si se dibuja el borde de un elemento gráfico">
+        Pintar borde
+      </mat-slide-toggle>
 
       <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
 
@@ -29,10 +31,9 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         <ng-container i18n>Color</ng-container>
         <color-picker [(ngModel)]="settings.shape.color" (ngModelChange)="onChange()"/>
       </label>
-
     }
   `,
-    styles: `
+  styles: `
     :host {
       display: block;
       width: 100%;
@@ -74,11 +75,11 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
       margin: 5px 0;
     }
   `,
-    providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => NgShieldSettingsShapeComponent),
-            multi: true
-        }]
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => NgShieldSettingsShapeComponent),
+    multi: true
+  }]
 })
 export class NgShieldSettingsShapeComponent implements ControlValueAccessor {
   // Deps
