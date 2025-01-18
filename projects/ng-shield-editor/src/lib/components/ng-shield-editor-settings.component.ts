@@ -20,10 +20,10 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
     ],
     template: `
     <mat-tab-group>
-      <mat-tab label="Forma" i18n-label="shape|">
+      <mat-tab label="Forma" i18n-label="shape|Referido a la forma geométrica de un objeto">
         <ng-shield-editor-settings-shape [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"/>
       </mat-tab>
-      <mat-tab label="Motivo" i18n-label="pattern|">
+      <mat-tab label="Motivo" i18n-label="pattern|Referido al patrón de diseño aplicado a un objeto">
         <ng-template matTabContent>
           <ng-shield-editor-settings-pattern [(ngModel)]="settings" (ngModelChange)="onChangeCallback($event)"/>
         </ng-template>
