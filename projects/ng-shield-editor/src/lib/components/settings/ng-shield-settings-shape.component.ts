@@ -21,11 +21,11 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     </div>
 
     @if (settings) {
-      <mat-slide-toggle [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()" i18n="Indicar si se dibuja el borde de un elemento gráfico">
+      <mat-slide-toggle i18n="Indicar si se dibuja el borde de un elemento gráfico" [(ngModel)]="settings.shape.stroke" (ngModelChange)="onChange()">
         Pintar borde
       </mat-slide-toggle>
 
-      <mat-slide-toggle [(ngModel)]="settings.gloss" (ngModelChange)="onChange()" i18n>Gloss</mat-slide-toggle>
+      <mat-slide-toggle i18n [(ngModel)]="settings.gloss" (ngModelChange)="onChange()">Gloss</mat-slide-toggle>
 
       <label>
         <ng-container i18n>Color</ng-container>

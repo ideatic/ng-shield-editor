@@ -111,8 +111,8 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
     </div>
 
     <div>
-      <mat-slide-toggle [disabled]="selectedSymbol.content === null" [(ngModel)]="selectedSymbol.trim"
-                        (ngModelChange)="onChange()" i18n>Recortar
+      <mat-slide-toggle i18n [disabled]="selectedSymbol.content === null"
+                        [(ngModel)]="selectedSymbol.trim" (ngModelChange)="onChange()">Recortar
       </mat-slide-toggle>
     </div>
 

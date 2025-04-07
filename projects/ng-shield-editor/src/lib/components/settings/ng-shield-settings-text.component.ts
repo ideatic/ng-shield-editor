@@ -81,7 +81,7 @@ import {ColorPickerComponent} from "../ui/color-picker.component";
         <mat-form-field>
           <mat-label i18n>Forma</mat-label>
           <mat-select [disabled]="!selectedText.body" [(ngModel)]="selectedText.path" (ngModelChange)="onChange()">
-            <mat-option [value]="null" i18n>Ninguna</mat-option>
+            <mat-option i18n [value]="null">Ninguna</mat-option>
             @for (path of textSvc.paths | keyvalue: originalOrder; track path) {
               <mat-option [value]="path.key">{{ path.key }}</mat-option>
             }
