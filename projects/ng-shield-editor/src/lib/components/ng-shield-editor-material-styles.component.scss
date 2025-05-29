@@ -11,8 +11,10 @@ $app-theme: mat.m2-define-light-theme((
 
 // Incluir solamente los estilos de los componentes utilizados
 @include mat.all-component-typographies();
-@include mat.core();
-@include mat.core-theme($app-theme);
+@include mat.elevation-classes();
+@include mat.app-background();
+@include mat.elevation-classes();
+@include mat.app-background();
 @include mat.form-field-theme($app-theme);
 @include mat.input-theme($app-theme);
 @include mat.button-theme($app-theme);

@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, forwardRef, inject} from "@angular/core";
+import {ChangeDetectionStrategy, Component, forwardRef, inject, DOCUMENT} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
 import {NgShieldTextService} from '../../services/ng-shield-text.service';
-import {DOCUMENT} from '@angular/common';
+
 import {imports} from "../imports";
 import {ColorPickerComponent} from "../ui/color-picker.component";
 
