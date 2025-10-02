@@ -1,55 +1,70 @@
-import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, input} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {noop} from 'rxjs';
-import {imports} from "../imports";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  HostBinding,
+  input
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { noop } from 'rxjs';
+import { imports } from '../imports';
 
 @Component({
-    selector: 'color-picker',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [imports],
-    template: `
+  selector: 'color-picker',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [imports],
+  template: `
     @if (allowNullSelection()) {
-      <div class="swatch" [class.active]="selectedColor === null && !isDisabled" (click)="onColorSelected(null)">
+      <div
+        class="swatch"
+        [class.active]="selectedColor === null && !isDisabled"
+        (click)="onColorSelected(null)"
+      >
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
           <path
-            d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"/>
+            d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"
+          />
         </svg>
       </div>
     }
 
     @for (color of colorPalette; track color) {
-      <div class="swatch"
-           [class.active]="(color | fn:isSameColor:selectedColor) && !isDisabled"
-           [class.light]="(color | fn:brightnessByColor) > 200"
-           [style.background]="color"
-           (click)="onColorSelected(color)"></div>
+      <div
+        class="swatch"
+        [class.active]="
+          (color | fn: isSameColor : selectedColor) && !isDisabled
+        "
+        [class.light]="(color | fn: brightnessByColor) > 200"
+        [style.background]="color"
+        (click)="onColorSelected(color)"
+      ></div>
     }
   `,
-    styles: `
+  styles: `
     :host {
-      width: 100%;
       display: flex;
-      flex-wrap: wrap;
-      padding: 10px 0;
-      margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
 
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+      flex-wrap: wrap;
+      margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
+      padding: 10px 0;
+      width: 100%;
     }
 
     .swatch {
+      cursor: pointer;
+      margin: 10px;
+      outline: none;
+      border: 2px solid transparent;
+      border-radius: 6px;
       width: 32px;
       height: 32px;
-      margin: 10px;
-      border-radius: 6px;
-      outline: none;
-      cursor: pointer;
-      border: 2px solid transparent;
     }
 
     :host.disabled .swatch {
+      opacity: 0.5;
       cursor: not-allowed;
-      opacity: .5;
     }
 
     .swatch.light {
@@ -60,13 +75,13 @@ import {imports} from "../imports";
       border: 2px solid #3666c8;
     }
   `,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ColorPickerComponent),
-            multi: true
-        }
-    ]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ColorPickerComponent),
+      multi: true
+    }
+  ]
 })
 export class ColorPickerComponent implements ControlValueAccessor {
   public readonly allowNullSelection = input(false);
@@ -79,7 +94,6 @@ export class ColorPickerComponent implements ControlValueAccessor {
   private _onChangeCallback: (v: string) => void = noop;
 
   protected readonly colorPalette = ColorPickerComponent.palette;
-
 
   protected onColorSelected(color) {
     if (!this.isDisabled) {
@@ -95,8 +109,9 @@ export class ColorPickerComponent implements ControlValueAccessor {
   protected brightnessByColor(color: string): number | null {
     color = '' + color;
 
-    let r, g, b;
-    if (color.indexOf('#') == 0) { // Hex
+    let r: number, g: number, b: number;
+    if (color.indexOf('#') == 0) {
+      // Hex
       const hasFullSpec = color.length == 7;
       const m = color.substr(1).match(hasFullSpec ? /(\S{2})/g : /(\S{1})/g);
       if (m) {
@@ -104,14 +119,15 @@ export class ColorPickerComponent implements ControlValueAccessor {
         g = parseInt(m[1] + (hasFullSpec ? '' : m[1]), 16);
         b = parseInt(m[2] + (hasFullSpec ? '' : m[2]), 16);
       }
-    } else if (color.indexOf('rgb') == 0) { // RGB
+    } else if (color.indexOf('rgb') == 0) {
+      // RGB
       const m = color.match(/(\d+){3}/g);
       if (m) {
-        [r, g, b] = m;
+        [r, g, b] = m.map((v: string) => parseInt(v, 10));
       }
     }
     if (typeof r != 'undefined') {
-      return ((r * 299) + (g * 587) + (b * 114)) / 1000;
+      return (r * 299 + g * 587 + b * 114) / 1000;
     } else {
       return null;
     }
