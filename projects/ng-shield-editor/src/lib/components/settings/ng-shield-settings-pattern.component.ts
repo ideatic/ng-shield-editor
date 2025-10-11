@@ -1,9 +1,11 @@
 import {ChangeDetectionStrategy, Component, forwardRef, inject} from "@angular/core";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {NgShieldSettings} from '../../ng-shield-settings';
+import type {ControlValueAccessor} from '@angular/forms';
+import { NG_VALUE_ACCESSOR} from '@angular/forms';
+import type {NgShieldSettings} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
 import {NgShieldBuilderService} from '../../services/ng-shield-builder.service';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import type { SafeHtml} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {NgShieldPatternService} from '../../services/ng-shield-pattern.service';
 import {imports} from "../imports";
 import {ColorPickerComponent} from "../ui/color-picker.component";

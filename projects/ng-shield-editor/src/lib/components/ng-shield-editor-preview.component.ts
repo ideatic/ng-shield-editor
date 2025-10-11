@@ -1,12 +1,14 @@
+import type {
+  OnChanges
+} from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
-  input,
-  OnChanges
+  input
 } from '@angular/core';
-import { NgShieldSettings } from '../ng-shield-settings';
+import type { NgShieldSettings } from '../ng-shield-settings';
 import { NgShieldBuilderService } from '../services/ng-shield-builder.service';
 
 @Component({

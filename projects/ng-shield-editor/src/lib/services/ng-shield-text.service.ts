@@ -7,7 +7,7 @@ import {lobster} from './fonts/lobster';
 import {bungee} from './fonts/bungee';
 import {overpass} from './fonts/overpass';
 import {luckiestGuy} from './fonts/luckiest-guy';
-import {NgShieldSettingsText} from '../ng-shield-settings';
+import type {NgShieldSettingsText} from '../ng-shield-settings';
 
 @Injectable({
   providedIn: 'root'

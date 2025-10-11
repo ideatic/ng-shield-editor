@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, forwardRef} from '@angular/core';
-import {NgShieldSettings} from '../ng-shield-settings';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import type {NgShieldSettings} from '../ng-shield-settings';
+import type {ControlValueAccessor} from '@angular/forms';
+import { NG_VALUE_ACCESSOR} from '@angular/forms';
 import {noop} from 'rxjs';
 import {imports} from "./imports";
 import {NgShieldSettingsShapeComponent} from "./settings/ng-shield-settings-shape.component";

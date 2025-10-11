@@ -5,10 +5,11 @@ import {
   inject,
   input
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { ControlValueAccessor} from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { noop } from 'rxjs';
-import {
+import type {
   NgShieldSettings,
   NgShieldSettingsSymbol
 } from '../../ng-shield-settings';

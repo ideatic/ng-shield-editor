@@ -1,5 +1,5 @@
 import {inject, Injectable} from "@angular/core";
-import {NgShieldSettingsSymbol} from '../ng-shield-settings';
+import type {NgShieldSettingsSymbol} from '../ng-shield-settings';
 import {ImageToolService} from './image-tool.service';
 
 @Injectable({

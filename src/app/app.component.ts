@@ -4,7 +4,7 @@ import {NgShieldBuilderService} from '../../projects/ng-shield-editor/src/lib/se
 import {downloadData} from './download';
 import {NgShieldSymbolService} from '../../projects/ng-shield-editor/src/lib/services/ng-shield-symbol.service';
 import {HttpClient} from '@angular/common/http';
-import {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shield-settings';
+import type {NgShieldSettings} from '../../projects/ng-shield-editor/src/lib/ng-shield-settings';
 
 
 // eslint-disable-next-line

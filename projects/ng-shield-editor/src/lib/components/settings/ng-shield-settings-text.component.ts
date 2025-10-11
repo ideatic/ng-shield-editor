@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, forwardRef, inject, DOCUMENT} from "@angular/core";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
+import type {ControlValueAccessor} from '@angular/forms';
+import { NG_VALUE_ACCESSOR} from '@angular/forms';
+import type {NgShieldSettings, NgShieldSettingsText} from '../../ng-shield-settings';
 import {noop} from 'rxjs';
 import {NgShieldTextService} from '../../services/ng-shield-text.service';
 

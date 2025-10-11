@@ -1,5 +1,5 @@
 import {inject, Injectable} from "@angular/core";
-import {NgShieldSettings} from '../ng-shield-settings';
+import type {NgShieldSettings} from '../ng-shield-settings';
 import {NgShieldShapeService} from './ng-shield-shape.service';
 import {NgShieldPatternService} from './ng-shield-pattern.service';
 import {NgShieldTextService} from './ng-shield-text.service';
@@ -189,7 +189,7 @@ export class NgShieldBuilderService {
           cssAttrs.push(`transform: rotate(${symbol.rotation}deg)`);
         }
 
-        image = image.replace('%attrs%', attrs + ` style="${cssAttrs.join('; ')}"`);
+        image = image.replace('%attrs%', `${attrs  } style="${cssAttrs.join('; ')}"`);
 
         // Máscara de recorte
         const isNoBgShape = typeof shapeData == 'object' && !shapeData.main;

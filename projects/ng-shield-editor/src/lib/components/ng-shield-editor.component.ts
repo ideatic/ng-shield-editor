@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, Input, output} from "@angular/core";
-import {NgShieldSettings} from '../ng-shield-settings';
+import type {NgShieldSettings} from '../ng-shield-settings';
 import {NgShieldBuilderService} from '../services/ng-shield-builder.service';
 import {imports} from "./imports";
 import {NgShieldEditorMaterialStylesComponent} from "./ng-shield-editor-material-styles.component";

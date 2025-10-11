@@ -5,7 +5,8 @@ import {
   HostBinding,
   input
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { ControlValueAccessor} from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
 import { imports } from '../imports';
 
@@ -107,7 +108,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
    * @param color
    */
   protected brightnessByColor(color: string): number | null {
-    color = '' + color;
+    color = `${  color}`;
 
     let r: number, g: number, b: number;
     if (color.indexOf('#') == 0) {
