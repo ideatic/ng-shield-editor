@@ -5,7 +5,7 @@ import {
   HostBinding,
   input
 } from '@angular/core';
-import type { ControlValueAccessor} from '@angular/forms';
+import type { ControlValueAccessor } from '@angular/forms';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
 import { imports } from '../imports';
@@ -108,7 +108,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
    * @param color
    */
   protected brightnessByColor(color: string): number | null {
-    color = `${  color}`;
+    color = `${color}`;
 
     let r: number, g: number, b: number;
     if (color.indexOf('#') == 0) {
@@ -135,6 +135,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
   }
 
   protected isSameColor(color1: string, color2: string): boolean {
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     return color1 && color2 && color1.toUpperCase() == color2.toUpperCase();
   }
 
