@@ -1,9 +1,7 @@
-import type {
-  OnChanges
-} from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   inject,
   input
@@ -30,7 +28,7 @@ import { NgShieldBuilderService } from '../services/ng-shield-builder.service';
     }
   `
 })
-export class NgShieldEditorPreviewComponent implements OnChanges {
+export class NgShieldEditorPreviewComponent {
   // Deps
   private _host = inject(ElementRef<HTMLElement>);
   private _generatorSvc = inject(NgShieldBuilderService);
@@ -38,9 +36,12 @@ export class NgShieldEditorPreviewComponent implements OnChanges {
   // Bindings
   public readonly settings = input<NgShieldSettings>();
 
-  public ngOnChanges() {
-    this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(
-      this.settings()
+  constructor() {
+    effect(
+      () =>
+        (this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(
+          this.settings()
+        ))
     );
   }
 }
