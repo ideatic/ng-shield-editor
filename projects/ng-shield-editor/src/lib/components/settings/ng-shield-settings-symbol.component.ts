@@ -1,17 +1,7 @@
-import {
-  Component,
-  forwardRef,
-  inject,
-  input
-} from '@angular/core';
-import type { ControlValueAccessor } from '@angular/forms';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, effect, inject, input, model, untracked } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { noop } from 'rxjs';
-import type {
-  NgShieldSettings,
-  NgShieldSettingsSymbol
-} from '../../ng-shield-settings';
+import type { NgShieldSettings, NgShieldSettingsSymbol } from '../../ng-shield-settings';
 import { ImageToolService } from '../../services/image-tool.service';
 import { NgShieldSymbolService } from '../../services/ng-shield-symbol.service';
 import { imports } from '../imports';
@@ -30,13 +20,8 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
             />
           </svg>
         </button>
-        @if (settings?.symbol.length > 1) {
-          <button
-            mat-stroked-button
-            color="warn"
-            class="trash-icon"
-            (click)="deleteSymbol(selectedSymbol)"
-          >
+        @if (value()?.symbol.length > 1) {
+          <button mat-stroked-button color="warn" class="trash-icon" (click)="deleteSymbol(selectedSymbol)">
             <svg width="1.3em" height="1.3em" viewBox="0 0 512 512">
               <path
                 d="m464 32l-120 0-9-19c-4-8-13-13-22-13l-114 0c-9 0-18 5-22 13l-9 19-120 0c-9 0-16 7-16 16l0 32c0 9 7 16 16 16l416 0c9 0 16-7 16-16l0-32c0-9-7-16-16-16z m-379 435c2 25 23 45 48 45l246 0c25 0 46-20 48-45l21-339-384 0z"
@@ -46,10 +31,10 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
         }
       </div>
 
-      @if (settings?.symbol.length > 1) {
+      @if (value()?.symbol.length > 1) {
         <mat-form-field appearance="fill" class="no-label-select">
           <mat-select [(ngModel)]="selectedSymbol" (ngModelChange)="onChange()">
-            @for (symbol of settings?.symbol || []; track symbol) {
+            @for (symbol of value()?.symbol || []; track symbol) {
               <mat-option [value]="symbol">
                 <ng-container i18n>Símbolo</ng-container>
                 #{{ $index + 1 | number }}
@@ -61,11 +46,7 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
     </div>
     <div class="symbol-list">
       @if (allowNullSelection()) {
-        <div
-          class="symbol-thumb"
-          [class.active]="selectedSymbol.content === null"
-          (click)="onSymbolSelected(selectedSymbol, null)"
-        >
+        <div class="symbol-thumb" [class.active]="selectedSymbol.content === null" (click)="onSymbolSelected(selectedSymbol, null)">
           <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
             <path
               d="m411 255c0-31-8-59-24-84l-216 215c26 17 55 25 85 25 21 0 41-4 60-12 20-8 36-19 50-33 14-14 25-31 33-50 8-19 12-40 12-61z m-285 86l216-216c-26-17-55-26-86-26-28 0-54 7-78 21-24 14-43 33-57 57-13 24-20 50-20 78 0 31 8 59 25 86z m349-86c0 30-5 59-17 86-12 27-27 51-47 70-19 20-43 35-70 47-27 12-55 17-85 17-30 0-58-5-85-17-27-12-51-27-70-47-20-19-35-43-47-70-12-27-17-56-17-86 0-30 5-58 17-85 12-28 27-51 47-71 19-19 43-35 70-46 27-12 55-18 85-18 30 0 58 6 85 18 27 11 51 27 70 46 20 20 35 43 47 71 12 27 17 55 17 85z"
@@ -82,22 +63,13 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
                 d="m165 210l0 55c0 8-3 14-8 20-6 5-12 8-20 8l-55 0c-7 0-14-3-19-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 19-8l55 0c8 0 14 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-20 8l-54 0c-8 0-15-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 5-5 12-8 20-8l54 0c8 0 15 3 20 8 5 5 8 12 8 19z m146 0l0 55c0 8-3 14-8 20-5 5-12 8-19 8l-55 0c-8 0-14-3-20-8-5-6-8-12-8-20l0-55c0-7 3-14 8-19 6-5 12-8 20-8l55 0c7 0 14 3 19 8 5 5 8 12 8 19z"
               />
             </svg>
-            <input
-              type="file"
-              accept="image/*"
-              style="display:none"
-              (change)="fileChanged(selectedSymbol, $event)"
-            />
+            <input type="file" accept="image/*" style="display:none" (change)="fileChanged(selectedSymbol, $event)" />
           </label>
         </div>
       }
 
       @for (availableSymbol of symbolSvc.available; track availableSymbol) {
-        <div
-          class="symbol-thumb"
-          [class.active]="availableSymbol === selectedSymbol.content"
-          (click)="onSymbolSelected(selectedSymbol, availableSymbol)"
-        >
+        <div class="symbol-thumb" [class.active]="availableSymbol === selectedSymbol.content" (click)="onSymbolSelected(selectedSymbol, availableSymbol)">
           <img [src]="selectedSymbol | fn: getPreview : availableSymbol" />
         </div>
       }
@@ -106,32 +78,14 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
     <div class="flex">
       <label>
         <ng-container i18n>Posición horizontal</ng-container>
-        <mat-slider
-          discrete
-          [disabled]="selectedSymbol.content === null"
-          [min]="0"
-          [max]="100"
-        >
-          <input
-            matSliderThumb
-            [(ngModel)]="selectedSymbol.x"
-            (ngModelChange)="onChange()"
-          />
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="0" [max]="100">
+          <input matSliderThumb [(ngModel)]="selectedSymbol.x" (ngModelChange)="onChange()" />
         </mat-slider>
       </label>
       <label>
         <ng-container i18n>Posición vertical</ng-container>
-        <mat-slider
-          discrete
-          [disabled]="selectedSymbol.content === null"
-          [min]="0"
-          [max]="100"
-        >
-          <input
-            matSliderThumb
-            [(ngModel)]="selectedSymbol.y"
-            (ngModelChange)="onChange()"
-          />
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="0" [max]="100">
+          <input matSliderThumb [(ngModel)]="selectedSymbol.y" (ngModelChange)="onChange()" />
         </mat-slider>
       </label>
     </div>
@@ -139,35 +93,14 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
     <div class="flex">
       <label>
         <ng-container i18n>Tamaño</ng-container>
-        <mat-slider
-          discrete
-          [disabled]="selectedSymbol.content === null"
-          [min]="1"
-          [max]="200"
-        >
-          <input
-            matSliderThumb
-            [(ngModel)]="selectedSymbol.size"
-            (ngModelChange)="onChange()"
-          />
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="1" [max]="200">
+          <input matSliderThumb [(ngModel)]="selectedSymbol.size" (ngModelChange)="onChange()" />
         </mat-slider>
       </label>
       <label>
-        <ng-container i18n="Referido a rotar una figura geométrica o foto"
-          >Rotación</ng-container
-        >
-        <mat-slider
-          discrete
-          [disabled]="selectedSymbol.content === null"
-          [min]="-180"
-          [max]="180"
-          [step]="5"
-        >
-          <input
-            matSliderThumb
-            [(ngModel)]="selectedSymbol.rotation"
-            (ngModelChange)="onChange()"
-          />
+        <ng-container i18n="Referido a rotar una figura geométrica o foto">Rotación</ng-container>
+        <mat-slider discrete [disabled]="selectedSymbol.content === null" [min]="-180" [max]="180" [step]="5">
+          <input matSliderThumb [(ngModel)]="selectedSymbol.rotation" (ngModelChange)="onChange()" />
         </mat-slider>
       </label>
     </div>
@@ -187,10 +120,7 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
       <div style="margin-top: 10px">
         <label>
           <ng-container i18n>Color</ng-container>
-          <color-picker
-            [(ngModel)]="selectedSymbol.color"
-            (ngModelChange)="onChange()"
-          />
+          <color-picker [(ngModel)]="selectedSymbol.color" (ngModelChange)="onChange()" />
         </label>
       </div>
     }
@@ -273,16 +203,9 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
       flex-grow: 1;
       align-items: center;
     }
-  `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NgShieldSettingsSymbolComponent),
-      multi: true
-    }
-  ]
+  `
 })
-export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
+export class NgShieldSettingsSymbolComponent implements FormValueControl<NgShieldSettings | null> {
   // Deps
   protected readonly symbolSvc = inject(NgShieldSymbolService);
   private readonly _imageSvc = inject(ImageToolService);
@@ -291,12 +214,27 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   // Bindings
   public readonly allowNullSelection = input(true);
 
-  // State
-  protected settings: NgShieldSettings;
-  private _onChangeCallback: (v: any) => void = noop;
+  // Estado
+  public readonly value = model<NgShieldSettings | null>(null);
 
-  protected selectedSymbol: NgShieldSettingsSymbol =
-    this.symbolSvc.defaultSettings;
+  protected selectedSymbol: NgShieldSettingsSymbol = this.symbolSvc.defaultSettings;
+
+  constructor() {
+    effect(() => {
+      const current = this.value();
+      untracked(() => this._applyValue(current));
+    });
+  }
+
+  private _applyValue(settings: NgShieldSettings | null) {
+    if (settings) {
+      if (!Array.isArray(settings.symbol)) {
+        settings.symbol = [settings.symbol || this.symbolSvc.defaultSettings];
+      }
+
+      this.selectedSymbol = settings.symbol.find(s => s === this.selectedSymbol) || settings.symbol[0];
+    }
+  }
 
   protected onSymbolSelected(symbol: NgShieldSettingsSymbol, content: string) {
     symbol.content = content;
@@ -304,8 +242,7 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   }
 
   protected onChange() {
-    this.settings = { ...this.settings };
-    this._onChangeCallback(this.settings);
+    this.value.set({ ...this.value() });
   }
 
   protected fileChanged(symbol: NgShieldSettingsSymbol, event: Event) {
@@ -317,12 +254,7 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
         const reader = new FileReader();
         reader.onload = () => {
           if (this.symbolSvc.autoResizeImages) {
-            this._imageSvc
-              .resizeImage(
-                reader.result as string,
-                this.symbolSvc.autoResizeImages
-              )
-              .then(resolve, reject);
+            this._imageSvc.resizeImage(reader.result as string, this.symbolSvc.autoResizeImages).then(resolve, reject);
           } else {
             resolve(reader.result as string);
           }
@@ -350,50 +282,24 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   }
 
   protected getPreview(symbol: NgShieldSettingsSymbol, content: string) {
-    return this._sanitizer.bypassSecurityTrustUrl(
-      this.symbolSvc.render({ ...symbol, content: content })
-    );
+    return this._sanitizer.bypassSecurityTrustUrl(this.symbolSvc.render({ ...symbol, content: content }));
   }
 
   protected addSymbol() {
     const newSymbol = { ...this.symbolSvc.defaultSettings };
-    newSymbol.y = Math.min(90, newSymbol.y + this.settings.text.length * 10);
-    this.settings.symbol.push(newSymbol);
+    newSymbol.y = Math.min(90, newSymbol.y + this.value().text.length * 10);
+    this.value().symbol.push(newSymbol);
     this.selectedSymbol = newSymbol;
     this.onChange();
   }
 
   protected deleteSymbol(symbol: NgShieldSettingsSymbol) {
-    const index = this.settings.symbol.indexOf(symbol);
+    const index = this.value().symbol.indexOf(symbol);
     if (index > -1 && symbol === this.selectedSymbol) {
-      this.settings.symbol.splice(index, 1);
-      this.selectedSymbol = this.settings.symbol[Math.max(index - 1, 0)];
+      this.value().symbol.splice(index, 1);
+      this.selectedSymbol = this.value().symbol[Math.max(index - 1, 0)];
     }
 
     this.onChange();
-  }
-
-  /* ControlValueAccessor */
-  public registerOnChange(fn: any): void {
-    this._onChangeCallback = fn;
-  }
-
-  public registerOnTouched(): void {
-    // No se utiliza
-  }
-
-  public writeValue(settings: NgShieldSettings): void {
-    if (settings) {
-      if (!Array.isArray(settings.symbol)) {
-        // Compatibilidad con versiones sin soporte para múltiples símbolos
-        settings.symbol = [settings.symbol || this.symbolSvc.defaultSettings];
-      }
-
-      this.selectedSymbol =
-        settings.symbol.find(s => s === this.selectedSymbol) ||
-        settings.symbol[0];
-    }
-
-    this.settings = settings;
   }
 }

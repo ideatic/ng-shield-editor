@@ -1,10 +1,4 @@
-import {
-  Component,
-  inject,
-  Input,
-  model,
-  output
-} from '@angular/core';
+import { Component, inject, Input, model, output } from '@angular/core';
 import type { NgShieldSettings } from '../ng-shield-settings';
 import { NgShieldBuilderService } from '../services/ng-shield-builder.service';
 import { imports } from './imports';
@@ -14,20 +8,12 @@ import { NgShieldEditorSettingsComponent } from './ng-shield-editor-settings.com
 
 @Component({
   selector: 'ng-shield-editor',
-  imports: [
-    imports,
-    NgShieldEditorPreviewComponent,
-    NgShieldEditorSettingsComponent,
-    NgShieldEditorMaterialStylesComponent
-  ],
+  imports: [imports, NgShieldEditorPreviewComponent, NgShieldEditorSettingsComponent, NgShieldEditorMaterialStylesComponent],
   template: `
     @if (showPreview()) {
       <ng-shield-editor-preview [settings]="settings" />
     }
-    <ng-shield-editor-settings
-      [(ngModel)]="settings"
-      (ngModelChange)="settingsChange.emit($event)"
-    />
+    <ng-shield-editor-settings [(ngModel)]="settings" (ngModelChange)="settingsChange.emit($event)" />
     <ng-shield-editor-material-styles style="display: none" />
   `,
   styles: `
@@ -54,22 +40,11 @@ export class NgShieldEditorComponent {
   private _ngShieldSvc = inject(NgShieldBuilderService);
 
   // Bindings
-  @Input() public settings: NgShieldSettings = JSON.parse(
-    JSON.stringify(this._ngShieldSvc.defaultSettings)
-  ); // Crear copia para no editar la instancia original
+  @Input() public settings: NgShieldSettings = JSON.parse(JSON.stringify(this._ngShieldSvc.defaultSettings)); // Crear copia para no editar la instancia original
   public readonly showPreview = model(true);
   public readonly settingsChange = output<NgShieldSettings>();
 
-  public render(
-    width: number,
-    height: number,
-    type = 'image/png'
-  ): Promise<string> {
-    return this._ngShieldSvc.renderBase64Image(
-      this.settings,
-      width,
-      height,
-      type
-    );
+  public render(width: number, height: number, type = 'image/png'): Promise<string> {
+    return this._ngShieldSvc.renderBase64Image(this.settings, width, height, type);
   }
 }

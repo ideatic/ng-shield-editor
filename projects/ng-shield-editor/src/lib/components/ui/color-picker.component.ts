@@ -1,12 +1,5 @@
-import {
-  Component,
-  forwardRef,
-  HostBinding,
-  input
-} from '@angular/core';
-import type { ControlValueAccessor } from '@angular/forms';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { noop } from 'rxjs';
+import { Component, HostBinding, input, model } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 import { imports } from '../imports';
 
 @Component({
@@ -16,7 +9,7 @@ import { imports } from '../imports';
     @if (allowNullSelection()) {
       <div
         class="swatch"
-        [class.active]="selectedColor === null && !isDisabled"
+        [class.active]="value() === null && !disabled()"
         (click)="onColorSelected(null)"
       >
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -30,9 +23,7 @@ import { imports } from '../imports';
     @for (color of colorPalette; track color) {
       <div
         class="swatch"
-        [class.active]="
-          (color | fn: isSameColor : selectedColor) && !isDisabled
-        "
+        [class.active]="(color | fn: isSameColor : value()) && !disabled()"
         [class.light]="(color | fn: brightnessByColor) > 200"
         [style.background]="color"
         (click)="onColorSelected(color)"
@@ -46,7 +37,7 @@ import { imports } from '../imports';
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
       flex-wrap: wrap;
-      margin: -10px; /* https://twitter.com/devongovett/status/1244679626162450432 */
+      margin: -10px;
       padding: 10px 0;
       width: 100%;
     }
@@ -73,44 +64,32 @@ import { imports } from '../imports';
     .swatch.active {
       border: 2px solid #3666c8;
     }
-  `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ColorPickerComponent),
-      multi: true
-    }
-  ]
+  `
 })
-export class ColorPickerComponent implements ControlValueAccessor {
+export class ColorPickerComponent implements FormValueControl<string | null> {
   public readonly allowNullSelection = input(false);
 
-  protected selectedColor: string;
+  public readonly value = model<string | null>(null);
+  public readonly disabled = model<boolean>(false);
 
   @HostBinding('class.disabled')
-  protected isDisabled = false;
-
-  private _onChangeCallback: (v: string) => void = noop;
+  protected get isDisabledHostClass(): boolean {
+    return this.disabled();
+  }
 
   protected readonly colorPalette = ColorPickerComponent.palette;
 
-  protected onColorSelected(color) {
-    if (!this.isDisabled) {
-      this.selectedColor = color;
-      this._onChangeCallback(color);
+  protected onColorSelected(color: string | null) {
+    if (!this.disabled()) {
+      this.value.set(color);
     }
   }
 
-  /**
-   * Obtiene el valor de brillo: oscuro (0) ... claro (255)
-   * @param color
-   */
   protected brightnessByColor(color: string): number | null {
     color = `${color}`;
 
     let r: number, g: number, b: number;
     if (color.indexOf('#') == 0) {
-      // Hex
       const hasFullSpec = color.length == 7;
       const m = color.substr(1).match(hasFullSpec ? /(\S{2})/g : /(\S{1})/g);
       if (m) {
@@ -119,7 +98,6 @@ export class ColorPickerComponent implements ControlValueAccessor {
         b = parseInt(m[2] + (hasFullSpec ? '' : m[2]), 16);
       }
     } else if (color.indexOf('rgb') == 0) {
-      // RGB
       const m = color.match(/(\d+){3}/g);
       if (m) {
         [r, g, b] = m.map((v: string) => parseInt(v, 10));
@@ -135,23 +113,6 @@ export class ColorPickerComponent implements ControlValueAccessor {
   protected isSameColor(color1: string, color2: string): boolean {
     // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     return color1 && color2 && color1.toUpperCase() == color2.toUpperCase();
-  }
-
-  /* ControlValueAccessor */
-  public registerOnChange(fn: any): void {
-    this._onChangeCallback = fn;
-  }
-
-  public registerOnTouched(): void {
-    // No se utiliza
-  }
-
-  public writeValue(obj: any): void {
-    this.selectedColor = obj;
-  }
-
-  public setDisabledState(isDisabled: boolean) {
-    this.isDisabled = isDisabled;
   }
 
   public static palette = [
