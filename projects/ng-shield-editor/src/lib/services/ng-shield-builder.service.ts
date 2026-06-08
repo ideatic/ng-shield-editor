@@ -1,4 +1,4 @@
-import {inject, Injectable} from "@angular/core";
+import {inject, Service} from "@angular/core";
 import type {NgShieldSettings} from '../ng-shield-settings';
 import {NgShieldShapeService} from './ng-shield-shape.service';
 import {NgShieldPatternService} from './ng-shield-pattern.service';
@@ -9,9 +9,7 @@ import {gloss} from './gloss';
 import {randomString} from './libs/random-str';
 import {escapeXML} from './libs/xml';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class NgShieldBuilderService {
   // Deps
   private _shapeSvc = inject(NgShieldShapeService);

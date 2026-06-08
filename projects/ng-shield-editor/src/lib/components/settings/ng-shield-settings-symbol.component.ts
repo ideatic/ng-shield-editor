@@ -1,11 +1,10 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   forwardRef,
   inject,
   input
 } from '@angular/core';
-import type { ControlValueAccessor} from '@angular/forms';
+import type { ControlValueAccessor } from '@angular/forms';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { noop } from 'rxjs';
@@ -20,7 +19,6 @@ import { ColorPickerComponent } from '../ui/color-picker.component';
 
 @Component({
   selector: 'ng-shield-editor-settings-symbol',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [imports, ColorPickerComponent],
   template: `
     <div class="mat-align">
@@ -311,7 +309,7 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
   }
 
   protected fileChanged(symbol: NgShieldSettingsSymbol, event: Event) {
-    new Promise((resolve, reject) => {
+    new Promise<string | null>((resolve, reject) => {
       const fileField = event.currentTarget as HTMLInputElement;
       const file = fileField.files[0];
 
@@ -326,7 +324,7 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
               )
               .then(resolve, reject);
           } else {
-            resolve(reader.result);
+            resolve(reader.result as string);
           }
           if (fileField !== null) {
             // Reiniciar el campo
@@ -340,8 +338,10 @@ export class NgShieldSettingsSymbolComponent implements ControlValueAccessor {
         resolve(null);
       }
     })
-      .then((image: string) => {
-        symbol.content = image;
+      .then((image: string | null) => {
+        if (image) {
+          symbol.content = image;
+        }
         this.onChange();
       })
       .catch(err => {

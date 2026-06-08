@@ -1,45 +1,43 @@
-import {Injectable} from '@angular/core';
-import {openSans} from './fonts/open-sans';
-import {jura} from './fonts/jura';
-import {novaFlat} from './fonts/nova-flat';
-import {lobster} from './fonts/lobster';
+import { Service } from '@angular/core';
+import { jura } from './fonts/jura';
+import { lobster } from './fonts/lobster';
+import { novaFlat } from './fonts/nova-flat';
+import { openSans } from './fonts/open-sans';
 // import {lobster} from './fonts/lobster' with { loader: 'binary' }; // TODO: Implementar custom loaders https://blog.ninja-squad.com/2024/08/14/what-is-new-angular-18.2/
-import {bungee} from './fonts/bungee';
-import {overpass} from './fonts/overpass';
-import {luckiestGuy} from './fonts/luckiest-guy';
-import type {NgShieldSettingsText} from '../ng-shield-settings';
+import type { NgShieldSettingsText } from '../ng-shield-settings';
+import { bungee } from './fonts/bungee';
+import { luckiestGuy } from './fonts/luckiest-guy';
+import { overpass } from './fonts/overpass';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class NgShieldTextService {
-
   public readonly paths = {
     arc: '<path %attrs% d="M 0 260 C 150 210 350 210 512 260" />',
     arcLower: '<path %attrs% d="M 0 260 C 150 310 350 310 512 260" />',
     rise: '<path %attrs% d="M 70 250 C 50 250 450 200 450 200" />',
     wave: '<path %attrs% d="M 50 250 C 200 200 300 300 450 250" />',
-    circle: '<path %attrs% d="M 350 300 A 50 50 0 1 1 150 250 A 50 50 0 1 1 350 300" />'
+    circle:
+      '<path %attrs% d="M 350 300 A 50 50 0 1 1 150 250 A 50 50 0 1 1 350 300" />'
   };
 
   public readonly fontFamilies = [
-    {name: 'Open Sans', url: openSans},
-    {name: 'Jura', url: jura},
-    {name: 'Nova Flat', url: novaFlat},
-    {name: 'Lobster', url: lobster},
-    {name: 'Overpass', url: overpass},
-    {name: 'Luckiest Guy', url: luckiestGuy},
-    {name: 'Bungee Outline', url: bungee},
-    {name: 'Arial'},
-    {name: 'Verdana'},
-    {name: 'Helvetica'},
-    {name: 'Tahoma'},
-    {name: 'Trebuchet MS'},
-    {name: 'Times New Roman'},
-    {name: 'Georgia'},
-    {name: 'Garamond'},
-    {name: 'Courier New'},
-    {name: 'Brush Script MT'}
+    { name: 'Open Sans', url: openSans },
+    { name: 'Jura', url: jura },
+    { name: 'Nova Flat', url: novaFlat },
+    { name: 'Lobster', url: lobster },
+    { name: 'Overpass', url: overpass },
+    { name: 'Luckiest Guy', url: luckiestGuy },
+    { name: 'Bungee Outline', url: bungee },
+    { name: 'Arial' },
+    { name: 'Verdana' },
+    { name: 'Helvetica' },
+    { name: 'Tahoma' },
+    { name: 'Trebuchet MS' },
+    { name: 'Times New Roman' },
+    { name: 'Georgia' },
+    { name: 'Garamond' },
+    { name: 'Courier New' },
+    { name: 'Brush Script MT' }
   ];
 
   public readonly defaultSettings: NgShieldSettingsText = {

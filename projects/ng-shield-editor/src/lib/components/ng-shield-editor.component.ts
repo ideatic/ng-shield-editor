@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   inject,
   Input,
@@ -15,7 +14,6 @@ import { NgShieldEditorSettingsComponent } from './ng-shield-editor-settings.com
 
 @Component({
   selector: 'ng-shield-editor',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     imports,
     NgShieldEditorPreviewComponent,

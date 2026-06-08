@@ -1,10 +1,8 @@
-import {inject, Injectable} from "@angular/core";
+import {inject, Service} from "@angular/core";
 import type {NgShieldSettingsSymbol} from '../ng-shield-settings';
 import {ImageToolService} from './image-tool.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class NgShieldSymbolService {
   private _imageSvc = inject(ImageToolService);
 

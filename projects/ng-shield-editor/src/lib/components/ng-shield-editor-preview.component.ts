@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
@@ -11,7 +10,7 @@ import { NgShieldBuilderService } from '../services/ng-shield-builder.service';
 
 @Component({
   selector: 'ng-shield-editor-preview',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: '',
   styles: `
     :host {

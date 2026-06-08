@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   forwardRef,
   HostBinding,
@@ -12,7 +11,6 @@ import { imports } from '../imports';
 
 @Component({
   selector: 'color-picker',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [imports],
   template: `
     @if (allowNullSelection()) {

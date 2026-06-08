@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef} from '@angular/core';
+import { Component, forwardRef} from '@angular/core';
 import type {NgShieldSettings} from '../ng-shield-settings';
 import type {ControlValueAccessor} from '@angular/forms';
 import { NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -11,7 +11,7 @@ import {NgShieldSettingsTextComponent} from "./settings/ng-shield-settings-text.
 
 @Component({
     selector: 'ng-shield-editor-settings',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+
     imports: [
         imports,
         NgShieldSettingsShapeComponent,
