@@ -1,16 +1,9 @@
-import {
-  Component,
-  effect,
-  ElementRef,
-  inject,
-  input
-} from '@angular/core';
+import { Component, effect, ElementRef, inject, input } from '@angular/core';
 import type { NgShieldSettings } from '../ng-shield-settings';
 import { NgShieldBuilderService } from '../services/ng-shield-builder.service';
 
 @Component({
   selector: 'ng-shield-editor-preview',
-
   template: '',
   styles: `
     :host {
@@ -36,11 +29,6 @@ export class NgShieldEditorPreviewComponent {
   public readonly settings = input<NgShieldSettings>();
 
   constructor() {
-    effect(
-      () =>
-        (this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(
-          this.settings()
-        ))
-    );
+    effect(() => (this._host.nativeElement.innerHTML = this._generatorSvc.generateSVG(this.settings())));
   }
 }
